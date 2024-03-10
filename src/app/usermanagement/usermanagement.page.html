@@ -1,0 +1,132 @@
+<ion-header [translucent]="true">
+  <ion-toolbar style="background-color: yellow;">
+    <ion-title>usermanagement</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+
+  <ion-segment  [(ngModel)]="selectedSegment" (ionChange)="SelectSegment($event)">
+    <ion-segment-button value="user">
+      <ion-label>user</ion-label>
+    </ion-segment-button>
+    <ion-segment-button value="access">
+      <ion-label>User Access</ion-label>
+    </ion-segment-button>
+  </ion-segment>
+
+
+
+  <ng-container *ngIf="selectedSegment === 'user'"> 
+    <dx-data-grid
+    [dataSource]="usertable2"
+    [showBorders]="true"
+    class="grid"
+    [showRowLines]="true"
+    [showBorders]="true"
+    [allowSorting]="true"
+    [columnAutoWidth]="true"
+    [rowAlternationEnabled]="true"
+    (onRowInserted)="onRowInserted($event)"
+    (onRowUpdated)="onRowUpdated($event)"
+    class="custom-data-grid"
+  >
+  <dxo-column-fixing [enabled]="true"></dxo-column-fixing>
+
+  <dxo-search-panel [visible]="true">
+  </dxo-search-panel>
+  
+  <dxo-paging [pageSize]="10"></dxo-paging>
+     
+  <dxo-pager
+  [visible]="true"
+
+  [showPageSizeSelector]="showPageSizeSelector"
+  [showInfo]="showInfo"
+  [showNavigationButtons]="showNavButtons"
+    [pager]="{ visible: true, showPageSizeSelector: true, allowedPageSizes: [5,10,20], showInfo: true }"
+  >
+  </dxo-pager>
+      
+  
+  <dxo-editing
+  mode="popup"
+  [allowUpdating]="true"
+  [allowAdding]="true"
+  [allowDeleting]="true"
+  class="my-modal-class"
+  >
+  <dxo-popup
+          title="Employee Info"
+          [showTitle]="true"
+          [width]="650"
+          [height]="400"
+          position="centre"
+        >   
+         </dxo-popup>
+     
+         <dxo-form>
+          <dxi-item dataField="username" caption="User Name" [fixed]="true" [dataType]="'string'"></dxi-item>
+          <dxi-item dataField="password" caption="Password" [dataType]="'password'"></dxi-item>
+          <dxi-item dataField="dob" caption="DOB" [dataType]="'date'"></dxi-item>
+          <dxi-item dataField="mobilenumber" caption="Mobile Number" [width]="150" [dataType]="'string'"></dxi-item>
+          <dxi-item dataField="emailid" caption="Email" [width]="170" [dataType]="'email'"></dxi-item>
+          <dxi-item dataField="designation" caption="Designation" [dataType]="'string'"></dxi-item>
+          <dxi-item dataField="active" caption="Active" [dataType]="'boolean'"></dxi-item>
+          <dxi-item dataField="createdby" caption="Created By" [dataType]="'string'"></dxi-item>
+          <dxi-item dataField="createdTime" caption="Created Time" [dataType]="'datetime'"></dxi-item>
+        </dxo-form>
+
+      </dxo-editing>
+      <dxi-column dataField="username" caption="User Name" [fixed]="true"></dxi-column>
+      <dxi-column dataField="password" caption="Password"  [visible]="false"></dxi-column>
+      <dxi-column dataField="dob" caption="DOB"></dxi-column>
+      <dxi-column dataField="mobilenumber" caption="Mobile Number"></dxi-column>
+      <dxi-column dataField="emailid" caption="Email" [width]="170"></dxi-column>
+      <dxi-column dataField="designation" caption="Designation"></dxi-column>
+      <dxi-column dataField="active" caption="Active" [dataType]="'boolean'"></dxi-column>
+      <dxi-column dataField="createdby" caption="Created By" ></dxi-column>
+      <dxi-column dataField="createdTime" caption="Created Time"  [width]="170"></dxi-column>
+   
+  </dx-data-grid>
+    </ng-container>
+
+    <ng-container *ngIf="selectedSegment === 'access'">  
+  
+      <dx-data-grid
+      [dataSource]="useraccess"
+     
+      [showBorders]="true"
+      class="grid"
+      [rowAlternationEnabled]="true"
+    >
+      <dxo-search-panel [visible]="true"></dxo-search-panel>
+      <dxo-paging [pageSize]="10"></dxo-paging>
+      <dxo-pager
+        [visible]="true"
+        [showPageSizeSelector]="showPageSizeSelector"
+        [showInfo]="showInfo"
+        [showNavigationButtons]="showNavButtons"
+        [pager]="{ visible: true, showPageSizeSelector: true, allowedPageSizes: [5,10,20], showInfo: true }"
+      ></dxo-pager>
+      <dxo-editing
+        mode="popup"
+        [allowUpdating]="true"
+        class="my-modal-class"
+      >
+        <dxo-popup
+          title="Employee Info"
+          [showTitle]="true"
+          [width]="600"
+          [height]="325"
+          position="top"
+        ></dxo-popup>
+        <dxo-form></dxo-form>
+      </dxo-editing>
+      <dxi-column dataField="username1" caption="List of Users" [alignment]="'Left'"></dxi-column>
+      <dxi-column dataField="view" caption="View"   [alignment]="'center'"  [dataType]="'boolean'"></dxi-column>
+      <dxi-column dataField="control" caption="Control" [alignment]="'center'"  [dataType]="'boolean'"></dxi-column>
+    </dx-data-grid>
+      </ng-container>
+
+</ion-content>
