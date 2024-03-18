@@ -11,6 +11,13 @@ import { UsermanagementcompComponent } from '../usermanagementcomp/usermanagemen
 import {MatIconModule} from '@angular/material/icon';
 import {MatButtonModule} from '@angular/material/button';
 import {MatToolbarModule} from '@angular/material/toolbar';
+import {MatSidenavModule} from '@angular/material/sidenav';
+import { MatListModule } from '@angular/material/list';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { DxButtonModule, DxDataGridModule, DxTextBoxModule } from 'devextreme-angular';
+import { PagemanagementComponent } from '../pagemanagement/pagemanagement.component';
+import { InputTextModule } from 'primeng/inputtext';
+import { DxiValidationRuleModule } from 'devextreme-angular/ui/nested';
 
 @NgModule({
   imports: [
@@ -20,8 +27,20 @@ import {MatToolbarModule} from '@angular/material/toolbar';
     MainPagePageRoutingModule,
     MatToolbarModule,
      MatButtonModule,
-      MatIconModule  ],
-  declarations: [MainPagePage,UsermanagementcompComponent],
+      MatIconModule,
+      MatSidenavModule,
+      MatToolbarModule,
+      MatListModule,
+      MatButtonModule,
+      MatToolbarModule,
+      MatIconModule,
+      DxDataGridModule,
+      DxTextBoxModule,
+      DxButtonModule,
+      InputTextModule,
+      DxiValidationRuleModule
+    ],
+  declarations: [MainPagePage,UsermanagementcompComponent,PagemanagementComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
 
 })

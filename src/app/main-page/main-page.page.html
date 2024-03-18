@@ -1,20 +1,24 @@
-<!-- app.component.html -->
-<mat-toolbar>
-  <button mat-icon-button class="example-icon" aria-label="Example icon-button with menu icon" (click)="toggleDrawer()">
-    <mat-icon>menu</mat-icon>
-  </button>
-  <span>My App</span>
-</mat-toolbar>
+<!-- app.component.html --><ion-header>
+  <ion-toolbar color="primary"> 
+    <button mat-icon-button  class="example-icon" aria-label="Example icon-button with menu icon" (click)="drawer.toggle()">
+      <mat-icon>menu</mat-icon>
+    </button>
+    <span >My App</span>
+  </ion-toolbar>
+</ion-header>
+
+
+
 
 <mat-drawer-container class="example-container" [hasBackdrop]="true">
   <mat-drawer #drawer mode="over">
     <mat-nav-list>
-      <a mat-list-item *ngFor="let link of list" [routerLink]="link.url" routerLinkActive="active" (click)="closeDrawer()">
+      <a mat-list-item *ngFor="let link of list" [routerLink]="link.url" routerLinkActive="active" (click)="drawer.close()">
         {{ link.name }}
       </a>
     </mat-nav-list>
   </mat-drawer>
   <mat-drawer-content>
-    <router-outlet></router-outlet>
+    <ion-router-outlet></ion-router-outlet>
   </mat-drawer-content>
 </mat-drawer-container>

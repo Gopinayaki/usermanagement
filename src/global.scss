@@ -68,3 +68,60 @@ $app-theme: mat.define-light-theme((
 
     background-color: green !important;
 }
+
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+  
+.mat-mdc-card-header-text {
+    margin: auto;
+    padding-bottom: 10px;
+}
+.mat-drawer-content {
+    width: 100%;
+}
+
+.grid{
+  padding: 20px;
+}
+
+
+// .dx-datagrid-headers .dx-datagrid-table .dx-row>td {
+//   border-bottom: 1px solid #ddd;
+//   background-color: #0f204b;
+//   color: #fff;
+// }
+
+// .dx-datagrid-checkbox-size.dx-checkbox-indeterminate .dx-checkbox-icon{
+//   border: 1px solid #0f204b;
+// }
+
+.dx-header-row>td>.dx-datagrid-text-content:not(.dx-sort-indicator):not(.dx-header-filter-indicator) {
+  font-size: 16px;
+  color:#673ab7;
+  font-weight: bold;
+}
+
+
+
+
+.dx-datagrid-headers .dx-datagrid-table .dx-row>td {
+  font-size: 16px;
+  color:#673ab7;
+  font-weight: bold;}
+
+
+  .dx-popup-title.dx-toolbar {
+
+ background-color: #673ab7;
+  color: #fff;
+
+  }
+
+  .dx-button-has-icon .dx-button-content{
+
+    background-color: #fff;
+  }
+  
+

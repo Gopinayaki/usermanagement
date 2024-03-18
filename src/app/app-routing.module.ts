@@ -16,17 +16,20 @@ const routes: Routes = [
     path: 'main-page',
     loadChildren: () => import('./main-page/main-page.module').then( m => m.MainPagePageModule)
   },
+  {
+    path: 'devexpress',
+    loadChildren: () => import('./devexpress/devexpress.module').then( m => m.DevexpressPageModule)
+  },
   // {
   //   path: 'usermanagement',
   //   loadChildren: () => import('./usermanagement/usermanagement.module').then( m => m.UsermanagementPageModule)
   // },
-
- 
 ];
 
 @NgModule({
+  
   imports: [
-    RouterModule.forRoot(routes, { preloadingStrategy: PreloadAllModules })
+    RouterModule.forRoot(routes,{ preloadingStrategy: PreloadAllModules })
   ],
   exports: [RouterModule]
 })

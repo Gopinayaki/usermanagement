@@ -1,0 +1,146 @@
+
+
+<ion-content [fullscreen]="true">
+
+
+  <ion-segment  [(ngModel)]="selectedSegment" (ionChange)="SelectSegment($event)">
+    <ion-segment-button value="user">
+      <ion-label>user</ion-label>
+    </ion-segment-button>
+    <ion-segment-button value="access">
+      <ion-label>User Access</ion-label>
+    </ion-segment-button>
+  </ion-segment>
+
+  <ng-container *ngIf="selectedSegment === 'user'"> 
+
+
+
+    <dx-data-grid
+    [dataSource]="table1"
+    [showBorders]="true"
+    class="grid"
+    [showRowLines]="true"
+    [showBorders]="true"
+    [allowSorting]="true"
+    [columnAutoWidth]="true"
+    [rowAlternationEnabled]="true"
+    (onRowInserted)="onRowInserted($event)"
+    (onRowUpdated)="onRowUpdated($event)"
+    class="custom-data-grid"
+  >
+      <dxo-column-fixing [enabled]="true"></dxo-column-fixing>
+
+      <dxo-search-panel [visible]="true">
+      </dxo-search-panel>
+
+      <dxo-paging [pageSize]="10"></dxo-paging>
+      
+
+  
+
+    <dxo-editing
+    mode="popup"
+    [allowUpdating]="true"
+    [allowAdding]="true"
+    [allowDeleting]="true"
+    class="my-modal-class"
+    >
+        <dxo-popup
+              title="Employee Info"
+              [showTitle]="true"
+              [width]="650"
+              [height]="400"
+              position="centre"
+            >   
+            </dxo-popup>
+ 
+     <dxo-form >
+      <dxi-item dataField="username" caption="User Name" [fixed]="true" [dataType]="'string'">
+      <dxi-validation-rule type="required" message="Username is required"></dxi-validation-rule>
+      </dxi-item>
+
+      <dxi-item dataField="password" caption="Password" [dataType]="'password'">
+        <dxi-validation-rule type="required" message="Password is required"></dxi-validation-rule>
+      </dxi-item>
+
+      <dxi-item dataField="mobilenumber" caption="Mobile Number" [width]="150" [dataType]="'string'">
+        <dxi-validation-rule type="required" message="Mobile Number is required"></dxi-validation-rule>
+      </dxi-item>
+
+      <dxi-item dataField="emailid" caption="Email" [width]="170" [dataType]="'email'">
+        <dxi-validation-rule type="required" message="Email is required"></dxi-validation-rule>
+      </dxi-item>
+
+      <dxi-item dataField="designation" caption="Designation" [dataType]="'string'">
+        <dxi-validation-rule type="required" message=" Designation is required"></dxi-validation-rule>
+      </dxi-item>
+      <dxi-item dataField="active" caption="Active" [dataType]="'boolean'">
+        
+      </dxi-item>
+     
+    </dxo-form>
+
+  </dxo-editing>
+  <dxi-column dataField="username" caption="User Name" [fixed]="true" [alignment]="'center'"></dxi-column>
+  <dxi-column dataField="password" caption="Password"  [visible]="false" [alignment]="'center'"></dxi-column>
+  <dxi-column dataField="mobilenumber" caption="Mobile Number" [alignment]="'center'"></dxi-column>
+  <dxi-column dataField="emailid" caption="Email" [width]="170" [alignment]="'center'"></dxi-column>
+  <dxi-column dataField="designation" caption="Designation" [alignment]="'center'"></dxi-column>
+  <dxi-column dataField="active" caption="Active" [dataType]="'boolean'" [alignment]="'center'"></dxi-column>
+  <dxi-column dataField="createdby" caption="Created By" [alignment]="'center'"></dxi-column>
+  <dxi-column dataField="createdTime" caption="Created Time"  [width]="170" [alignment]="'center'"></dxi-column>
+
+</dx-data-grid>
+
+</ng-container>
+
+
+<ng-container *ngIf="selectedSegment === 'access'">  
+
+  <dx-data-grid
+  [dataSource]="table2"
+  [showBorders]="true"
+  class="grid"
+  [rowAlternationEnabled]="true"
+>
+  <dxo-search-panel [visible]="true"></dxo-search-panel>
+  <dxo-paging [pageSize]="10"></dxo-paging>
+
+  <dxo-editing
+    mode="row"
+    [allowUpdating]="true"
+    class="my-modal-class"
+  >
+    <dxo-form></dxo-form>
+  </dxo-editing>
+
+  <dxi-column dataField="username1" caption="List of Users" [alignment]="'center'" [allowEditing]="false" ></dxi-column>
+  <dxi-column dataField="selectall" caption="Select All"[alignment]="'center'" dataType="boolean"  [allowEditing]="false" ></dxi-column>
+
+<!-- User Management -->
+<dxi-column caption="User Management" [alignment]="'center'">
+<dxi-column dataField="userManagementView" caption="View" dataType="boolean"></dxi-column>
+<dxi-column dataField="userManagementControl" caption="Control" dataType="boolean"></dxi-column>
+</dxi-column>
+
+<!-- Hierarchy Management -->
+<dxi-column caption="Hierarchy Management" [alignment]="'center'">
+<dxi-column dataField="hierarchyManagementView" caption="View" dataType="boolean"></dxi-column>
+<dxi-column dataField="hierarchyManagementControl" caption="Control" dataType="boolean"></dxi-column>
+</dxi-column>
+
+<!-- Report Management -->
+<dxi-column caption="Report Management" [alignment]="'center'">
+<dxi-column dataField="reportManagementView" caption="View" dataType="boolean"></dxi-column>
+<dxi-column dataField="reportManagementControl" caption="Control" dataType="boolean"></dxi-column>
+</dxi-column>
+
+<!-- FTP Management -->
+<dxi-column caption="FTP Management" [alignment]="'center'">
+<dxi-column dataField="ftpManagementView" caption="View" dataType="boolean"></dxi-column>
+<dxi-column dataField="ftpManagementControl" caption="Control" dataType="boolean"></dxi-column>
+</dxi-column>
+
+</dx-data-grid></ng-container>
+</ion-content>

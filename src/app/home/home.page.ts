@@ -25,6 +25,7 @@ export class HomePage {
   ngOnInit() {
     console.log()
     this.menu.enable(false);
+    
   }
 
 
@@ -35,7 +36,7 @@ export class HomePage {
 
 
   users =[
-    {user: 'admin', password:'admin@123',role:'admin'},
+    {user: 'admin', password:'admin@123',role:'super-admin'},
     {user: 'supra', password:'supra@123',role:'field-operator'},
     {user: 'admin', password:'admin',role:'personal'}
   ];
@@ -45,11 +46,12 @@ export class HomePage {
     const foundUser = this.users.find(user => user.user === this.username && user.password === this.password);
   
     if (foundUser) {
-      localStorage.setItem("userRole", foundUser.role);
+   localStorage.setItem("userRole", foundUser.role);
       localStorage.setItem("userName", foundUser.user);
       console.log('Authenticated User:', foundUser);
       // Authentication successful, navigate to the next page
-      this.router.navigate(['/main-page']);
+      console.log('Authenticated User Role:', foundUser.role);
+      this.router.navigate(['/main-page/usercomponmentcomp']);
     } else {
       // Authentication failed, handle accordingly
       console.log('Authentication failed');
