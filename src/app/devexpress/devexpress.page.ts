@@ -6,27 +6,20 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./devexpress.page.scss'],
 })
 export class DevexpressPage implements OnInit {
-  acesstable: any[] = [{
-    userManagementView: true,
-    userManagementControl: false,
-    hierarchyManagementView: true,
-    hierarchyManagementControl: true,
-    reportManagementView: false,
-    reportManagementControl: true,
-    ftpManagementView: true,
-    ftpManagementControl: false
-  },
-  // Add more data objects as needed
-];
+  users: any[] = [
+    { id: 1, name: 'John Doe', age: 30, email: 'john@example.com' },
+    { id: 2, name: 'Jane Smith', age: 25, email: 'jane@example.com' },
+    { id: 3, name: 'Alice Johnson', age: 35, email: 'alice@example.com' }
+  ];
+
+  columns: any[] = [
+    { dataField: 'id', caption: 'ID' },
+    { dataField: 'name', caption: 'Name' },
+    { dataField: 'age', caption: 'Age' }
+  ];
 
   constructor() { }
 
-  ngOnInit() {
-
-    // this.acesstable.forEach((row, index) => {
-    //   localStorage.setItem(`acesstableRow${index}`, JSON.stringify(row));
-    // });  
-  
-  }
+  ngOnInit() { }
 
 }

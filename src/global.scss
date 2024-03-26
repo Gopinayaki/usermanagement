@@ -61,7 +61,7 @@ $app-theme: mat.define-light-theme((
 @import "@ionic/angular/css/text-alignment.css";
 @import "@ionic/angular/css/text-transformation.css";
 @import "@ionic/angular/css/flex-utils.css";
-
+@import "~@ng-select/ng-select/themes/default.theme.css";
 
 .ion-toolbar{
 
@@ -124,4 +124,3 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
     background-color: #fff;
   }
   
-

@@ -1,58 +1,20 @@
-<ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title>devexpress</ion-title>
-  </ion-toolbar>
-</ion-header>
+
+ 
 
 <ion-content [fullscreen]="true">
-  <dx-data-grid
-  [dataSource]="acesstable"
-  [showBorders]="true"
-  class="grid"
-  [rowAlternationEnabled]="true"
+  <dx-data-grid 
+  [dataSource]="users"
+   [columns]="columns">
+
+   <dxo-editing 
+   mode="row"
+   [allowAdding]="true"
+   [allowUpdating]="true"
+   [allowDeleting]="true"
+   ></dxo-editing>
+
+  </dx-data-grid>
 
 
->
-  <dxo-search-panel [visible]="true"></dxo-search-panel>
-  <dxo-paging [pageSize]="10"></dxo-paging>
-  <dxo-pager
-    [visible]="true"
-   
-  ></dxo-pager>
-  <dxo-editing
-    mode="row"
-    [allowUpdating]="true"
-    [allowAdding]="true"
-    class="my-modal-class"
-  >
-    <dxo-form></dxo-form>
-  </dxo-editing>
 
-  <!-- <dxi-column dataField="username1" caption="List of Users" [alignment]="'Left'" [allowEditing]="false" ></dxi-column> -->
-
-<!-- User Management -->
-<dxi-column caption="User Management" [alignment]="'center'">
-<dxi-column dataField="userManagementView" caption="View" dataType="boolean"></dxi-column>
-<dxi-column dataField="userManagementControl" caption="Control" dataType="boolean"></dxi-column>
-</dxi-column>
-
-<!-- Hierarchy Management -->
-<dxi-column caption="Hierarchy Management" [alignment]="'center'">
-<dxi-column dataField="hierarchyManagementView" caption="View" dataType="boolean"></dxi-column>
-<dxi-column dataField="hierarchyManagementControl" caption="Control" dataType="boolean"></dxi-column>
-</dxi-column>
-
-<!-- Report Management -->
-<dxi-column caption="Report Management" [alignment]="'center'">
-<dxi-column dataField="reportManagementView" caption="View" dataType="boolean"></dxi-column>
-<dxi-column dataField="reportManagementControl" caption="Control" dataType="boolean"></dxi-column>
-</dxi-column>
-
-<!-- FTP Management -->
-<dxi-column caption="FTP Management" [alignment]="'center'">
-<dxi-column dataField="ftpManagementView" caption="View" dataType="boolean"></dxi-column>
-<dxi-column dataField="ftpManagementControl" caption="Control" dataType="boolean"></dxi-column>
-</dxi-column>
-
-</dx-data-grid>
 </ion-content>

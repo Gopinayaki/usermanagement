@@ -8,7 +8,7 @@ import { DevexpressPageRoutingModule } from './devexpress-routing.module';
 
 import { DevexpressPage } from './devexpress.page';
 import dxDataGrid from 'devextreme/ui/data_grid';
-import { DxDataGridModule } from 'devextreme-angular';
+import { DxDataGridModule, DxTagBoxModule } from 'devextreme-angular';
 
 @NgModule({
   imports: [
@@ -16,7 +16,8 @@ import { DxDataGridModule } from 'devextreme-angular';
     FormsModule,
     IonicModule,
     DevexpressPageRoutingModule,
-    DxDataGridModule
+    DxDataGridModule,
+    DxTagBoxModule
   ],
   declarations: [DevexpressPage]
 })

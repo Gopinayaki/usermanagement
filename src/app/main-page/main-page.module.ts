@@ -14,19 +14,21 @@ import {MatToolbarModule} from '@angular/material/toolbar';
 import {MatSidenavModule} from '@angular/material/sidenav';
 import { MatListModule } from '@angular/material/list';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { DxButtonModule, DxDataGridModule, DxTextBoxModule } from 'devextreme-angular';
+import { DxButtonModule, DxDataGridModule, DxDropDownBoxModule, DxListModule, DxSelectBoxModule, DxTextBoxModule } from 'devextreme-angular';
 import { PagemanagementComponent } from '../pagemanagement/pagemanagement.component';
 import { InputTextModule } from 'primeng/inputtext';
 import { DxiValidationRuleModule } from 'devextreme-angular/ui/nested';
+import dxButton from 'devextreme/ui/button';
+import { HeirarchymanagemnetComponent } from '../heirarchymanagemnet/heirarchymanagemnet.component';
 
 @NgModule({
   imports: [
-    CommonModule,
-    FormsModule,
-    IonicModule,
-    MainPagePageRoutingModule,
-    MatToolbarModule,
-     MatButtonModule,
+      CommonModule,
+      FormsModule,
+      IonicModule,
+      MainPagePageRoutingModule,
+      MatToolbarModule,
+      MatButtonModule,
       MatIconModule,
       MatSidenavModule,
       MatToolbarModule,
@@ -38,10 +40,14 @@ import { DxiValidationRuleModule } from 'devextreme-angular/ui/nested';
       DxTextBoxModule,
       DxButtonModule,
       InputTextModule,
-      DxiValidationRuleModule
+      DxiValidationRuleModule,
+      DxDropDownBoxModule,
+      DxListModule,
+      DxSelectBoxModule,
+      DxButtonModule
+      
     ],
-  declarations: [MainPagePage,UsermanagementcompComponent,PagemanagementComponent],
+  declarations: [MainPagePage,UsermanagementcompComponent,PagemanagementComponent,HeirarchymanagemnetComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
-
 })
 export class MainPagePageModule {}

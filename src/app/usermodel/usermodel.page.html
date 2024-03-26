@@ -1,0 +1,47 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>usermodel</ion-title>
+  </ion-toolbar>
+  <!-- <ion-buttons slot="end">
+    <button mat-button mat-dialog-close>close</button>
+  </ion-buttons> -->
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <dx-data-grid
+  class="grid"
+  [dataSource]="dataSource"
+  [showBorders]="true"
+  [allowSorting]="true"
+  [rowAlternationEnabled]="true"
+  [allowColumnResizing]="true"
+  (onRowInserting)="onRowInserting($event)"
+  (onRowRemoving)="onRowDeleted($event)"
+>
+<dxi-column dataField="Tags" caption="Select User" editCellTemplate="tagBoxEditor"  >
+      <dxi-validation-rule type="required" message="Tags are required" ></dxi-validation-rule>
+</dxi-column>
+
+  <div *dxTemplate="let cellInfo of 'tagBoxEditor'">
+      <dx-tag-box [dataSource]="tagname" 
+                  [inputAttr]="{ 'aria-label': 'Product' }"
+                  [showSelectionControls]="true"
+                  applyValueMode="useButtons"
+                  [showMultiTagOnly]="false" 
+                  [searchEnabled]="true"
+                  (onValueChanged)="onValueChanged($event)"
+                  
+                  >
+      </dx-tag-box>
+  </div>
+
+  <dxo-editing
+      mode="row"
+      [allowAdding]="true"
+      [allowDeleting]="true"
+      [useIcons]="true">
+  </dxo-editing>
+</dx-data-grid>
+
+
+</ion-content>

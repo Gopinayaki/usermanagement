@@ -1,3 +1,58 @@
-<p>
-  heirarchymanagemnet works!
-</p>
+
+<dx-data-grid
+[dataSource]="grouptable"
+class="grid"
+[showRowLines]="true"
+[showBorders]="true"
+[allowSorting]="true"
+[columnAutoWidth]="true"
+[rowAlternationEnabled]="true"
+[allowColumnResizing]="true"
+[rowAlternationEnabled]="true"
+(onInitNewRow)="onInitNewRowForGroupTable($event)"
+(onRowInserted)="onRowInsertedForGroupTable($event)"
+(onRowUpdated)="onRowUpdatingForGroupTable($event)"
+(onRowRemoving)="onRowUpdatingForGroupTable($event)"
+[customizeColumns]="customizeColumns"
+(onCellClick)="onCellClick($event)"
+>
+
+
+<dxi-column dataField="groupname" caption="Group Name" [fixed]="true" [alignment]="'center'"></dxi-column>
+<dxi-column dataField="active" caption="Active" [dataType]="'boolean'" [alignment]="'center'"></dxi-column>
+<dxi-column dataField="createdby" caption="Created By" [alignment]="'center'"></dxi-column>
+<dxi-column dataField="createdTime" caption="Created Time" [width]="170" [alignment]="'center'"></dxi-column>
+
+<dxo-templates >
+  <div *dxTemplate="let data of 'customCellTemplate'">
+      <mat-icon (click)="openDialog(data)">list</mat-icon>
+  </div>
+</dxo-templates>
+
+
+<dxo-search-panel [visible]="true"></dxo-search-panel>
+<dxo-paging [pageSize]="10"></dxo-paging>
+<dxo-editing
+    mode="popup"
+    [allowUpdating]="true"
+    [allowAdding]="true"
+    [allowDeleting]="true"
+    [useIcons]="true"
+>
+    <dxo-popup
+        title="Group Info"
+        [showTitle]="true"
+        [width]="550"
+        [height]="300"
+        position="center"
+    ></dxo-popup>
+
+    <dxo-form>
+        <dxi-item dataField="groupname" caption="Group Name" [fixed]="true" [alignment]="'center'"></dxi-item>
+        <dxi-item dataField="assignedusers" caption="Users" [alignment]="'center'" [visible]="false" [alignment]="'center'" ></dxi-item>
+        <dxi-item dataField="active" caption="Active" [dataType]="'boolean'" [alignment]="'center'"></dxi-item>
+        <dxi-item dataField="createdby" caption="Created By" [alignment]="'center'" [visible]="false"></dxi-item>
+        <dxi-item dataField="createdTime" caption="Created Time" [width]="170" [alignment]="'center'" [visible]="false"></dxi-item>
+    </dxo-form>   
+</dxo-editing>
+</dx-data-grid>

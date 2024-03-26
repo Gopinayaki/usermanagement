@@ -20,10 +20,10 @@ const routes: Routes = [
     path: 'devexpress',
     loadChildren: () => import('./devexpress/devexpress.module').then( m => m.DevexpressPageModule)
   },
-  // {
-  //   path: 'usermanagement',
-  //   loadChildren: () => import('./usermanagement/usermanagement.module').then( m => m.UsermanagementPageModule)
-  // },
+  {
+    path: 'usermodel',
+    loadChildren: () => import('./usermodel/usermodel.module').then( m => m.UsermodelPageModule)
+  },
 ];
 
 @NgModule({
