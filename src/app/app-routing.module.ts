@@ -24,6 +24,10 @@ const routes: Routes = [
     path: 'usermodel',
     loadChildren: () => import('./usermodel/usermodel.module').then( m => m.UsermodelPageModule)
   },
+  {
+    path: 'groupnameselect',
+    loadChildren: () => import('./groupnameselect/groupnameselect.module').then( m => m.GroupnameselectPageModule)
+  },
 ];
 
 @NgModule({

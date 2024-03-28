@@ -1,0 +1,50 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>Group Name</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+      <ion-content [fullscreen]="true">
+        <dx-data-grid
+        [dataSource]="groupdatasource"
+        [showBorders]="true"
+        class="grid"
+        [showRowLines]="true"
+        [columnAutoWidth]="true"
+        [rowAlternationEnabled]="true"
+        [allowColumnResizing]="true"
+        [showColumnLines]="true"
+        [paging]="{ pageSize: 10 }"
+        [pager]="{ showPageSizeSelector: true, allowedPageSizes: [5, 10, 20] }"
+        (onRowInserted)="onRowInserted($event)"
+        (onRowRemoving)="onRowremove($event)"
+
+       >
+        <dxo-editing
+            [allowAdding]="true"
+            [allowUpdating]="true"
+            [allowDeleting]="true"
+            [useIcons]="true"
+            >
+        </dxo-editing>
+    
+        <dxi-column dataField="ID" caption="ID" [visible]="false"></dxi-column>
+        <dxi-column dataField="Tags" caption="Group Name" editCellTemplate="groupNAMEditor" >
+          <div *dxTemplate="let cellInfo of 'groupNAMEditor'">
+            <dx-tag-box [dataSource]="gp" 
+                        [showSelectionControls]="true"
+                        [showMultiTagOnly]="false" 
+                        [searchEnabled]="true"
+                        [multiline]="true"
+                        displayExpr="text"
+                        valueExpr="text"
+                         (onValueChanged)="onValueChanged($event)"
+
+                        >
+            </dx-tag-box>
+        </div>
+      
+        </dxi-column>
+       
+    </dx-data-grid>
+      </ion-content>

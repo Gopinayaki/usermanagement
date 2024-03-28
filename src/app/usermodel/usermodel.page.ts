@@ -15,6 +15,7 @@ export class UsermodelPage implements OnInit {
   dataSource: any[] = [];
   usernames!: string[];
   tagname: Option[] = []; // Initialize as an empty array
+  selectedRows: any[] = [];
   // @Input() data:any
   constructor(@Inject(MAT_DIALOG_DATA) public data: any) { 
  
@@ -31,10 +32,10 @@ export class UsermodelPage implements OnInit {
     // Retrieve existing data from local storage
     const storedData = localStorage.getItem('dataSource');
 
-    if (storedData) {
-      const parsedData = JSON.parse(storedData);
-      // Use a Set to keep track of unique groupname values
-  const uniqueTags = new Set();
+      if (storedData) {
+        const parsedData = JSON.parse(storedData);
+        // Use a Set to keep track of unique groupname values
+    const uniqueTags = new Set();
 
 
       const arrdata = parsedData.filter((item: { groupname: any; }) => item.groupname === this.data.groupname);
@@ -56,11 +57,14 @@ export class UsermodelPage implements OnInit {
       }
   }
   }
+
+
   onValueChanged(event: any) {
     // Just an example, you can handle the selected options here
     const gname = this.data.groupname;
-    const selectedOptions: Option[] = event.value; // Explicitly specify the type of selectedOptions
-    const mappedData = selectedOptions.map(option => ({ Tags: option.text, groupname: gname }));
+    const selectedOptions: Option[] = event.value;
+    console.log(selectedOptions) // Explicitly specify the type of selectedOptions
+    const mappedData = selectedOptions.map(option => ({ Tags: option, groupname: gname }));
   
     let storedData = localStorage.getItem('dataSource');
     let existingData: any[] = storedData ? JSON.parse(storedData) : [];
@@ -74,65 +78,81 @@ export class UsermodelPage implements OnInit {
       uniqueEntries.add(newItemString);
     });
   
+    // // Convert the uniqueEntries Set back to an array of objects
+    // existingData = Array.from(uniqueEntries).map(item => JSON.parse(item));
+  
+    // // Save the updated dataSource array to local storage
+    // localStorage.setItem('dataSource', JSON.stringify(existingData));
+  
+    // const filteredData = existingData.filter((item: { groupname: any; }) => item.groupname === this.data.groupname);
+  
+    // this.dataSource = filteredData;
+    this.selectedRows=mappedData
+    console.log(mappedData, this.dataSource);
+  }
+  
+
+   onRowDeleted(event: any) {
+      // Extract the deleted row data from the event object
+      const deletedRowData = event.data;
+    
+      // Perform any necessary actions with the deleted row data
+      console.log('Deleted row data:', deletedRowData);
+    
+
+  // Remove the deleted row data from the local storage
+    let storedData = localStorage.getItem('dataSource');
+    let existingData: any[] = storedData ? JSON.parse(storedData) : [];
+
+    // Find the index of the deleted row in the existing data
+    const index = existingData.findIndex(item => item.groupname === deletedRowData.groupname && item.Tags === deletedRowData.Tags);
+
+    if (index !== -1) {
+      // Remove the row from existingData
+      existingData.splice(index, 1);
+      localStorage.setItem('dataSource', JSON.stringify(existingData));
+
+      const filteredData = existingData.filter((item: { groupname: any; }) => item.groupname === this.data.groupname);
+
+      this.dataSource = filteredData;
+      console.log(filteredData,this.dataSource);
+
+    } else {
+      console.log('Row not found in local storage.');
+    }
+
+
+    }
+
+
+  onRowInserting(event: any) {
+    const gname = this.data.groupname;
+    let storedData = localStorage.getItem('dataSource');
+    let data: any[] = storedData ? JSON.parse(storedData) : [];
+  
+    // Use a Set to keep track of unique combinations of Tags and groupname
+    // const uniqueEntries = new Set(existingData.map(item => JSON.stringify(item)));
+  
+    console.log(data);
+
+    // Concatenate existing dataSource with selectedRows
+    let existingData = data.concat(this.selectedRows);
+
+    // Convert the existingData array to a Set to remove duplicates
+    const uniqueEntries = new Set(existingData.map(item => JSON.stringify(item)));
+
     // Convert the uniqueEntries Set back to an array of objects
     existingData = Array.from(uniqueEntries).map(item => JSON.parse(item));
-  
-    // Save the updated dataSource array to local storage
-    localStorage.setItem('dataSource', JSON.stringify(existingData));
-  
-    const filteredData = existingData.filter((item: { groupname: any; }) => item.groupname === this.data.groupname);
-  
-    this.dataSource = filteredData;
-    console.log(filteredData, this.dataSource);
-  }
-  
-
-
-
-  onRowDeleted(event: any) {
-    // Extract the deleted row data from the event object
-    const deletedRowData = event.data;
-  
-    // Perform any necessary actions with the deleted row data
-    console.log('Deleted row data:', deletedRowData);
-  
-
- // Remove the deleted row data from the local storage
-  let storedData = localStorage.getItem('dataSource');
-  let existingData: any[] = storedData ? JSON.parse(storedData) : [];
-
-  // Find the index of the deleted row in the existing data
-  const index = existingData.findIndex(item => item.groupname === deletedRowData.groupname && item.Tags === deletedRowData.Tags);
-
-  if (index !== -1) {
-    // Remove the row from existingData
-    existingData.splice(index, 1);
+    
+    // Filter the data based on groupname
+    const filteredData = existingData.filter((item: { groupname: any; }) => item.groupname === gname);
     localStorage.setItem('dataSource', JSON.stringify(existingData));
 
-    const filteredData = existingData.filter((item: { groupname: any; }) => item.groupname === this.data.groupname);
-
+    // Update the dataSource and save it to local storage
     this.dataSource = filteredData;
-    console.log(filteredData,this.dataSource);
 
-  } else {
-    console.log('Row not found in local storage.');
-  }
+    console.log(existingData, this.dataSource);
+}
 
-
-
-
-
-    // For example, you can update your data source or perform other operations
-    // Update dataSource or perform any other operations as needed
-  }
-
-
-  onRowInserting(event:any){
-
-    const gname = this.data.groupname;
-
-    console.log(event,gname,this.dataSource);
-
-  }
 
 }

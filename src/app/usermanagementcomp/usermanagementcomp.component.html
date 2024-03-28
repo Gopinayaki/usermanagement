@@ -2,7 +2,8 @@
 
     <ion-content [fullscreen]="true">
 
-      <ion-segment  [(ngModel)]="selectedSegment" (ionChange)="SelectSegment($event)">
+      <ion-segment  [(ngModel)]="selectedSegment" 
+      (ionChange)="SelectSegment($event)">
 
         <ion-segment-button value="group">
           <ion-label>Group</ion-label>
@@ -20,7 +21,6 @@
         </ion-segment-button>
 
       </ion-segment>
-
 
         <ng-container *ngIf="selectedSegment === 'group'"> 
           <dx-data-grid
@@ -79,7 +79,7 @@
       
               <dxo-form [colCount]="1">
                   <dxi-item dataField="groupname" caption="Group Name" [fixed]="true" [alignment]="'center'" ></dxi-item>
-                  <dxi-item dataField="assignedusers" caption="Users" [alignment]="'center'" [visible]="false" [alignment]="'center'" ></dxi-item>
+                  <!-- <dxi-item dataField="assignedusers" caption="Users" [alignment]="'center'" [visible]="false" [alignment]="'center'" ></dxi-item> -->
                   <dxi-item dataField="active" caption="Active" [dataType]="'boolean'" [alignment]="'center'"></dxi-item>
                   <dxi-item dataField="createdby" caption="Created By" [alignment]="'center'" [visible]="false"></dxi-item>
                   <dxi-item dataField="createdTime" caption="Created Time" [width]="170" [alignment]="'center'" [visible]="false"></dxi-item>
@@ -88,91 +88,91 @@
           </dx-data-grid>
       </ng-container>
 
-      <ng-container *ngIf="selectedSegment === 'groupaccess'"> 
+        <ng-container *ngIf="selectedSegment === 'groupaccess'"> 
 
-        <dx-data-grid
-            [dataSource]="groupaccess"
-            class="grid"
-            [showRowLines]="true"
-            [showBorders]="true"
-            [allowSorting]="true"
-            [columnAutoWidth]="true"
-            [rowAlternationEnabled]="true"
-            [allowColumnResizing]="true"
-            [rowAlternationEnabled]="true"
-          >
-            <dxo-search-panel [visible]="true">
-            </dxo-search-panel>
-            <dxo-paging [pageSize]="10"></dxo-paging>
-            <dxo-pager
-              [visible]="true"
-              [showPageSizeSelector]="showPageSizeSelector"
-              [showInfo]="showInfo"
-              [showNavigationButtons]="showNavButtons"
-              [pager]="{ visible: true, showPageSizeSelector: true, 
-                allowedPageSizes: [5,10,20], showInfo: true 
-                }"
-            ></dxo-pager>
-            <dxo-editing
-              mode="row"
-              [allowUpdating]="true"
-              [useIcons]="true"
-              class="my-modal-class"
+          <dx-data-grid
+              [dataSource]="groupaccess"
+              class="grid"
+              [showRowLines]="true"
+              [showBorders]="true"
+              [allowSorting]="true"
+              [columnAutoWidth]="true"
+              [rowAlternationEnabled]="true"
+              [allowColumnResizing]="true"
+              [rowAlternationEnabled]="true"
+              (onRowInserted)="onRowInsertedgrpaccess($event)"
             >
-            </dxo-editing>
-          
-            <dxi-column dataField="groupname1" caption="Group Name" [alignment]="'center'" [allowEditing]="false" [fixed]="true"></dxi-column>
-
-              <!-- <dxi-column dataField="selectAll" caption="Select All" dataType="boolean"  [alignment]="'center'" ></dxi-column> -->
-
-            <!-- User Management -->
-            <dxi-column caption="User Management" [alignment]="'center'">
-              <dxi-column dataField="userManagementView" caption="View" dataType="boolean"></dxi-column>
-              <dxi-column dataField="userManagementControl" caption="Control" dataType="boolean"></dxi-column>
-            </dxi-column>
-        
-            <!-- Hierarchy Management -->
-            <dxi-column caption="Hierarchy Management" [alignment]="'center'">
-              <dxi-column dataField="hierarchyManagementView" caption="View" dataType="boolean"></dxi-column>
-              <dxi-column dataField="hierarchyManagementControl" caption="Control" dataType="boolean"></dxi-column>
-            </dxi-column>
-
-            <!-- Report Management -->
-            <dxi-column caption="Report Management" [alignment]="'center'">
-              <dxi-column dataField="reportManagementView" caption="View" dataType="boolean"></dxi-column>
-              <dxi-column dataField="reportManagementControl" caption="Control" dataType="boolean"></dxi-column>
-            </dxi-column>
+              <dxo-search-panel [visible]="true">
+              </dxo-search-panel>
+              <dxo-paging [pageSize]="10"></dxo-paging>
+              <dxo-pager
+                [visible]="true"
+                [showPageSizeSelector]="showPageSizeSelector"
+                [showInfo]="showInfo"
+                [showNavigationButtons]="showNavButtons"
+                [pager]="{ visible: true, showPageSizeSelector: true, 
+                  allowedPageSizes: [5,10,20], showInfo: true 
+                  }"
+              ></dxo-pager>
+              <dxo-editing
+                mode="row"
+                [allowUpdating]="true"
+                [useIcons]="true"
+                class="my-modal-class"
+              >
+              </dxo-editing>
             
-            <!-- FTP Management -->
-            <dxi-column caption="FTP Management" [alignment]="'center'">
-              <dxi-column dataField="ftpManagementView" caption="View" dataType="boolean"></dxi-column>
-              <dxi-column dataField="ftpManagementControl" caption="Control" dataType="boolean"></dxi-column>
-            </dxi-column>
+              <dxi-column dataField="groupname1" caption="Group Name" [alignment]="'center'" [allowEditing]="false" [fixed]="true"></dxi-column>
+
+
+              <!-- User Management -->
+              <dxi-column caption="User Management" [alignment]="'center'">
+                <dxi-column dataField="userManagementView" caption="View" dataType="boolean"></dxi-column>
+                <dxi-column dataField="userManagementControl" caption="Control" dataType="boolean"></dxi-column>
+              </dxi-column>
+          
+              <!-- Hierarchy Management -->
+              <dxi-column caption="Hierarchy Management" [alignment]="'center'">
+                <dxi-column dataField="hierarchyManagementView" caption="View" dataType="boolean"></dxi-column>
+                <dxi-column dataField="hierarchyManagementControl" caption="Control" dataType="boolean"></dxi-column>
+              </dxi-column>
+
+              <!-- Report Management -->
+              <dxi-column caption="Report Management" [alignment]="'center'">
+                <dxi-column dataField="reportManagementView" caption="View" dataType="boolean"></dxi-column>
+                <dxi-column dataField="reportManagementControl" caption="Control" dataType="boolean"></dxi-column>
+              </dxi-column>
               
+              <!-- FTP Management -->
+              <dxi-column caption="FTP Management" [alignment]="'center'">
+                <dxi-column dataField="ftpManagementView" caption="View" dataType="boolean"></dxi-column>
+                <dxi-column dataField="ftpManagementControl" caption="Control" dataType="boolean"></dxi-column>
+              </dxi-column>
+                
 
-            <!-- External Activity Management -->
-          <dxi-column caption="External Activity Management" [alignment]="'center'">
-            <dxi-column dataField="externalActivityView" caption="View" dataType="boolean"></dxi-column>
-            <dxi-column dataField="externalActivityEdit" caption="Edit" dataType="boolean"></dxi-column>
-          </dxi-column>
+              <!-- External Activity Management -->
+            <dxi-column caption="External Activity Management" [alignment]="'center'">
+              <dxi-column dataField="externalActivityView" caption="View" dataType="boolean"></dxi-column>
+              <dxi-column dataField="externalActivityEdit" caption="Edit" dataType="boolean"></dxi-column>
+            </dxi-column>
 
-          <!-- SMS/Email Configuration -->
-          <dxi-column caption="SMS/Email Configuration" [alignment]="'center'">
-            <dxi-column dataField="smsConfigView" caption="View" dataType="boolean"></dxi-column>
-            <dxi-column dataField="smsConfigEdit" caption="Edit" dataType="boolean"></dxi-column>
-            <dxi-column dataField="emailConfigView" caption="View" dataType="boolean"></dxi-column>
-            <dxi-column dataField="emailConfigEdit" caption="Edit" dataType="boolean"></dxi-column>
-          </dxi-column>
+            <!-- SMS/Email Configuration -->
+            <dxi-column caption="SMS/Email Configuration" [alignment]="'center'">
+              <dxi-column dataField="smsConfigView" caption="View" dataType="boolean"></dxi-column>
+              <dxi-column dataField="smsConfigEdit" caption="Edit" dataType="boolean"></dxi-column>
+              <dxi-column dataField="emailConfigView" caption="View" dataType="boolean"></dxi-column>
+              <dxi-column dataField="emailConfigEdit" caption="Edit" dataType="boolean"></dxi-column>
+            </dxi-column>
 
-          <!-- Support Management -->
-          <dxi-column caption="Support Management" [alignment]="'center'">
-            <dxi-column dataField="supportView" caption="View" dataType="boolean"></dxi-column>
-            <dxi-column dataField="supportControl" caption="Control" dataType="boolean"></dxi-column>
-          </dxi-column>
-          </dx-data-grid>
+            <!-- Support Management -->
+            <dxi-column caption="Support Management" [alignment]="'center'">
+              <dxi-column dataField="supportView" caption="View" dataType="boolean"></dxi-column>
+              <dxi-column dataField="supportControl" caption="Control" dataType="boolean"></dxi-column>
+            </dxi-column>
+            </dx-data-grid>
 
 
-      </ng-container>
+        </ng-container>
 
       <ng-container *ngIf="selectedSegment === 'user'"> 
 
@@ -192,7 +192,18 @@
                 (onInitNewRow)="  onInitNewRow($event)"
                 (onRowRemoving)="onrowdeleted($event)"
                 (onEditorPreparing)="onEditorPreparing($event)"
+                [customizeColumns]="customizegroupColumns"
               >
+
+
+              <dxo-templates >
+                <div *dxTemplate="let data of 'customCellTemplategroup'">
+                    <mat-icon (click)="openDialogroup(data)">list</mat-icon>
+                </div>
+            </dxo-templates>
+            
+
+
               <dxo-column-fixing [enabled]="true"></dxo-column-fixing>
 
               <dxo-search-panel [visible]="true">
@@ -237,12 +248,10 @@
             </dxi-item>
 
             <dxi-item dataField="mobilenumber" caption="Mobile Number" [width]="150" [dataType]="'number'">
-              <!-- <dxi-validation-rule type="required"></dxi-validation-rule> -->
           </dxi-item>
         
               <dxi-item dataField="emailid" caption="Email" [width]="170" [dataType]="'email'">
-                <!-- <dxi-validation-rule type="required"  message="Email is required"></dxi-validation-rule> -->
-                <!-- <dxi-validation-rule type="email"></dxi-validation-rule> -->
+               
               </dxi-item>
         
               <dxi-item dataField="designation" caption="Designation" [dataType]="'string'">
@@ -251,7 +260,6 @@
               <dxi-item dataField="active" caption="Active" [dataType]="'boolean'">
 
               </dxi-item>
-              <dxi-item dataField="groupame" caption="Group Name"  [dataType]="'string'"></dxi-item>
 
             
             </dxo-form>   
@@ -262,9 +270,6 @@
           <dxi-column dataField="mobilenumber" caption="Mobile Number" [alignment]="'center'"></dxi-column>
           <dxi-column dataField="emailid" caption="Email" [width]="170" [alignment]="'center'"></dxi-column>
           <dxi-column dataField="designation" caption="Designation" [alignment]="'center'"></dxi-column>
-          <dxi-column dataField="groupame" caption="Group Name" [alignment]="'center'">
-          <dxo-lookup></dxo-lookup>
-          </dxi-column>
           <dxi-column dataField="active" caption="Active" [dataType]="'boolean'" [alignment]="'center'"></dxi-column>
           <dxi-column dataField="createdby" caption="Created By" [alignment]="'center'"></dxi-column>
           <dxi-column dataField="createdTime" caption="Created Time"  [width]="170" [alignment]="'center'"></dxi-column>

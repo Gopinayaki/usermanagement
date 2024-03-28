@@ -9,7 +9,7 @@ import { UsermodelPageRoutingModule } from './usermodel-routing.module';
 import { UsermodelPage } from './usermodel.page';
 import { NgSelectModule } from '@ng-select/ng-select';
 import dxDataGrid from 'devextreme/ui/data_grid';
-import { DxDataGridModule, DxTagBoxModule } from 'devextreme-angular';
+import { DxDataGridModule, DxPopoverModule, DxTagBoxModule } from 'devextreme-angular';
 
 
 @NgModule({
@@ -21,6 +21,7 @@ import { DxDataGridModule, DxTagBoxModule } from 'devextreme-angular';
     NgSelectModule,
     DxDataGridModule,
     DxTagBoxModule,
+    DxPopoverModule
   
   
 

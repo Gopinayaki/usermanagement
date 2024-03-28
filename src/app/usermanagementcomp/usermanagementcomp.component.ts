@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { ModalController } from '@ionic/angular';
 import { UsermodelPage } from '../usermodel/usermodel.page';
+import { GroupnameselectPage } from '../groupnameselect/groupnameselect.page';
 
 @Component({
   selector: 'app-usermanagementcomp',
@@ -12,7 +13,7 @@ import { UsermodelPage } from '../usermodel/usermodel.page';
 })
 export class UsermanagementcompComponent  implements OnInit {
   usernamesArray: string[] = []; // Array to hold usernames for the lookup dropdown
-  selectedSegment: string = 'group';
+  selectedSegment: string = 'user';
   readonly allowedPageSizes = [5, 10, 'all'];
   displayMode = 'full';
   showPageSizeSelector = true;
@@ -259,9 +260,7 @@ export class UsermanagementcompComponent  implements OnInit {
         console.log(event)
         this.grouptablesave();
         this.saveGroupNameToLocalStorage();
-        // Save the customized column configuration to local storage
-        const customColumn = { caption: 'Edit', cellTemplate: 'customCellTemplate' };
-        localStorage.setItem('customizedColumn', JSON.stringify(customColumn));
+        
 
       }
 
@@ -307,9 +306,54 @@ export class UsermanagementcompComponent  implements OnInit {
          // Update local storage with the customized columns
       }
 
+
+      customizegroupColumns(columns: any) {
+          const groupselectname = {
+            caption: 'Group Name', // Caption for the column header
+            cellTemplate: 'customCellTemplategroup', // Specifies a custom cell template for the column
+
+          };
+          columns.unshift(groupselectname);
+      }
+
     onCellClick(e: any) {
       console.log('Cell Clicked:', e.data);
     }
+
+
+
+    openDialogroup(data:any) {
+     
+      const name=data.row.data.username;
+      console.log('Editing row:', data, name);
+         // Open your dialog here
+         this.dialog.open(GroupnameselectPage, {
+             width: '60%', // Set the width of the dialog
+             height: '80%', // Set the height of the dialog
+             // You can add other options like data, panelClass, etc.
+             data: {
+              username: name,
+            },
+         });
+
+         const dataFromLocalStorage = localStorage.getItem('dataSource');
+         if (dataFromLocalStorage) {
+           const groups = JSON.parse(dataFromLocalStorage);
+
+           const gggg = [];
+           groups.forEach((element:any) => {
+
+            if(element.Tags==name){
+              console.log(element.groupname)
+
+              localStorage.setItem("groupdatasource",element.groupname)
+
+            }
+           });
+         }
+
+       }
+
 
 
     openDialog(data:any) {
@@ -363,5 +407,13 @@ export class UsermanagementcompComponent  implements OnInit {
 
 this.groupaccess= groupaccessdta;
   }
+
+  onRowInsertedgrpaccess(event:any){
+
+console.log(event,'suresh')
+
+  }
+
+
 
   }
