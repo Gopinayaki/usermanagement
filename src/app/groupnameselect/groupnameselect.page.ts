@@ -23,7 +23,7 @@ export class GroupnameselectPage implements OnInit {
   gp: Option[] = []; 
   
   selectedRows: any[] = [];
-
+  selectGroup!: [];
   
   
   // Assuming group names are strings
@@ -75,6 +75,7 @@ export class GroupnameselectPage implements OnInit {
 
 
   onValueChanged(event: any) {
+    this.selectGroup = event.value;
     // Just an example, you can handle the selected options here
     const uname = this.data.username;
     const selectedOptions: Option[] = event.value;
@@ -102,8 +103,6 @@ export class GroupnameselectPage implements OnInit {
     let storedData = localStorage.getItem('dataofgroupnmae');
     let data: any[] = storedData ? JSON.parse(storedData) : [];
   
- 
-  
     console.log(data);
 
     // Concatenate existing dataSource with selectedRows
@@ -123,39 +122,61 @@ export class GroupnameselectPage implements OnInit {
     this.groupdatasource = filteredData;
 
     console.log(existingData, this.groupdatasource);
-  }
 
-  onRowremove(event:any){
+    const selectedOptions: Option[] = this.selectGroup;
+    console.log(selectedOptions)
+    const mappedData = selectedOptions.map(option => ({ Tags: uname, groupname: option }));
+    console.log("mappedData", mappedData);
 
-  // Extract the deleted row data from the event object
-  const deletedRowData = event.data;
+    let userstoredData = localStorage.getItem('dataSource');
+    let userdata: any[] = userstoredData ? JSON.parse(userstoredData) : [];
+  
+    let userexistingData = userdata.concat(mappedData);
+    console.log("userdatam", userexistingData);
+
+    const useruUniqueEntries = new Set(userexistingData.map(item => JSON.stringify(item)));
+    userexistingData = Array.from(useruUniqueEntries).map(item => JSON.parse(item));
     
-  // Perform any necessary actions with the deleted row data
-  console.log('Deleted row data:', deletedRowData);
-
-
-// Remove the deleted row data from the local storage
-let storedData = localStorage.getItem('dataofgroupnmae');
-let existingData: any[] = storedData ? JSON.parse(storedData) : [];
-
-// Find the index of the deleted row in the existing data
-const index = existingData.findIndex(item => item.username === deletedRowData.username && item.Tags === deletedRowData.Tags);
-
-if (index !== -1) {
-  // Remove the row from existingData
-  existingData.splice(index, 1);
-  localStorage.setItem('dataofgroupnmae', JSON.stringify(existingData));
-
-  const filteredData = existingData.filter((item: { username: any; }) => item.username === this.data.username);
-
-  this.groupdatasource = filteredData;
-  console.log(filteredData,this.groupdatasource);
-
-} else {
-  console.log('Row not found in local storage.');
-}
-
+    localStorage.setItem('dataSource', JSON.stringify(userexistingData));
+  
   }
+
+  onRowremove(event: any): void {
+    // Extract the deleted row data from the event object
+    const deletedRowData = event.data;
+    
+    // Remove the deleted row data from the local storage
+    let storedData = localStorage.getItem('dataofgroupnmae');
+    let existingData: any[] = storedData ? JSON.parse(storedData) : [];
+  
+    // Find the index of the deleted row in the existing data
+    const index = existingData.findIndex(item => item.username === deletedRowData.username && item.Tags === deletedRowData.Tags);
+  
+    if (index !== -1) {
+      // Remove the row from existingData
+      existingData.splice(index, 1);
+      localStorage.setItem('dataofgroupnmae', JSON.stringify(existingData));
+    } else {
+      console.log('Row not found in local storage.');
+    }
+  
+    // Update the dataSource
+    this.groupdatasource = existingData.filter((item: { username: any; }) => item.username === this.data.username);
+  
+    // Also, remove the row from the other dataSource if needed
+    let userStoredData = localStorage.getItem('dataSource');
+    let userExistingData: any[] = userStoredData ? JSON.parse(userStoredData) : [];
+  
+    const userIndex = userExistingData.findIndex(item => item.Tags === deletedRowData.Tags && item.groupname === deletedRowData.groupname);
+    
+    if (userIndex !== -1) {
+      userExistingData.splice(userIndex, 1);
+      localStorage.setItem('dataSource', JSON.stringify(userExistingData));
+    } else {
+      console.log('Row not found in user data.');
+    }
+  }
+  
 
 
 }

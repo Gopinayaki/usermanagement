@@ -176,104 +176,105 @@
 
       <ng-container *ngIf="selectedSegment === 'user'"> 
 
-                <dx-data-grid
-                [dataSource]="usertable2"
-                [showBorders]="true"
-                class="grid"
-                [showRowLines]="true"
-                [showBorders]="true"
-                [allowSorting]="true"
-                [columnAutoWidth]="true"
-                [rowAlternationEnabled]="true"
-                [allowColumnResizing]="true"
-                (onInitNewRow)="onInitNewRow($event)"
-                (onRowInserted)="onRowInserted($event)"
-                (onRowUpdated)="onRowUpdated($event)"
-                (onInitNewRow)="  onInitNewRow($event)"
-                (onRowRemoving)="onrowdeleted($event)"
-                (onEditorPreparing)="onEditorPreparing($event)"
-                [customizeColumns]="customizegroupColumns"
-              >
+                  <dx-data-grid
+                  [dataSource]="usertable2"
+                  [showBorders]="true"
+                  class="grid"
+                  [showRowLines]="true"
+                  [showBorders]="true"
+                  [allowSorting]="true"
+                  [columnAutoWidth]="true"
+                  [rowAlternationEnabled]="true"
+                  [allowColumnResizing]="true"
+                  (onInitNewRow)="onInitNewRow($event)"
+                  (onRowInserted)="onRowInserted($event)"
+                  (onRowUpdated)="onRowUpdated($event)"
+                  (onInitNewRow)="  onInitNewRow($event)"
+                  (onRowRemoving)="onrowdeleted($event)"
+                  (onEditorPreparing)="onEditorPreparing($event)"
+                  [customizeColumns]="customizegroupColumns"
+                >
 
 
-              <dxo-templates >
-                <div *dxTemplate="let data of 'customCellTemplategroup'">
-                    <mat-icon (click)="openDialogroup(data)">list</mat-icon>
-                </div>
-            </dxo-templates>
-            
-
-
-              <dxo-column-fixing [enabled]="true"></dxo-column-fixing>
-
-              <dxo-search-panel [visible]="true">
-              </dxo-search-panel>
+                <dxo-templates >
+                  <div *dxTemplate="let data of 'customCellTemplategroup'">
+                      <mat-icon (click)="openDialogroup(data)">list</mat-icon>
+                  </div>
+              </dxo-templates>
               
-              <dxo-paging [pageSize]="10"></dxo-paging>
-                
-              <dxo-pager
-              [visible]="true"
-              [showPageSizeSelector]="showPageSizeSelector"
-              [showInfo]="showInfo"
-              [showNavigationButtons]="showNavButtons"
-              [pager]="{ visible: true, showPageSizeSelector: true, 
-              allowedPageSizes: [5,10,20], showInfo: true 
-              }"
-              >
-              </dxo-pager>
-              <dxo-editing
-              mode="popup"
-              [allowUpdating]="true"
-              [allowAdding]="true"
-              [allowDeleting]="true"
-              [useIcons]="true"
-              >
-              <dxo-popup
-              title="User Add/Edit"
-              [showTitle]="true"
-              [width]="650"
-              [height]="400"
-              position="centre"
-            >   
-            </dxo-popup>
-        
 
-            <dxo-form>
-              <dxi-item dataField="username" caption="User Name" [fixed]="true" [dataType]="'string'">
-              <!-- <dxi-validation-rule type="required" message="Username is required"></dxi-validation-rule> -->
-              </dxi-item>
-        
-              <dxi-item dataField="password">
-                <!-- <dxi-validation-rule type="required" message="Password is required" ></dxi-validation-rule> -->
+            <dxi-column dataField="username" caption="User Name" [fixed]="true" [alignment]="'center'"></dxi-column>
+            <dxi-column dataField="password" mode="password" caption="Password"  [visible]="false" [alignment]="'center'"></dxi-column>
+            <dxi-column dataField="mobilenumber" caption="Mobile Number" [alignment]="'center'"></dxi-column>
+            <dxi-column dataField="emailid" caption="Email" [width]="170" [alignment]="'center'"></dxi-column>
+            <dxi-column dataField="designation" caption="Designation" [alignment]="'center'"></dxi-column>
+            <dxi-column dataField="active" caption="Active" [dataType]="'boolean'" [alignment]="'center'"></dxi-column>
+            <dxi-column dataField="createdby" caption="Created By" [alignment]="'center'"></dxi-column>
+            <dxi-column dataField="createdTime" caption="Created Time"  [width]="170" [alignment]="'center'"></dxi-column>
+
+
+            <dxo-column-fixing [enabled]="true"></dxo-column-fixing>
+
+            <dxo-search-panel [visible]="true">
+            </dxo-search-panel>
+            
+            <dxo-paging [pageSize]="10"></dxo-paging>
+              
+            <dxo-pager
+            [visible]="true"
+            [showPageSizeSelector]="showPageSizeSelector"
+            [showInfo]="showInfo"
+            [showNavigationButtons]="showNavButtons"
+            [pager]="{ visible: true, showPageSizeSelector: true, 
+            allowedPageSizes: [5,10,20], showInfo: true 
+            }"
+            >
+            </dxo-pager>
+            <dxo-editing
+            mode="popup"
+            [allowUpdating]="true"
+            [allowAdding]="true"
+            [allowDeleting]="true"
+            [useIcons]="true"
+            >
+            <dxo-popup
+            title="User Add/Edit"
+            [showTitle]="true"
+            [width]="650"
+            [height]="400"
+            position="centre"
+          >   
+          </dxo-popup>
+      
+
+          <dxo-form>
+            <dxi-item dataField="username" caption="User Name" [fixed]="true" [dataType]="'string'">
+            <!-- <dxi-validation-rule type="required" message="Username is required"></dxi-validation-rule> -->
+            </dxi-item>
+      
+            <dxi-item dataField="password">
+              <!-- <dxi-validation-rule type="required" message="Password is required" ></dxi-validation-rule> -->
+          </dxi-item>
+
+          <dxi-item dataField="mobilenumber" caption="Mobile Number" [width]="150" [dataType]="'number'">
+        </dxi-item>
+      
+            <dxi-item dataField="emailid" caption="Email" [width]="170" [dataType]="'email'">
+            
+            </dxi-item>
+      
+            <dxi-item dataField="designation" caption="Designation" [dataType]="'string'">
+              <!-- <dxi-validation-rule type="required" message=" Designation is required"></dxi-validation-rule> -->
+            </dxi-item>
+            <dxi-item dataField="active" caption="Active" [dataType]="'boolean'">
+
             </dxi-item>
 
-            <dxi-item dataField="mobilenumber" caption="Mobile Number" [width]="150" [dataType]="'number'">
-          </dxi-item>
-        
-              <dxi-item dataField="emailid" caption="Email" [width]="170" [dataType]="'email'">
-               
-              </dxi-item>
-        
-              <dxi-item dataField="designation" caption="Designation" [dataType]="'string'">
-                <!-- <dxi-validation-rule type="required" message=" Designation is required"></dxi-validation-rule> -->
-              </dxi-item>
-              <dxi-item dataField="active" caption="Active" [dataType]="'boolean'">
+          
+          </dxo-form>   
 
-              </dxi-item>
-
-            
-            </dxo-form>   
-
-          </dxo-editing>
-          <dxi-column dataField="username" caption="User Name" [fixed]="true" [alignment]="'center'"></dxi-column>
-          <dxi-column dataField="password" mode="password" caption="Password"  [visible]="false" [alignment]="'center'"></dxi-column>
-          <dxi-column dataField="mobilenumber" caption="Mobile Number" [alignment]="'center'"></dxi-column>
-          <dxi-column dataField="emailid" caption="Email" [width]="170" [alignment]="'center'"></dxi-column>
-          <dxi-column dataField="designation" caption="Designation" [alignment]="'center'"></dxi-column>
-          <dxi-column dataField="active" caption="Active" [dataType]="'boolean'" [alignment]="'center'"></dxi-column>
-          <dxi-column dataField="createdby" caption="Created By" [alignment]="'center'"></dxi-column>
-          <dxi-column dataField="createdTime" caption="Created Time"  [width]="170" [alignment]="'center'"></dxi-column>
-      </dx-data-grid>
+        </dxo-editing>
+        </dx-data-grid>
 
       </ng-container>
 

@@ -1,20 +1,22 @@
-
- 
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>Group Name</ion-title>
+  </ion-toolbar>
+</ion-header>
 
 <ion-content [fullscreen]="true">
-  <dx-data-grid 
-  [dataSource]="users"
-   [columns]="columns">
-
-   <dxo-editing 
-   mode="row"
-   [allowAdding]="true"
-   [allowUpdating]="true"
-   [allowDeleting]="true"
-   ></dxo-editing>
-
+  <dx-data-grid
+    [dataSource]="groupNames"
+    [showBorders]="true"
+    class="grid"
+    [showRowLines]="true"
+    [columnAutoWidth]="true"
+    [rowAlternationEnabled]="true"
+    [allowColumnResizing]="true"
+    [showColumnLines]="true"
+    [paging]="{ pageSize: 10 }"
+    [pager]="{ showPageSizeSelector: true, allowedPageSizes: [5, 10, 20] }"
+  >
+    <dxi-column dataField="groupname" caption="Group Name"></dxi-column>
   </dx-data-grid>
-
-
-
 </ion-content>

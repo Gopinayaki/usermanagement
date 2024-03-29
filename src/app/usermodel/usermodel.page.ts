@@ -16,6 +16,8 @@ export class UsermodelPage implements OnInit {
   usernames!: string[];
   tagname: Option[] = []; // Initialize as an empty array
   selectedRows: any[] = [];
+  selectUser!: [];
+
   // @Input() data:any
   constructor(@Inject(MAT_DIALOG_DATA) public data: any) { 
  
@@ -31,7 +33,7 @@ export class UsermodelPage implements OnInit {
   
     // Retrieve existing data from local storage
     const storedData = localStorage.getItem('dataSource');
-
+    console.log("storeddata",storedData);
       if (storedData) {
         const parsedData = JSON.parse(storedData);
         // Use a Set to keep track of unique groupname values
@@ -60,6 +62,8 @@ export class UsermodelPage implements OnInit {
 
 
   onValueChanged(event: any) {
+    this.selectUser = event.value;
+    
     // Just an example, you can handle the selected options here
     const gname = this.data.groupname;
     const selectedOptions: Option[] = event.value;
@@ -92,37 +96,46 @@ export class UsermodelPage implements OnInit {
   }
   
 
-   onRowDeleted(event: any) {
-      // Extract the deleted row data from the event object
-      const deletedRowData = event.data;
-    
-      // Perform any necessary actions with the deleted row data
-      console.log('Deleted row data:', deletedRowData);
-    
-
-  // Remove the deleted row data from the local storage
+  onRowDeleted(event: any) {
+    // Extract the deleted row data from the event object
+    const deletedRowData = event.data;
+  
+    // Remove the deleted row data from the 'dataSource' local storage
     let storedData = localStorage.getItem('dataSource');
     let existingData: any[] = storedData ? JSON.parse(storedData) : [];
-
+  
     // Find the index of the deleted row in the existing data
     const index = existingData.findIndex(item => item.groupname === deletedRowData.groupname && item.Tags === deletedRowData.Tags);
-
+  
     if (index !== -1) {
       // Remove the row from existingData
       existingData.splice(index, 1);
       localStorage.setItem('dataSource', JSON.stringify(existingData));
-
-      const filteredData = existingData.filter((item: { groupname: any; }) => item.groupname === this.data.groupname);
-
-      this.dataSource = filteredData;
-      console.log(filteredData,this.dataSource);
-
     } else {
-      console.log('Row not found in local storage.');
+      console.log('Row not found in dataSource local storage.');
     }
-
-
+  
+    // Remove the deleted row data from the 'dataofgroupnmae' local storage
+    let groupStoredData = localStorage.getItem('dataofgroupnmae');
+    let groupData: any[] = groupStoredData ? JSON.parse(groupStoredData) : [];
+  
+    // Find the index of the deleted row in the group data
+    const groupIndex = groupData.findIndex(item => item.Tags === deletedRowData.Tags && item.username === deletedRowData.username);
+  
+    if (groupIndex !== -1) {
+      // Remove the row from groupData
+      groupData.splice(groupIndex, 1);
+      localStorage.setItem('dataofgroupnmae', JSON.stringify(groupData));
+    } else {
+      console.log('Row not found in dataofgroupnmae local storage.');
     }
+  
+    // Perform any other necessary actions with the deleted row data
+    console.log('Deleted row data:', deletedRowData);
+  
+    // Optionally, update component properties or perform other actions
+  }
+  
 
 
   onRowInserting(event: any) {
@@ -152,6 +165,22 @@ export class UsermodelPage implements OnInit {
     this.dataSource = filteredData;
 
     console.log(existingData, this.dataSource);
+    const selectedOptions: Option[] = this.selectUser;
+    console.log(selectedOptions)
+    const mappedData = selectedOptions.map(option => ({ Tags: gname, username: option }));
+    console.log("mappedData", mappedData);
+
+    let groupstoredData = localStorage.getItem('dataofgroupnmae');
+    let groupdata: any[] = groupstoredData ? JSON.parse(groupstoredData) : [];
+  
+    let groupexistingData = groupdata.concat(mappedData);
+    console.log("groupdatam", groupexistingData);
+
+    const groupuUniqueEntries = new Set(groupexistingData.map(item => JSON.stringify(item)));
+    groupexistingData = Array.from(groupuUniqueEntries).map(item => JSON.parse(item));
+    
+    localStorage.setItem('dataofgroupnmae', JSON.stringify(groupexistingData));
+
 }
 
 

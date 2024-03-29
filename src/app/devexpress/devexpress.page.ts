@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-devexpress',
@@ -6,20 +7,17 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./devexpress.page.scss'],
 })
 export class DevexpressPage implements OnInit {
-  users: any[] = [
-    { id: 1, name: 'John Doe', age: 30, email: 'john@example.com' },
-    { id: 2, name: 'Jane Smith', age: 25, email: 'jane@example.com' },
-    { id: 3, name: 'Alice Johnson', age: 35, email: 'alice@example.com' }
-  ];
+  selectedUsername!: string;
+  groupNames: string[] = [];
 
-  columns: any[] = [
-    { dataField: 'id', caption: 'ID' },
-    { dataField: 'name', caption: 'Name' },
-    { dataField: 'age', caption: 'Age' }
-  ];
+  constructor(private route: ActivatedRoute) { }
 
-  constructor() { }
+  ngOnInit(): void {
 
-  ngOnInit() { }
+    
+ 
+  }
+
+
 
 }

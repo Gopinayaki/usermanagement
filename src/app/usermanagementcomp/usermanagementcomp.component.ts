@@ -13,7 +13,7 @@ import { GroupnameselectPage } from '../groupnameselect/groupnameselect.page';
 })
 export class UsermanagementcompComponent  implements OnInit {
   usernamesArray: string[] = []; // Array to hold usernames for the lookup dropdown
-  selectedSegment: string = 'user';
+  selectedSegment: string = 'group';
   readonly allowedPageSizes = [5, 10, 'all'];
   displayMode = 'full';
   showPageSizeSelector = true;
@@ -261,7 +261,7 @@ export class UsermanagementcompComponent  implements OnInit {
         this.grouptablesave();
         this.saveGroupNameToLocalStorage();
         
-
+  
       }
 
 
@@ -355,7 +355,6 @@ export class UsermanagementcompComponent  implements OnInit {
        }
 
 
-
     openDialog(data:any) {
  // Save the clicked cell's data to local storage
 
@@ -413,7 +412,6 @@ this.groupaccess= groupaccessdta;
 console.log(event,'suresh')
 
   }
-
 
 
   }
