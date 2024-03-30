@@ -155,62 +155,62 @@ export class UsermanagementcompComponent  implements OnInit {
  
 
 
-  updateUserAccess() {
-   // Extract usernames and store them separately
-   const usernames = this.usertable2.map(user => user.username);
-   localStorage.setItem('usernames', JSON.stringify(usernames));
+      updateUserAccess() {
+      // Extract usernames and store them separately
+      const usernames = this.usertable2.map(user => user.username);
+      localStorage.setItem('usernames', JSON.stringify(usernames));
 
-   // Optionally, you can also update this.useraccess if needed
-   const userAccessData = usernames.map(username => (
-    { 
-      username1: username ,
-      emailConfigEdit: false,
-      emailConfigView: false,
-      externalActivityEdit: false,
-      externalActivityView:false,
-      ftpManagementControl: false,
-      ftpManagementView: false,
-      hierarchyManagementControl: false,
-      hierarchyManagementView: false,
-      reportManagementControl: false,
-      reportManagementView: false,
-      smsConfigEdit: false,
-      smsConfigView: false,
-      supportControl: false,
-      supportView: false,
-      userManagementControl: false,
-      userManagementView: false,
-   }
-    ));
+      // Optionally, you can also update this.useraccess if needed
+      const userAccessData = usernames.map(username => (
+        { 
+          username1: username ,
+          emailConfigEdit: false,
+          emailConfigView: false,
+          externalActivityEdit: false,
+          externalActivityView:false,
+          ftpManagementControl: false,
+          ftpManagementView: false,
+          hierarchyManagementControl: false,
+          hierarchyManagementView: false,
+          reportManagementControl: false,
+          reportManagementView: false,
+          smsConfigEdit: false,
+          smsConfigView: false,
+          supportControl: false,
+          supportView: false,
+          userManagementControl: false,
+          userManagementView: false,
+      }
+        ));
 
-    this.useraccess= userAccessData;
+        this.useraccess= userAccessData;
 
-    // this.userAccessService.updateUserAccess(userAccessData);
+        // this.userAccessService.updateUserAccess(userAccessData);
 
 
-    //  this.useraccess = [];
-    //  for (let i = 0; i < usernames.length; i++) {
-    //      this.useraccess.push({ username1: usernames[i] ,
-    //       emailConfigEdit: false,
-    //       emailConfigView: false,
-    //       externalActivityEdit: false,
-    //       externalActivityView:false,
-    //       ftpManagementControl: false,
-    //       ftpManagementView: false,
-    //       hierarchyManagementControl: false,
-    //       hierarchyManagementView: false,
-    //       reportManagementControl: false,
-    //       reportManagementView: false,
-    //       smsConfigEdit: false,
-    //       smsConfigView: false,
-    //       supportControl: false,
-    //       supportView: false,
-    //       userManagementControl: false,
-    //       userManagementView: false,
-    
-    //     });
-    //  }
-  }
+        //  this.useraccess = [];
+        //  for (let i = 0; i < usernames.length; i++) {
+        //      this.useraccess.push({ username1: usernames[i] ,
+        //       emailConfigEdit: false,
+        //       emailConfigView: false,
+        //       externalActivityEdit: false,
+        //       externalActivityView:false,
+        //       ftpManagementControl: false,
+        //       ftpManagementView: false,
+        //       hierarchyManagementControl: false,
+        //       hierarchyManagementView: false,
+        //       reportManagementControl: false,
+        //       reportManagementView: false,
+        //       smsConfigEdit: false,
+        //       smsConfigView: false,
+        //       supportControl: false,
+        //       supportView: false,
+        //       userManagementControl: false,
+        //       userManagementView: false,
+        
+        //     });
+        //  }
+      }
 
     retrieveUsernamesFromUserAccess() {
       // Assuming useraccess is your data source containing usernames
@@ -265,27 +265,27 @@ export class UsermanagementcompComponent  implements OnInit {
       }
 
 
-      onRowRemovingForGroupTable(event: any) {
-        // Log the event object to the console for debugging
-        console.log(event);
-        
-        // Remove the row from the data source (assuming grouptable is an array)
-        const rowIndex = this.grouptable.findIndex((item: any) => item === event.data);
-        if (rowIndex !== -1) {
-            this.grouptable.splice(rowIndex, 1);
-            
-            // Save the updated data to local storage
-            this.grouptablesave();
-            
-            // Save any other changes you need to make to local storage
-            this.saveGroupNameToLocalStorage();
-            
-            // Optionally, you may want to log a message to indicate successful deletion
-            console.log("Row deleted successfully.");
-        } else {
-            console.error("Error: Row not found in data source.");
-        }
-    }
+        onRowRemovingForGroupTable(event: any) {
+          // Log the event object to the console for debugging
+          console.log(event);
+          
+          // Remove the row from the data source (assuming grouptable is an array)
+          const rowIndex = this.grouptable.findIndex((item: any) => item === event.data);
+          if (rowIndex !== -1) {
+              this.grouptable.splice(rowIndex, 1);
+              
+              // Save the updated data to local storage
+              this.grouptablesave();
+              
+              // Save any other changes you need to make to local storage
+              this.saveGroupNameToLocalStorage();
+              
+              // Optionally, you may want to log a message to indicate successful deletion
+              console.log("Row deleted successfully.");
+          } else {
+              console.error("Error: Row not found in data source.");
+          }
+      }
     
 
       grouptablesave() {
@@ -296,7 +296,8 @@ export class UsermanagementcompComponent  implements OnInit {
 
         const customColumn = {
           caption: 'Assigned Users', // Caption for the column header
-          cellTemplate: 'customCellTemplate', // Specifies a custom cell template for the column
+          cellTemplate: 'customCellTemplate',
+          cssClass: 'custom-column-header' // Specifies a custom cell template for the column
         };
 
 
@@ -309,8 +310,9 @@ export class UsermanagementcompComponent  implements OnInit {
 
       customizegroupColumns(columns: any) {
           const groupselectname = {
-            caption: 'Group Name', // Caption for the column header
-            cellTemplate: 'customCellTemplategroup', // Specifies a custom cell template for the column
+            caption: 'Assigned Group ', // Caption for the column header
+            cellTemplate: 'customCellTemplategroup',
+             // Specifies a custom cell template for the column
 
           };
           columns.unshift(groupselectname);
@@ -328,8 +330,8 @@ export class UsermanagementcompComponent  implements OnInit {
       console.log('Editing row:', data, name);
          // Open your dialog here
          this.dialog.open(GroupnameselectPage, {
-             width: '60%', // Set the width of the dialog
-             height: '80%', // Set the height of the dialog
+             width: '40%', // Set the width of the dialog
+             height: '60%', // Set the height of the dialog
              // You can add other options like data, panelClass, etc.
              data: {
               username: name,
@@ -363,8 +365,8 @@ export class UsermanagementcompComponent  implements OnInit {
 
     // Open your dialog here
     this.dialog.open(UsermodelPage, {
-        width: '60%', // Set the width of the dialog
-        height: '80%', // Set the height of the dialog
+      width: '40%', // Set the width of the dialog
+      height: '60%', // Set the height of the dialog
         // You can add other options like data, panelClass, etc.
         data: {
           groupname: name,
@@ -381,37 +383,37 @@ export class UsermanagementcompComponent  implements OnInit {
     localStorage.setItem('groupNames', JSON.stringify(groupNames));
 
 
-// Optionally, you can also update this.useraccess if needed
-    const groupaccessdta = groupNames.map(groupname => (
-{ 
-  groupname1: groupname ,
-  emailConfigEdit: false,
-  emailConfigView: false,
-  externalActivityEdit: false,
-  externalActivityView:false,
-  ftpManagementControl: false,
-  ftpManagementView: false,
-  hierarchyManagementControl: false,
-  hierarchyManagementView: false,
-  reportManagementControl: false,
-  reportManagementView: false,
-  smsConfigEdit: false,
-  smsConfigView: false,
-  supportControl: false,
-  supportView: false,
-  userManagementControl: false,
-  userManagementView: false,
-}
-));
+    // Optionally, you can also update this.useraccess if needed
+        const groupaccessdta = groupNames.map(groupname => (
+    { 
+      groupname1: groupname ,
+      emailConfigEdit: false,
+      emailConfigView: false,
+      externalActivityEdit: false,
+      externalActivityView:false,
+      ftpManagementControl: false,
+      ftpManagementView: false,
+      hierarchyManagementControl: false,
+      hierarchyManagementView: false,
+      reportManagementControl: false,
+      reportManagementView: false,
+      smsConfigEdit: false,
+      smsConfigView: false,
+      supportControl: false,
+      supportView: false,
+      userManagementControl: false,
+      userManagementView: false,
+    }
+    ));
 
-this.groupaccess= groupaccessdta;
-  }
+    this.groupaccess= groupaccessdta;
+      }
 
-  onRowInsertedgrpaccess(event:any){
+      onRowInsertedgrpaccess(event:any){
 
-console.log(event,'suresh')
+    console.log(event,'suresh')
 
-  }
+      }
 
 
   }

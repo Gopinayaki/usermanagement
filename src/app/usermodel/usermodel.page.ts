@@ -96,46 +96,53 @@ export class UsermodelPage implements OnInit {
   }
   
 
-  onRowDeleted(event: any) {
-    // Extract the deleted row data from the event object
-    const deletedRowData = event.data;
-  
-    // Remove the deleted row data from the 'dataSource' local storage
+   onRowDeleted(event: any) {
+      // Extract the deleted row data from the event object
+      const deletedRowData = event.data;
+    
+      // Perform any necessary actions with the deleted row data
+      console.log('Deleted row data:', deletedRowData);
+    
+
+  // Remove the deleted row data from the local storage
     let storedData = localStorage.getItem('dataSource');
     let existingData: any[] = storedData ? JSON.parse(storedData) : [];
-  
+
     // Find the index of the deleted row in the existing data
     const index = existingData.findIndex(item => item.groupname === deletedRowData.groupname && item.Tags === deletedRowData.Tags);
-  
+
     if (index !== -1) {
       // Remove the row from existingData
       existingData.splice(index, 1);
       localStorage.setItem('dataSource', JSON.stringify(existingData));
+
+      const filteredData = existingData.filter((item: { groupname: any; }) => item.groupname === this.data.groupname);
+
+      this.dataSource = filteredData;
+      console.log(filteredData,this.dataSource);
+
     } else {
-      console.log('Row not found in dataSource local storage.');
+      console.log('Row not found in local storage.');
     }
-  
-    // Remove the deleted row data from the 'dataofgroupnmae' local storage
-    let groupStoredData = localStorage.getItem('dataofgroupnmae');
-    let groupData: any[] = groupStoredData ? JSON.parse(groupStoredData) : [];
-  
-    // Find the index of the deleted row in the group data
-    const groupIndex = groupData.findIndex(item => item.Tags === deletedRowData.Tags && item.username === deletedRowData.username);
-  
-    if (groupIndex !== -1) {
-      // Remove the row from groupData
-      groupData.splice(groupIndex, 1);
-      localStorage.setItem('dataofgroupnmae', JSON.stringify(groupData));
-    } else {
-      console.log('Row not found in dataofgroupnmae local storage.');
-    }
-  
-    // Perform any other necessary actions with the deleted row data
-    console.log('Deleted row data:', deletedRowData);
-  
-    // Optionally, update component properties or perform other actions
+  // Remove the deleted row data from the 'dataofgroupnmae' local storage
+  let groupStoredData = localStorage.getItem('dataofgroupnmae');
+  let groupData: any[] = groupStoredData ? JSON.parse(groupStoredData) : [];
+    console.log("grpd",groupData);
+  // Find the index of the deleted row in the group data
+  const groupIndex = groupData.findIndex(item => item.Tags === deletedRowData.groupname && item.username === deletedRowData.Tags);
+
+  if (groupIndex !== -1) {
+    // Remove the row from groupData
+    groupData.splice(groupIndex, 1);
+    localStorage.setItem('dataofgroupnmae', JSON.stringify(groupData));
+  } else {
+    console.log('Row not found in dataofgroupnmae local storage.');
   }
-  
+
+  // Perform any other necessary actions with the deleted row data
+  console.log('Deleted row data:', deletedRowData);
+
+    }
 
 
   onRowInserting(event: any) {
