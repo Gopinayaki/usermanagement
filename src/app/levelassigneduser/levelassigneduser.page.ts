@@ -16,7 +16,9 @@ export class LevelassigneduserPage implements OnInit {
       tagname: Option[] = []; // Initialize as an empty array
       selectedRows: any[] = [];
       selectUser!: [];
+      selectedValue: Option[] = [];
       accessallonly: string[] = ["All", "Only", "Exclude"];
+      selAccLevel: string | undefined;
 
       // @Input() data:any
       constructor(@Inject(MAT_DIALOG_DATA) public data: any) { 
@@ -59,15 +61,11 @@ export class LevelassigneduserPage implements OnInit {
           }
       }
       }
-      
-
 
       onValChanged(event: any) {
         const selectedValue = event.value;
         console.log(selectedValue)
-      
-        // Save selected value in local storage
-        localStorage.setItem('selectedAccessLevel', JSON.stringify(selectedValue));
+        localStorage.setItem("selAccLevel",selectedValue)
       }
       
       onValueChanged(event: any) {
@@ -75,9 +73,10 @@ export class LevelassigneduserPage implements OnInit {
         
         // Just an example, you can handle the selected options here
         const gname = this.data.levels;
+        const selAccLevel = localStorage.getItem("selAccLevel");
         const selectedOptions: Option[] = event.value;
         console.log(selectedOptions) // Explicitly specify the type of selectedOptions
-        const mappedData = selectedOptions.map(option => ({ Tags: option, levels: gname }));
+        const mappedData = selectedOptions.map(option => ({ Tags: option, levels: gname, accesslevel: selAccLevel }));
       
         let storedData = localStorage.getItem('leveluser');
         let existingData: any[] = storedData ? JSON.parse(storedData) : [];
@@ -135,8 +134,7 @@ export class LevelassigneduserPage implements OnInit {
         let storedData = localStorage.getItem('leveluser');
         let data: any[] = storedData ? JSON.parse(storedData) : [];
       
-        // Use a Set to keep track of unique combinations of Tags and levels
-        // const uniqueEntries = new Set(existingData.map(item => JSON.stringify(item)));
+       
       
         console.log(data);
 
@@ -150,12 +148,13 @@ export class LevelassigneduserPage implements OnInit {
         existingData = Array.from(uniqueEntries).map(item => JSON.parse(item));
         
         // Filter the data based on levels
-        const filteredData = existingData.filter((item: { levels: any; }) => item.levels === gname);
+        const filteredData = existingData.filter((item: { levels: any; }) => item.levels === gname );
+    ;
         localStorage.setItem('leveluser', JSON.stringify(existingData));
 
         // Update the dataSource and save it to local storage
         this.dataSource = filteredData;
-
+     
         console.log(existingData, this.dataSource);
       
         }

@@ -1,6 +1,7 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
-    <ion-title>{{ data.levels }}</ion-title>
+    <ion-title>Level Name:<p style="display: inline; font-size: 15px;">{{ data.levels }}</p></ion-title>
+
   </ion-toolbar>
 </ion-header>
 
@@ -23,28 +24,7 @@
 
       >
 
-    <!-- New column with dropdown -->
-    <dxi-column dataField="Access" caption="Access">
-      <div *dxTemplate="let cellInfo of 'accessEditor'">
-        <dx-select-box
-          [dataSource]="accessallonly"
-          displayExpr="plates"
-          valueExpr="plates"
-          [(ngModel)]="cellInfo.data.Access"
-        ></dx-select-box>
-      </div>
-    </dxi-column>
 
-
-        <dxo-editing
-            [allowAdding]="true"
-            [allowUpdating]="true"
-            [allowDeleting]="true"
-            [useIcons]="true"
-            >
-        </dxo-editing>
-
-        <dxi-column dataField="ID" caption="ID" [visible]="false"></dxi-column>
 
 
 
@@ -64,8 +44,27 @@
         </div>
       
         </dxi-column>
+        
+    <!-- New column with dropdown -->
+    <dxi-column dataField="Access" caption="Access" editCellTemplate="accessEditor" >
+      <div *dxTemplate="let cellInfo of 'accessEditor'">
+        <dx-select-box
+          [dataSource]="accessallonly"
+          (onValueChanged)="onValChanged($event)"
+        ></dx-select-box>
+      </div>
+    </dxi-column>
+
 
       
+        <dxo-editing
+            [allowAdding]="true"
+            [allowUpdating]="true"
+            [allowDeleting]="true"
+            [useIcons]="true"
+            >
+        </dxo-editing>
+
       
     </dx-data-grid>
 
