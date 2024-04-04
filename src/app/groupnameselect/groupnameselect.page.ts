@@ -21,7 +21,6 @@ export class GroupnameselectPage implements OnInit {
   showNavButtons = true;
   groupdatasource: any [] =[];
   gp: Option[] = []; 
-  
   selectedRows: any[] = [];
   selectGroup!: [];
   

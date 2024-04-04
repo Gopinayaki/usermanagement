@@ -1,17 +1,17 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
-    <ion-title > {{ data.groupname }}</ion-title>
+    <ion-title>Level Name:<p style="display: inline; font-size: 15px;">{{ data.levels }}</p></ion-title>
   </ion-toolbar>
- 
 </ion-header>
+
 
 <ion-content [fullscreen]="true">
 
-      <dx-data-grid
+  <dx-data-grid
       class="grid"
       [dataSource]="dataSource"
       [showBorders]="true"
-      [allowSorting]="true"
+      allowSorting="true"
       [rowAlternationEnabled]="true"
       [allowColumnResizing]="true"
       (onRowInserted)="onRowInserting($event)"
@@ -19,7 +19,20 @@
     >
     <dxi-column dataField="Tags" caption="Select User" editCellTemplate="tagBoxEditor">
     </dxi-column>
+    <dxi-column dataField="accesslevel" caption="Acess Level" editCellTemplate="accesuserselect" >
+     
 
+        <div *dxTemplate="let cellInfo of 'accesuserselect'">
+          <dx-select-box  [dataSource]="accessallonly"
+                      (onValueChanged)="onValChanged($event)"
+
+                      >
+          </dx-select-box>
+      </div>
+
+
+    </dxi-column>
+    
       <div *dxTemplate="let cellInfo of 'tagBoxEditor'">
           <dx-tag-box [dataSource]="tagname" 
                       [showSelectionControls]="true"
@@ -39,5 +52,5 @@
           [useIcons]="true">
       </dxo-editing>
     </dx-data-grid>
-
-</ion-content>  
+    
+</ion-content>

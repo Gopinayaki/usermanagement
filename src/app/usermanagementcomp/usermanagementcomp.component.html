@@ -72,8 +72,8 @@
               <dxo-popup
                   title="Group Info"
                   [showTitle]="true"
-                  [width]="450"
-                  [height]="300"
+                  [width]="350"
+                  [height]="250"
                   position="center"
               ></dxo-popup>
       
@@ -152,15 +152,14 @@
               <!-- External Activity Management -->
             <dxi-column caption="External Activity Management" [alignment]="'center'">
               <dxi-column dataField="externalActivityView" caption="View" dataType="boolean"></dxi-column>
-              <dxi-column dataField="externalActivityEdit" caption="Edit" dataType="boolean"></dxi-column>
+              <dxi-column dataField="externalActivityEdit" caption="Control" dataType="boolean"></dxi-column>
             </dxi-column>
 
             <!-- SMS/Email Configuration -->
             <dxi-column caption="SMS/Email Configuration" [alignment]="'center'">
               <dxi-column dataField="smsConfigView" caption="View" dataType="boolean"></dxi-column>
-              <dxi-column dataField="smsConfigEdit" caption="Edit" dataType="boolean"></dxi-column>
-              <dxi-column dataField="emailConfigView" caption="View" dataType="boolean"></dxi-column>
-              <dxi-column dataField="emailConfigEdit" caption="Edit" dataType="boolean"></dxi-column>
+              <dxi-column dataField="smsConfigEdit" caption="Control" dataType="boolean"></dxi-column>
+           
             </dxi-column>
 
             <!-- Support Management -->
@@ -234,25 +233,26 @@
             [useIcons]="true"
             >
             <dxo-popup
-            title="User Add/Edit"
+            title="User Info"
             [showTitle]="true"
             [width]="450"
-            [height]="450"
+            [height]="400"
             position="centre"
           >   
           </dxo-popup>
       
 
-          <dxo-form colCount="1">
+          <dxo-form colCount="1">           
             <dxi-item dataField="username" caption="User Name" [fixed]="true" [dataType]="'string'">
-            <!-- <dxi-validation-rule type="required" message="Username is required"></dxi-validation-rule> -->
+            <dxi-validation-rule type="required" message="Username is required"></dxi-validation-rule>
             </dxi-item>
       
             <dxi-item dataField="password">
-              <!-- <dxi-validation-rule type="required" message="Password is required" ></dxi-validation-rule> -->
+         <!-- <dxi-validation-rule type="required" message="Password is required" ></dxi-validation-rule> -->
           </dxi-item>
 
-          <dxi-item dataField="mobilenumber" caption="Mobile Number" [width]="150" [dataType]="'number'">
+          <dxi-item dataField="mobilenumber" caption="Mobile Number" 
+          [width]="150" [dataType]="'number'">
         </dxi-item>
       
             <dxi-item dataField="emailid" caption="Email" [width]="170" [dataType]="'email'">
@@ -339,15 +339,14 @@
         <!-- External Activity Management -->
       <dxi-column caption="External Activity Management" [alignment]="'center'">
         <dxi-column dataField="externalActivityView" caption="View" dataType="boolean"></dxi-column>
-        <dxi-column dataField="externalActivityEdit" caption="Edit" dataType="boolean"></dxi-column>
+        <dxi-column dataField="externalActivityEdit" caption="Control" dataType="boolean"></dxi-column>
       </dxi-column>
 
       <!-- SMS/Email Configuration -->
       <dxi-column caption="SMS/Email Configuration" [alignment]="'center'">
         <dxi-column dataField="smsConfigView" caption="View" dataType="boolean"></dxi-column>
-        <dxi-column dataField="smsConfigEdit" caption="Edit" dataType="boolean"></dxi-column>
-        <dxi-column dataField="emailConfigView" caption="View" dataType="boolean"></dxi-column>
-        <dxi-column dataField="emailConfigEdit" caption="Edit" dataType="boolean"></dxi-column>
+        <dxi-column dataField="smsConfigEdit" caption="Control" dataType="boolean"></dxi-column>
+       
       </dxi-column>
 
       <!-- Support Management -->

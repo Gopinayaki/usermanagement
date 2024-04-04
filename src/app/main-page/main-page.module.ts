@@ -14,7 +14,7 @@ import {MatToolbarModule} from '@angular/material/toolbar';
 import {MatSidenavModule} from '@angular/material/sidenav';
 import { MatListModule } from '@angular/material/list';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { DxButtonModule, DxDataGridModule, DxDropDownBoxModule, DxListModule, DxSelectBoxModule, DxTextBoxModule } from 'devextreme-angular';
+import { DxButtonModule, DxDataGridModule, DxDropDownBoxModule, DxFormModule, DxListModule, DxSelectBoxModule, DxTextBoxModule, DxTreeListModule } from 'devextreme-angular';
 import { PagemanagementComponent } from '../pagemanagement/pagemanagement.component';
 import { InputTextModule } from 'primeng/inputtext';
 import { DxiValidationRuleModule } from 'devextreme-angular/ui/nested';
@@ -44,7 +44,9 @@ import { HeirarchymanagemnetComponent } from '../heirarchymanagemnet/heirarchyma
       DxDropDownBoxModule,
       DxListModule,
       DxSelectBoxModule,
-      DxButtonModule
+      DxButtonModule,
+      DxTreeListModule,
+      DxFormModule
       
     ],
   declarations: [MainPagePage,UsermanagementcompComponent,PagemanagementComponent,HeirarchymanagemnetComponent],

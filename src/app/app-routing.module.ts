@@ -28,6 +28,14 @@ const routes: Routes = [
     path: 'groupnameselect',
     loadChildren: () => import('./groupnameselect/groupnameselect.module').then( m => m.GroupnameselectPageModule)
   },
+  {
+    path: 'levelassigneduser',
+    loadChildren: () => import('./levelassigneduser/levelassigneduser.module').then( m => m.LevelassigneduserPageModule)
+  },
+  {
+    path: 'levelassignedgroups',
+    loadChildren: () => import('./levelassignedgroups/levelassignedgroups.module').then( m => m.LevelassignedgroupsPageModule)
+  },
 ];
 
 @NgModule({

@@ -9,8 +9,8 @@ export class MainPagePage  {
 
 
   list = [
-    { name: 'User Mangement', url: '/main-page/usercomponmentcomp'},
-    { name: 'Page Management', url: '/main-page/pagemanagement'},
+    { name: 'User Mangement', url: '/main-page/usercomponmentcomp', icon: 'profile-user.png'},
+    { name: 'Page Management', url: '/main-page/pagemanagement', icon:'content.png'},
     { name: 'Report Management', url: '/main-page/reportmanagemnet'},
     { name: 'Heirachy Management', url: '/main-page/heirarchymanagemnet'},
     { name: 'FTP Management', url: '/main-page/fptmanagement'},

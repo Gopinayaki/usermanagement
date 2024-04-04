@@ -1,11 +1,13 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
-    <ion-title>{{ data.username }}</ion-title>
+    <ion-title>{{ data.levels }}</ion-title>
   </ion-toolbar>
 </ion-header>
 
-      <ion-content [fullscreen]="true">
-        <dx-data-grid
+
+<ion-content [fullscreen]="true">
+      
+      <dx-data-grid
         [dataSource]="groupdatasource"
         [showBorders]="true"
         class="grid"
@@ -19,7 +21,21 @@
         (onRowInserted)="onRowInserted($event)"
         (onRowRemoving)="onRowremove($event)"
 
-       >
+      >
+
+    <!-- New column with dropdown -->
+    <dxi-column dataField="Access" caption="Access">
+      <div *dxTemplate="let cellInfo of 'accessEditor'">
+        <dx-select-box
+          [dataSource]="accessallonly"
+          displayExpr="plates"
+          valueExpr="plates"
+          [(ngModel)]="cellInfo.data.Access"
+        ></dx-select-box>
+      </div>
+    </dxi-column>
+
+
         <dxo-editing
             [allowAdding]="true"
             [allowUpdating]="true"
@@ -27,8 +43,11 @@
             [useIcons]="true"
             >
         </dxo-editing>
-    
+
         <dxi-column dataField="ID" caption="ID" [visible]="false"></dxi-column>
+
+
+
         <dxi-column dataField="Tags" caption="Group Name" editCellTemplate="groupNAMEditor" >
           <div *dxTemplate="let cellInfo of 'groupNAMEditor'">
             <dx-tag-box [dataSource]="gp" 
@@ -38,13 +57,17 @@
                         [multiline]="true"
                         displayExpr="text"
                         valueExpr="text"
-                         (onValueChanged)="onValueChanged($event)"
+                        (onValueChanged)="onValueChanged($event)"
 
                         >
             </dx-tag-box>
         </div>
       
         </dxi-column>
-       
+
+      
+      
     </dx-data-grid>
-      </ion-content>
+
+</ion-content>
+

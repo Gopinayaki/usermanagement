@@ -97,21 +97,35 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 }
 .dx-header-row>td>.dx-datagrid-text-content:not(.dx-sort-indicator):not(.dx-header-filter-indicator) {
   font-size: 16px;
-  color:#673ab7;
+  color: #0f204b;
   font-weight: bold;
 }
 
 .dx-datagrid-headers .dx-datagrid-table .dx-row>td {
   font-size: 16px;
-  color:#673ab7;
+  color:#0f204b;
   font-weight: bold;
 text-align: center !important;
 }
 
+.dx-treelist-headers .dx-treelist-table .dx-row>td {
+
+  font-size: 16px;
+  color:#0f204b;
+  font-weight: bold;
+text-align: center !important;
+
+}
+
+
+ion-toolbar {
+  --background:#0f204b ;
+  color:#fff;
+}
 
   .dx-popup-title.dx-toolbar {
 
- background-color: #673ab7;
+ background-color: #0f204b;
   color: #fff;
 
   }
@@ -140,3 +154,19 @@ text-align: center !important;
   color: white;
 
 }
+
+.dx-button[aria-label="Save"] {
+  background-color: green;
+color: #fff;
+border: green;
+}
+.dx-button[aria-label="Cancel"] {
+    background-color: red;
+    color: #fff;
+border: 1px solid red;
+}
+
+// .dx-popup-bottom {
+
+//   margin-left: -86px;
+// }

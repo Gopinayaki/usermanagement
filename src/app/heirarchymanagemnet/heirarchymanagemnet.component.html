@@ -1,58 +1,49 @@
+<div id="tree-list-demo"  style="padding: 20px;">
+            <dx-tree-list
+              id="tasks"
+              [dataSource]="tasksData"
+              keyExpr="Task_ID"
+              parentIdExpr="Task_Parent_ID"
+              [showRowLines]="true"
+              [showBorders]="true"
+              [allowSorting]="true"
+              [columnAutoWidth]="true"
+              [rowAlternationEnabled]="true"
+              [allowColumnResizing]="true"
+              [showBorders]="true"
+              (onRowInserted)="onRowInserted($event)"
+              (onRowRemoving)="onrowdeleted($event)"
+              [customizeColumns]="customizeColumns"
 
-<dx-data-grid
-[dataSource]="grouptable"
-class="grid"
-[showRowLines]="true"
-[showBorders]="true"
-[allowSorting]="true"
-[columnAutoWidth]="true"
-[rowAlternationEnabled]="true"
-[allowColumnResizing]="true"
-[rowAlternationEnabled]="true"
-(onInitNewRow)="onInitNewRowForGroupTable($event)"
-(onRowInserted)="onRowInsertedForGroupTable($event)"
-(onRowUpdated)="onRowUpdatingForGroupTable($event)"
-(onRowRemoving)="onRowUpdatingForGroupTable($event)"
-[customizeColumns]="customizeColumns"
-(onCellClick)="onCellClick($event)"
->
+            >
+            <dxo-templates  style="text-align: center !important; ">
+              <div *dxTemplate="let data of 'customCellTemplategroups'"  style="text-align: center;">
+                  <mat-icon (click)="openDialogroup(data)">list</mat-icon>
+              </div>
+          </dxo-templates>
 
+          <dxo-templates  style="text-align: center !important; ">
+            <div *dxTemplate="let data of 'customCellTemplateusers'"  style="text-align: center;">
+                <mat-icon (click)="openDialousers(data)">list</mat-icon>
+            </div>
+        </dxo-templates>
 
-<dxi-column dataField="groupname" caption="Group Name" [fixed]="true" [alignment]="'center'"></dxi-column>
-<dxi-column dataField="active" caption="Active" [dataType]="'boolean'" [alignment]="'center'"></dxi-column>
-<dxi-column dataField="createdby" caption="Created By" [alignment]="'center'"></dxi-column>
-<dxi-column dataField="createdTime" caption="Created Time" [width]="170" [alignment]="'center'"></dxi-column>
+       
 
-<dxo-templates >
-  <div *dxTemplate="let data of 'customCellTemplate'">
-      <mat-icon (click)="openDialog(data)">list</mat-icon>
-  </div>
-</dxo-templates>
+      <dxi-column dataField="id" [Width]="150" [visible]="false"></dxi-column>
+    
+      <dxi-column dataField="levels" [alignment]="'left'"> 
+        <dxi-validation-rule type="required" ></dxi-validation-rule>
+      </dxi-column>  
 
-
-<dxo-search-panel [visible]="true"></dxo-search-panel>
-<dxo-paging [pageSize]="10"></dxo-paging>
-<dxo-editing
-    mode="popup"
-    [allowUpdating]="true"
+      <dxo-editing
+    mode="cell"
     [allowAdding]="true"
+    [allowUpdating]="true"
     [allowDeleting]="true"
     [useIcons]="true"
->
-    <dxo-popup
-        title="Group Info"
-        [showTitle]="true"
-        [width]="550"
-        [height]="300"
-        position="center"
-    ></dxo-popup>
-
-    <dxo-form>
-        <dxi-item dataField="groupname" caption="Group Name" [fixed]="true" [alignment]="'center'"></dxi-item>
-        <dxi-item dataField="assignedusers" caption="Users" [alignment]="'center'" [visible]="false" [alignment]="'center'" ></dxi-item>
-        <dxi-item dataField="active" caption="Active" [dataType]="'boolean'" [alignment]="'center'"></dxi-item>
-        <dxi-item dataField="createdby" caption="Created By" [alignment]="'center'" [visible]="false"></dxi-item>
-        <dxi-item dataField="createdTime" caption="Created Time" [width]="170" [alignment]="'center'" [visible]="false"></dxi-item>
-    </dxo-form>   
-</dxo-editing>
-</dx-data-grid>
+ 
+  >
+  </dxo-editing>
+    </dx-tree-list>
+  </div>
