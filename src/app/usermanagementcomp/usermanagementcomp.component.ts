@@ -136,19 +136,32 @@ export class UsermanagementcompComponent  implements OnInit {
 
   onrowupdateuseraccesstable(event: any) {
     
-    console.log(event)
-    // const updatedUserAccess = event.data;
+  // const name = event.key['username1'];
+  //   const updatedData = event.data;
+  //   updatedData['username1'] = name;    // localStorage.setItem('userAccessData', JSON.stringify(updatedUserAccess));
 
-    // Update this.useraccess array
-    // this.useraccess.push(updatedUserAccess);
+  //   this.useraccess.push(updatedData);
+  //   localStorage.setItem('useraccess', JSON.stringify(this.useraccess));
 
-    const name = event.key['username1'];
-    const updatedData = event.data;
-    updatedData['username1'] = name;    // localStorage.setItem('userAccessData', JSON.stringify(updatedUserAccess));
-    const dataToSave = JSON.stringify(updatedData);
-    localStorage.setItem('useraccess', dataToSave);
+    const username = event.data.username1;
 
-    console.log(this.useraccess);
+    // Find the index of the object in the useraccess array based on the username
+    const index = this.useraccess.findIndex(item => item.username1 === username);
+
+    // If the username exists in the useraccess array
+    if (index !== -1) {
+      this.useraccess[index] = {
+        ...this.useraccess[index], // Keep existing properties
+        ...event.data // Add additional properties from event data
+      };
+
+      // Save the updated useraccess array to localStorage
+      localStorage.setItem('useraccess', JSON.stringify(this.useraccess));
+
+      console.log('Updated useraccess:', this.useraccess);
+    } else {
+      console.log(`User with username '${username}' not found in useraccess array.`);
+    }
   }
   
 
@@ -163,27 +176,17 @@ export class UsermanagementcompComponent  implements OnInit {
       // Optionally, you can also update this.useraccess if needed
       const userAccessData = usernames.map(username => (
         { 
-          username1: username ,
-          emailConfigEdit: false,
-          emailConfigView: false,
-          externalActivityEdit: false,
-          externalActivityView:false,
-          ftpManagementControl: false,
-          ftpManagementView: false,
-          hierarchyManagementControl: false,
-          hierarchyManagementView: false,
-          reportManagementControl: false,
-          reportManagementView: false,
-          smsConfigEdit: false,
-          smsConfigView: false,
-          supportControl: false,
-          supportView: false,
-          userManagementControl: false,
-          userManagementView: false,
+          username1: username 
       }
         ));
+        const storedData = localStorage.getItem('useraccess');
+          if (storedData) {
+            const parsedData = JSON.parse(storedData);
+        console.log("storeddata",storedData,parsedData);
 
-        this.useraccess= userAccessData;
+          }
+        this.useraccess = storedData ? JSON.parse(storedData) : userAccessData;
+
 
         // this.userAccessService.updateUserAccess(userAccessData);
 
@@ -383,35 +386,45 @@ export class UsermanagementcompComponent  implements OnInit {
     localStorage.setItem('groupNames', JSON.stringify(groupNames));
 
 
-    // Optionally, you can also update this.useraccess if needed
-        const groupaccessdta = groupNames.map(groupname => (
+    const groupaccessdta = groupNames.map(groupname => (
     { 
-      groupname1: groupname ,
-      emailConfigEdit: false,
-      emailConfigView: false,
-      externalActivityEdit: false,
-      externalActivityView:false,
-      ftpManagementControl: false,
-      ftpManagementView: false,
-      hierarchyManagementControl: false,
-      hierarchyManagementView: false,
-      reportManagementControl: false,
-      reportManagementView: false,
-      smsConfigEdit: false,
-      smsConfigView: false,
-      supportControl: false,
-      supportView: false,
-      userManagementControl: false,
-      userManagementView: false,
+      groupname1: groupname 
     }
     ));
+    const storedData = localStorage.getItem('groupaccess');
+    if (storedData) {
+      const parsedData = JSON.parse(storedData);
+      console.log("storeddata",storedData,parsedData);
+      }
 
-    this.groupaccess= groupaccessdta;
+      this.groupaccess = storedData ? JSON.parse(storedData) : groupaccessdta;
+      console.log("groupaccess",this.groupaccess);
+
       }
 
       onRowInsertedgrpaccess(event:any){
+        console.log("eve",event)
 
-    console.log(event,'suresh')
+        const groupname = event.data.groupname1;
+
+        // Find the index of the object in the groupaccess array based on the groupname
+        const index = this.groupaccess.findIndex(item => item.groupname1 === groupname);
+    
+        // If the username exists in the useraccess array
+        if (index !== -1) {
+          this.groupaccess[index] = {
+            ...this.groupaccess[index], // Keep existing properties
+            ...event.data // Add additional properties from event data
+          };
+    
+          // Save the updated useraccess array to localStorage
+          localStorage.setItem('groupaccess', JSON.stringify(this.groupaccess));
+    
+          console.log('Updated groupaccess:', this.groupaccess);
+        } else {
+          console.log(`Group with groupname '${groupname}' not found in groupaccess array.`);
+        }
+    
 
       }
 
