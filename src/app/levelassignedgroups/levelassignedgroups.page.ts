@@ -20,142 +20,175 @@ export class LevelassignedgroupsPage implements OnInit {
   gp: Option[] = []; 
   selectedRows: any[] = [];
   selectGroup!: [];
-  accessallonly = [
-    { accessID: 1, plates: "All" },
-    { accessID: 2, plates: "Only" },
-    { accessID: 3, plates: "Exclude" }
+  accessallonly: string[] = ["All", "Only", "Exclude"];
+  selAccLevelgrp: string | undefined;
 
-  ];
+  
   // Assuming group names are strings
   constructor(@Inject(MAT_DIALOG_DATA) public data: any) {
 
 
     
-  }
-
-     ngOnInit(): void {
-       console.log(this.data);
-
-       // Retrieve group names from local storage
-       const storedGroupNames = localStorage.getItem('groupNames');
-       this.groupNames =storedGroupNames ? JSON.parse(storedGroupNames) : [];
-
-       this.gp = this.groupNames.map(groupNAME => ({ text: groupNAME }));
-
-       const storedData = localStorage.getItem('levelgroupname');
-
-       if (storedData) {
-         const parsedData = JSON.parse(storedData);
-         // Use a Set to keep track of unique groupname values
-     const uniqueTags = new Set();
-
-
-     const arrdata = parsedData.filter((item: { levels: any; }) => item.levels === this.data.levels);
-     const filteredData = arrdata.filter((item: { Tags: any; }) => {
-       if (!uniqueTags.has(item.Tags)) {
-         // If the Tags is not already in the set, add it and return true to keep the item
-         uniqueTags.add(item.Tags);
-         return true;
-       }
-       // If the Tags is already in the set, return false to filter it out
-       return false;
-     });
-       
-     if (filteredData.length > 0) {
-       this.groupdatasource = filteredData;
-       console.log(filteredData);
-   } else {
-       console.log('No data found for the selected group.');
-   }
    }
 
-       
-     }
-     onValueChanged(event: any) {
-      this.selectGroup = event.value;
-      // Just an example, you can handle the selected options here
-      const uname = this.data.levels;
-      
-      const selectedOptions: Option[] = event.value;
+      ngOnInit(): void {
+        console.log(this.data);
+
+        // Retrieve group names from local storage
+        const storedGroupNames = localStorage.getItem('groupNames');
+        this.groupNames =storedGroupNames ? JSON.parse(storedGroupNames) : [];
+
+        this.gp = this.groupNames.map(groupNAME => ({ text: groupNAME }));
+
+        const storedData = localStorage.getItem('dataofgroupnmae');
+
+        if (storedData) {
+          const parsedData = JSON.parse(storedData);
+          // Use a Set to keep track of unique groupname values
+      const uniqueTags = new Set();
 
 
-      console.log(selectedOptions) // Explicitly specify the type of selectedOptions
-      const mappedData = selectedOptions.map(option => ({ Tags: option, levels: uname }));
-    
-      let storedData = localStorage.getItem('levelgroupname');
-      let existingData: any[] = storedData ? JSON.parse(storedData) : [];
-    
-      // Use a Set to keep track of unique combinations of Tags and groupname
-      const uniqueEntries = new Set(existingData.map(item => JSON.stringify(item)));
-    
-      // Check for duplicates and only add unique items to the uniqueEntries Set
-      mappedData.forEach(newItem => {
-        const newItemString = JSON.stringify(newItem);
-        uniqueEntries.add(newItemString);
+      const arrdata = parsedData.filter((item: { levels: any; }) => item.levels === this.data.levels);
+      const filteredData = arrdata.filter((item: { Tags: any; }) => {
+        if (!uniqueTags.has(item.Tags)) {
+          // If the Tags is not already in the set, add it and return true to keep the item
+          uniqueTags.add(item.Tags);
+          return true;
+        }
+        // If the Tags is already in the set, return false to filter it out
+        return false;
       });
-    
-      this.selectedRows=mappedData
-      console.log(mappedData, this.groupdatasource);
+        
+      if (filteredData.length > 0) {
+        this.groupdatasource = filteredData;
+        console.log(filteredData);
+    } else {
+        console.log('No data found for the selected group.');
     }
+    }
+      }
 
-    onRowInserted(event:any){
-      const uname = this.data.levels;
-      let storedData = localStorage.getItem('levelgroupname');
-      let data: any[] = storedData ? JSON.parse(storedData) : [];
-    
-      console.log(data);
 
-      // Concatenate existing dataSource with selectedRows
-      let existingData = data.concat(this.selectedRows);
+      onValChanged(event: any) {
+        const selectedValue = event.value;
+        console.log(selectedValue)
+        localStorage.setItem("selAccLevelgrp",selectedValue)
+      }
 
-      // Convert the existingData array to a Set to remove duplicates
-      const uniqueEntries = new Set(existingData.map(item => JSON.stringify(item)));
+      onValueChanged(event: any) {
+        this.selectGroup = event.value;
+        // Just an example, you can handle the selected options here
+        const selAccLevelgrp = localStorage.getItem("selAccLevelgrp");
 
-      // Convert the uniqueEntries Set back to an array of objects
-      existingData = Array.from(uniqueEntries).map(item => JSON.parse(item));
+        const uname = this.data.levels;
+        const selectedOptions: Option[] = event.value;
+        console.log(selectedOptions) // Explicitly specify the type of selectedOptions
+        const mappedData = selectedOptions.map(option => ({ Tags: option, levels: uname, Access: selAccLevelgrp }));
       
-      // Filter the data based on uname
-      const filteredData = existingData.filter((item: { levels: any; }) => item.levels === uname);
-      localStorage.setItem('levelgroupname', JSON.stringify(existingData));
+        let storedData = localStorage.getItem('dataofgroupnmae');
+        let existingData: any[] = storedData ? JSON.parse(storedData) : [];
+      
+        // Use a Set to keep track of unique combinations of Tags and groupname
+        const uniqueEntries = new Set(existingData.map(item => JSON.stringify(item)));
+      
+        // Check for duplicates and only add unique items to the uniqueEntries Set
+        mappedData.forEach(newItem => {
+          const newItemString = JSON.stringify(newItem);
+          uniqueEntries.add(newItemString);
+        });
+      
+        this.selectedRows=mappedData
+        console.log(mappedData, this.groupdatasource);
+      }
 
-      // Update the dataSource and save it to local storage
+      onRowInserted(event:any){
+        const uname = this.data.levels;
+        let storedData = localStorage.getItem('dataofgroupnmae');
+        let data: any[] = storedData ? JSON.parse(storedData) : [];
+      
+        console.log(data);
+
+        // Concatenate existing dataSource with selectedRows
+        let existingData = data.concat(this.selectedRows);
+
+        // Convert the existingData array to a Set to remove duplicates
+        const uniqueEntries = new Set(existingData.map(item => JSON.stringify(item)));
+
+        // Convert the uniqueEntries Set back to an array of objects
+        existingData = Array.from(uniqueEntries).map(item => JSON.parse(item));
+        
+        // Filter the data based on uname
+        const filteredData = existingData.filter((item: { levels: any; }) => item.levels === uname);
+        localStorage.setItem('dataofgroupnmae', JSON.stringify(existingData));
+
+        // Update the dataSource and save it to local storage
+        this.groupdatasource = filteredData;
+
+        console.log(existingData, this.groupdatasource);
+
+        const selectedOptions: Option[] = this.selectGroup;
+        console.log(selectedOptions)
+        const mappedData = selectedOptions.map(option => ({ Tags: uname, groupname: option }));
+        console.log("mappedData", mappedData);
+
+        let userstoredData = localStorage.getItem('dataSource');
+        let userdata: any[] = userstoredData ? JSON.parse(userstoredData) : [];
+      
+        let userexistingData = userdata.concat(mappedData);
+        console.log("userdatam", userexistingData);
+
+        const useruUniqueEntries = new Set(userexistingData.map(item => JSON.stringify(item)));
+        userexistingData = Array.from(useruUniqueEntries).map(item => JSON.parse(item));
+        
+        localStorage.setItem('dataSource', JSON.stringify(userexistingData));
+      
+      }
+
+      onRowremove(event:any){
+
+      // Extract the deleted row data from the event object
+      const deletedRowData = event.data;
+        
+      // Perform any necessary actions with the deleted row data
+      console.log('Deleted row data:', deletedRowData);
+
+
+    // Remove the deleted row data from the local storage
+    let storedData = localStorage.getItem('dataofgroupnmae');
+    let existingData: any[] = storedData ? JSON.parse(storedData) : [];
+
+    // Find the index of the deleted row in the existing data
+    const index = existingData.findIndex(item => item.levels === deletedRowData.levels && item.Tags === deletedRowData.Tags);
+
+    if (index !== -1) {
+      // Remove the row from existingData
+      existingData.splice(index, 1);
+      localStorage.setItem('dataofgroupnmae', JSON.stringify(existingData));
+
+      const filteredData = existingData.filter((item: { levels: any; }) => item.levels === this.data.levels);
+
       this.groupdatasource = filteredData;
+      console.log(filteredData,this.groupdatasource);
 
-      console.log(existingData, this.groupdatasource);
-
-    
-    
+    } else {
+      console.log('Row not found in local storage.');
     }
 
-    onRowremove(event:any){
+      // Also, remove the row from the other dataSource if needed
+      let userStoredData = localStorage.getItem('dataSource');
+      let userExistingData: any[] = userStoredData ? JSON.parse(userStoredData) : [];
 
-    // Extract the deleted row data from the event object
-    const deletedRowData = event.data;
-      
-    // Perform any necessary actions with the deleted row data
-    console.log('Deleted row data:', deletedRowData);
+      console.log("uExistD",userExistingData);
+
+      const userIndex = userExistingData.findIndex(item => item.Tags === deletedRowData.levels && item.groupname === deletedRowData.Tags);
+
+      if (userIndex !== -1) {
+        userExistingData.splice(userIndex, 1);
+        localStorage.setItem('dataSource', JSON.stringify(userExistingData));
+      } else {
+        console.log('Row not found in user data.');
+      }
+      }
 
 
-  // Remove the deleted row data from the local storage
-  let storedData = localStorage.getItem('levelgroupname');
-  let existingData: any[] = storedData ? JSON.parse(storedData) : [];
-
-  // Find the index of the deleted row in the existing data
-  const index = existingData.findIndex(item => item.levels === deletedRowData.levels && item.Tags === deletedRowData.Tags);
-
-  if (index !== -1) {
-    // Remove the row from existingData
-    existingData.splice(index, 1);
-    localStorage.setItem('levelgroupname', JSON.stringify(existingData));
-
-    const filteredData = existingData.filter((item: { levels: any; }) => item.levels === this.data.levels);
-
-    this.groupdatasource = filteredData;
-    console.log(filteredData,this.groupdatasource);
-
-  } else {
-    console.log('Row not found in local storage.');
-  }
-
-}}
-
+}
