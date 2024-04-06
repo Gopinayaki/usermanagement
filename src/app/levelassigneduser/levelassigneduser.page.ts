@@ -1,5 +1,6 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { ModalController } from '@ionic/angular';
 
 // Define an interface for your option objects
 interface Option {
@@ -17,13 +18,20 @@ export class LevelassigneduserPage implements OnInit {
       selectedRows: any[] = [];
       selectUser!: [];
       selectedValue: Option[] = [];
-      accessallonly: string[] = ["All", "Only", "Exclude"];
+      accessallonly = ['All', 'Only', 'Exclude'];
       selAccLevel: string | undefined;
 
       // @Input() data:any
-      constructor(@Inject(MAT_DIALOG_DATA) public data: any) { 
+      constructor(@Inject(MAT_DIALOG_DATA) public data: any,
+      private modalCtrl: ModalController
+    ) { 
     
       }
+
+      closeModal() {
+        this.modalCtrl.dismiss();
+      }
+      
 
       ngOnInit() {
         console.log(this.data);
@@ -76,7 +84,7 @@ export class LevelassigneduserPage implements OnInit {
         const selAccLevel = localStorage.getItem("selAccLevel");
         const selectedOptions: Option[] = event.value;
         console.log(selectedOptions) // Explicitly specify the type of selectedOptions
-        const mappedData = selectedOptions.map(option => ({ Tags: option, levels: gname, accesslevel: selAccLevel }));
+        const mappedData = selectedOptions.map(option => ({ Tags: option, levels: gname, Access: selAccLevel }));
       
         let storedData = localStorage.getItem('leveluser');
         let existingData: any[] = storedData ? JSON.parse(storedData) : [];
@@ -87,6 +95,7 @@ export class LevelassigneduserPage implements OnInit {
         // Check for duplicates and only add unique items to the uniqueEntries Set
         mappedData.forEach(newItem => {
           const newItemString = JSON.stringify(newItem);
+          console.log(newItemString)
           uniqueEntries.add(newItemString);
         });
       
@@ -140,6 +149,7 @@ export class LevelassigneduserPage implements OnInit {
 
         // Concatenate existing dataSource with selectedRows
         let existingData = data.concat(this.selectedRows);
+        console.log(this.selectedRows)
 
         // Convert the existingData array to a Set to remove duplicates
         const uniqueEntries = new Set(existingData.map(item => JSON.stringify(item)));

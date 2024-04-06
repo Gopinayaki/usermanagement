@@ -44,7 +44,11 @@
                   <mat-icon (click)="openDialog(data)">list</mat-icon>
               </div>
           </dxo-templates>
-          
+          <dxo-templates>
+            <div *dxTemplate="let data of 'customCellTemplatelevels'" style="text-align: center;">
+                <mat-icon (click)="openDialogforlevels(data)">list</mat-icon>
+            </div>
+        </dxo-templates>
      
           <dxi-column dataField="groupname" caption="Group Name"  [alignment]="'center'">
             <dxi-validation-rule type="required" message="GroupName is required" ></dxi-validation-rule>
@@ -110,7 +114,7 @@
                 [showInfo]="showInfo"
                 [showNavigationButtons]="showNavButtons"
                 [pager]="{ visible: true, showPageSizeSelector: true, 
-                  allowedPageSizes: [5,10,20], showInfo: true 
+                allowedPageSizes: [5,10,20], showInfo: true 
                   }"
               ></dxo-pager>
               <dxo-editing
@@ -197,7 +201,11 @@
                   </div>
               </dxo-templates>
               
-
+              <dxo-templates  style="text-align: center !important; ">
+                <div *dxTemplate="let data of 'customCellTemplatelevels'"  style="text-align: center;">
+                    <mat-icon (click)="openDialoguserlevel(data)">list</mat-icon>
+                </div>
+            </dxo-templates>
             <dxi-column dataField="username" caption="User Name" [fixed]="true" [alignment]="'center'"></dxi-column>
             <dxi-column dataField="password" mode="password" caption="Password"  [visible]="false" [alignment]="'center'"></dxi-column>
             <dxi-column dataField="mobilenumber" caption="Mobile Number" [alignment]="'center'"></dxi-column>
@@ -236,7 +244,7 @@
             title="User Info"
             [showTitle]="true"
             [width]="450"
-            [height]="400"
+            [height]="430"
             position="centre"
           >   
           </dxo-popup>

@@ -46,8 +46,6 @@ export class HeirarchymanagemnetComponent  implements OnInit {
 
   customizeColumns(columns: any) {
 
-  
-
     const customColumngroup = {
       caption: 'Assigned Groups', // Caption for the column header
       cellTemplate: 'customCellTemplategroups',
@@ -103,15 +101,21 @@ export class HeirarchymanagemnetComponent  implements OnInit {
 
 
          onrowdeleted(event: any) {
-          console.log(event);
-          
-          // Assuming event contains the row data you want to delete
-          const index = this.tasksData.findIndex((task: any) => task.id === event.id); // Modify this condition based on your data structure
+          // Get the index of the deleted row in tasksData
+          const index = this.tasksData.findIndex((item: any) => item.Task_ID === event.data.Task_ID);
+          console.log("After deletion:", this.tasksData);
+          console.log("Before deletion:", this.tasksData);
+
+      
+          // If the index is found, remove the row from tasksData
           if (index !== -1) {
-            this.tasksData.splice(index, 1); // Remove the item from the array
-            this.saveToLocalStorage(); // Save the updated data to local storage
+              this.tasksData.splice(index, 1); // Remove the row at the found index
+              console.log("Row deleted:", event.data);
           }
-        }
-        
+      
+          // Save the updated tasksData to local storage
+          this.saveToLocalStorage();
+      }
+      
 
 }

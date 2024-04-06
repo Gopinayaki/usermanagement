@@ -20,7 +20,7 @@ export class LevelassignedgroupsPage implements OnInit {
   gp: Option[] = []; 
   selectedRows: any[] = [];
   selectGroup!: [];
-  accessallonly: string[] = ["All", "Only", "Exclude"];
+  accessallonly = ['All', 'Only', 'Exclude'];
   selAccLevelgrp: string | undefined;
 
   
@@ -40,7 +40,7 @@ export class LevelassignedgroupsPage implements OnInit {
 
         this.gp = this.groupNames.map(groupNAME => ({ text: groupNAME }));
 
-        const storedData = localStorage.getItem('dataofgroupnmae');
+        const storedData = localStorage.getItem('levelgroupaccess');
 
         if (storedData) {
           const parsedData = JSON.parse(storedData);
@@ -85,7 +85,7 @@ export class LevelassignedgroupsPage implements OnInit {
         console.log(selectedOptions) // Explicitly specify the type of selectedOptions
         const mappedData = selectedOptions.map(option => ({ Tags: option, levels: uname, Access: selAccLevelgrp }));
       
-        let storedData = localStorage.getItem('dataofgroupnmae');
+        let storedData = localStorage.getItem('levelgroupaccess');
         let existingData: any[] = storedData ? JSON.parse(storedData) : [];
       
         // Use a Set to keep track of unique combinations of Tags and groupname
@@ -103,7 +103,7 @@ export class LevelassignedgroupsPage implements OnInit {
 
       onRowInserted(event:any){
         const uname = this.data.levels;
-        let storedData = localStorage.getItem('dataofgroupnmae');
+        let storedData = localStorage.getItem('levelgroupaccess');
         let data: any[] = storedData ? JSON.parse(storedData) : [];
       
         console.log(data);
@@ -119,7 +119,7 @@ export class LevelassignedgroupsPage implements OnInit {
         
         // Filter the data based on uname
         const filteredData = existingData.filter((item: { levels: any; }) => item.levels === uname);
-        localStorage.setItem('dataofgroupnmae', JSON.stringify(existingData));
+        localStorage.setItem('levelgroupaccess', JSON.stringify(existingData));
 
         // Update the dataSource and save it to local storage
         this.groupdatasource = filteredData;
@@ -154,7 +154,7 @@ export class LevelassignedgroupsPage implements OnInit {
 
 
     // Remove the deleted row data from the local storage
-    let storedData = localStorage.getItem('dataofgroupnmae');
+    let storedData = localStorage.getItem('levelgroupaccess');
     let existingData: any[] = storedData ? JSON.parse(storedData) : [];
 
     // Find the index of the deleted row in the existing data
@@ -163,7 +163,7 @@ export class LevelassignedgroupsPage implements OnInit {
     if (index !== -1) {
       // Remove the row from existingData
       existingData.splice(index, 1);
-      localStorage.setItem('dataofgroupnmae', JSON.stringify(existingData));
+      localStorage.setItem('levelgroupaccess', JSON.stringify(existingData));
 
       const filteredData = existingData.filter((item: { levels: any; }) => item.levels === this.data.levels);
 

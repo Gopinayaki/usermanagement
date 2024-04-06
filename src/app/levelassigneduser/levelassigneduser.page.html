@@ -1,6 +1,11 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
-    <ion-title>Level Name:<p style="display: inline; font-size: 15px;">{{ data.levels }}</p></ion-title>
+    <ion-title>{{ data.levels }}</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="closeModal()">
+        <ion-icon slot="icon-only" name="close"></ion-icon>
+      </ion-button>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
@@ -19,7 +24,7 @@
     >
     <dxi-column dataField="Tags" caption="Select User" editCellTemplate="tagBoxEditor">
     </dxi-column>
-    <dxi-column dataField="accesslevel" caption="Acess Level" editCellTemplate="accesuserselect" >
+    <dxi-column dataField="Access" caption="Acess Level" editCellTemplate="accesuserselect" >
      
 
         <div *dxTemplate="let cellInfo of 'accesuserselect'">
@@ -45,6 +50,8 @@
                       >
           </dx-tag-box>
       </div>
+
+      
       <dxo-editing
           mode="row"
           [allowAdding]="true"

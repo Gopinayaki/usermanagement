@@ -36,6 +36,14 @@ const routes: Routes = [
     path: 'levelassignedgroups',
     loadChildren: () => import('./levelassignedgroups/levelassignedgroups.module').then( m => m.LevelassignedgroupsPageModule)
   },
+  {
+    path: 'levelview',
+    loadChildren: () => import('./levelview/levelview.module').then( m => m.LevelviewPageModule)
+  },
+  {
+    path: 'levelviewusers',
+    loadChildren: () => import('./levelviewusers/levelviewusers.module').then( m => m.LevelviewusersPageModule)
+  },
 ];
 
 @NgModule({
