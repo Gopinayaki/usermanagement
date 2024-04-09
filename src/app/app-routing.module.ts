@@ -43,11 +43,10 @@ const routes: Routes = [
   {
     path: 'levelviewusers',
     loadChildren: () => import('./levelviewusers/levelviewusers.module').then( m => m.LevelviewusersPageModule)
-  },
+  }
 ];
 
 @NgModule({
-  
   imports: [
     RouterModule.forRoot(routes,{ preloadingStrategy: PreloadAllModules })
   ],

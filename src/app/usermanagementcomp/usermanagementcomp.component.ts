@@ -4,7 +4,6 @@ import { MatDialog } from '@angular/material/dialog';
 import { ModalController } from '@ionic/angular';
 import { UsermodelPage } from '../usermodel/usermodel.page';
 import { GroupnameselectPage } from '../groupnameselect/groupnameselect.page';
-import { LevelviewPageModule } from '../levelview/levelview.module';
 import { LevelviewPage } from '../levelview/levelview.page';
 import { LevelviewusersPage } from '../levelviewusers/levelviewusers.page';
 
@@ -27,8 +26,6 @@ export class UsermanagementcompComponent  implements OnInit {
   groupaccess: any[] = [];
   users: any[] = [];
   isNewlyAddedRow: boolean = false;
-
-
 
 
       onInitNewRow(event: any) {
@@ -91,9 +88,18 @@ export class UsermanagementcompComponent  implements OnInit {
     console.log(this.useraccess);
     this.updateUserAccess();
     this.retrieveUsernamesFromUserAccess();
-    this.saveGroupNameToLocalStorage();
+    // this.saveGroupNameToLocalStorage();
 
-  }
+
+    // const astoredData = localStorage.getItem('groupaccess');
+    // if (astoredData) {
+    //   const parsedData = JSON.parse(astoredData);
+    //   console.log("storeddata",astoredData,parsedData);
+    //   }
+    //   this.groupaccess = astoredData ? JSON.parse(astoredData)
+    
+    // }
+    }
 
     onEditorPreparing(e:any) {
         if (e.parentType === 'dataRow' && e.dataField === 'password') {
@@ -136,26 +142,20 @@ export class UsermanagementcompComponent  implements OnInit {
 
       }
 
-  onrowupdateuseraccesstable(event: any) {
-    
-    console.log(event)
-    // const updatedUserAccess = event.data;
+        onrowupdateuseraccesstable(event: any) {
+          console.log(event)
+          // const updatedUserAccess = event.data;
+          // Update this.useraccess array
+          // this.useraccess.push(updatedUserAccess);
+          const name = event.key['username1'];
+          const updatedData = event.data;
+          updatedData['username1'] = name;    // localStorage.setItem('userAccessData', JSON.stringify(updatedUserAccess));
+          const dataToSave = JSON.stringify(updatedData);
+          localStorage.setItem('useraccess', dataToSave);
 
-    // Update this.useraccess array
-    // this.useraccess.push(updatedUserAccess);
-
-    const name = event.key['username1'];
-    const updatedData = event.data;
-    updatedData['username1'] = name;    // localStorage.setItem('userAccessData', JSON.stringify(updatedUserAccess));
-    const dataToSave = JSON.stringify(updatedData);
-    localStorage.setItem('useraccess', dataToSave);
-
-    console.log(this.useraccess);
-  }
-  
-
- 
-
+          console.log(this.useraccess);
+        }
+        
 
           updateUserAccess() {
           // Extract usernames and store them separately
@@ -187,31 +187,6 @@ export class UsermanagementcompComponent  implements OnInit {
 
             this.useraccess= userAccessData;
 
-            // this.userAccessService.updateUserAccess(userAccessData);
-
-
-            //  this.useraccess = [];
-            //  for (let i = 0; i < usernames.length; i++) {
-            //      this.useraccess.push({ username1: usernames[i] ,
-            //       emailConfigEdit: false,
-            //       emailConfigView: false,
-            //       externalActivityEdit: false,
-            //       externalActivityView:false,
-            //       ftpManagementControl: false,
-            //       ftpManagementView: false,
-            //       hierarchyManagementControl: false,
-            //       hierarchyManagementView: false,
-            //       reportManagementControl: false,
-            //       reportManagementView: false,
-            //       smsConfigEdit: false,
-            //       smsConfigView: false,
-            //       supportControl: false,
-            //       supportView: false,
-            //       userManagementControl: false,
-            //       userManagementView: false,
-            
-            //     });
-            //  }
           }
 
         retrieveUsernamesFromUserAccess() {
@@ -239,8 +214,6 @@ export class UsermanagementcompComponent  implements OnInit {
           // Set the formatted date and time to the "createdTime" property
           event.data.createdTime = formattedDate;
           this.grouptablesave();
-
-
           let data = event.data;  
           data.createdby=localStorage.getItem('userName');
           console.log(data)
@@ -252,8 +225,7 @@ export class UsermanagementcompComponent  implements OnInit {
           onRowInsertedForGroupTable(event:any){
           console.log(event)
           this.grouptablesave();
-          this.saveGroupNameToLocalStorage();
-
+          this.saveGroupNameToLocalStorage(); 
 
           this.isNewlyAddedRow = true;
           }
@@ -316,6 +288,7 @@ export class UsermanagementcompComponent  implements OnInit {
 
             columns.unshift(customColumn2);
 
+            
 
             // Update local storage with the customized columns
           }
@@ -331,7 +304,6 @@ export class UsermanagementcompComponent  implements OnInit {
               };
               
 
-
               const groupselectname2 = {
                 caption: 'Assigned Levels ', // Caption for the column header
                 cellTemplate: 'customCellTemplatelevels',
@@ -346,7 +318,6 @@ export class UsermanagementcompComponent  implements OnInit {
         onCellClick(e: any) {
           console.log('Cell Clicked:', e.data);
         }
-
 
 
         openDialogroup(data:any) {
@@ -381,100 +352,152 @@ export class UsermanagementcompComponent  implements OnInit {
 
           }
 
+          openDialog(data:any) {
+      // Save the clicked cell's data to local storage
 
-        openDialog(data:any) {
-    // Save the clicked cell's data to local storage
+          const name=data.row.data.groupname;
+          console.log('Editing row:', data, name);
 
-        const name=data.row.data.groupname;
-        console.log('Editing row:', data, name);
+          // Open your dialog here
+          this.dialog.open(UsermodelPage, {
+            width: '40%', // Set the width of the dialog
+            height: '60%', // Set the height of the dialog
+              // You can add other options like data, panelClass, etc.
+              data: {
+                groupname: name,
+              },
+          });
+        }
 
-        // Open your dialog here
-        this.dialog.open(UsermodelPage, {
-          width: '40%', // Set the width of the dialog
-          height: '60%', // Set the height of the dialog
-            // You can add other options like data, panelClass, etc.
-            data: {
-              groupname: name,
-            },
-        });
-      }
+        openDialogforlevels(data:any){
 
+          const name=data.row.data.groupname;
+          console.log('Editing row:', data, name);
+          // Open your dialog here
+          this.dialog.open(LevelviewPage, {
+            width: '40%', // Set the width of the dialog
+            height: '60%', // Set the height of the dialog
+              // You can add other options like data, panelClass, etc.
+              data: {
+                groupname: name,
 
-      openDialogforlevels(data:any){
+              },
+          });
 
-        const name=data.row.data.groupname;
-        console.log('Editing row:', data, name);
-        // Open your dialog here
-        this.dialog.open(LevelviewPage, {
-          width: '40%', // Set the width of the dialog
-          height: '60%', // Set the height of the dialog
-            // You can add other options like data, panelClass, etc.
-            data: {
-              groupname: name,
+        }
+        openDialoguserlevel(data:any){
 
-            },
-        });
+          const name=data.row.data.username;
+          console.log('Editing row:', data, name);
+          // Open your dialog here
+          this.dialog.open(LevelviewusersPage, {
+            width: '40%', // Set the width of the dialog
+            height: '60%', // Set the height of the dialog
+              // You can add other options like data, panelClass, etc.
+              data: {
+                username: name,
 
-      }
-      openDialoguserlevel(data:any){
+              },
+          });
 
-        const name=data.row.data.username;
-        console.log('Editing row:', data, name);
-        // Open your dialog here
-        this.dialog.open(LevelviewusersPage, {
-          width: '40%', // Set the width of the dialog
-          height: '60%', // Set the height of the dialog
-            // You can add other options like data, panelClass, etc.
-            data: {
-              username: name,
+        }
 
-            },
-        });
-
-      }
-
-
-
-
-          saveGroupNameToLocalStorage() {
-            // Extract group names from grouptable array
-            const groupNames = this.grouptable.map(group => group.groupname);
+          // saveGroupNameToLocalStorage() {
+          //   // Extract group names from grouptable array
+          //   const groupNames = this.grouptable.map(group => group.groupname);
           
-            // Save group names to local storage
-            localStorage.setItem('groupNames', JSON.stringify(groupNames));
+          //   // Save group names to local storage
+          //   localStorage.setItem('groupNames', JSON.stringify(groupNames));
+          
+          //   // Optionally, you can also update this.useraccess if needed
+          //       const groupaccessdta = groupNames.map(groupname => (
+          //   { 
+          //     groupname1: groupname ,
+          //     emailConfigEdit: false,
+          //     emailConfigView: false,
+          //     externalActivityEdit: false,
+          //     externalActivityView:false,
+          //     ftpManagementControl: false,
+          //     ftpManagementView: false,
+          //     hierarchyManagementControl: false,
+          //     hierarchyManagementView: false,
+          //     reportManagementControl: false,
+          //     reportManagementView: false,
+          //     smsConfigEdit: false,
+          //     smsConfigView: false,
+          //     supportControl: false,
+          //     supportView: false,
+          //     userManagementControl: false,
+          //     userManagementView: false,
+          //   }
+          //   ));
 
+          //     this.groupaccess= groupaccessdta;
+          //   localStorage.setItem('grpacc', JSON.stringify(groupaccessdta));
 
-            // Optionally, you can also update this.useraccess if needed
-                const groupaccessdta = groupNames.map(groupname => (
-            { 
-              groupname1: groupname ,
-              emailConfigEdit: false,
-              emailConfigView: false,
-              externalActivityEdit: false,
-              externalActivityView:false,
-              ftpManagementControl: false,
-              ftpManagementView: false,
-              hierarchyManagementControl: false,
-              hierarchyManagementView: false,
-              reportManagementControl: false,
-              reportManagementView: false,
-              smsConfigEdit: false,
-              smsConfigView: false,
-              supportControl: false,
-              supportView: false,
-              userManagementControl: false,
-              userManagementView: false,
-            }
-            ));
+          //     }
 
-            this.groupaccess= groupaccessdta;
-              }
+            // onRowInsertedgrpaccess(event:any){
+
+            //   const acc = localStorage.getItem('grpacc');
+            //   if (acc !== null) {
+            //       const parsedAcc = JSON.parse(acc); // Parse the string to convert it into an array of objects
+            //       const arrayOfValues = parsedAcc.map((obj: any) => Object.values(obj));
+            //       console.log(arrayOfValues);
+            //   } else {
+            //       console.log('No data found for the key "grpacc" in localStorage.');
+            //   }
+
+            // }
+
 
             onRowInsertedgrpaccess(event:any){
-
-          console.log(event,'suresh')
-
+              console.log("eve",event)
+      
+              const groupname = event.data.groupname1;
+      
+              // Find the index of the object in the groupaccess array based on the groupname
+              const index = this.groupaccess.findIndex(item => item.groupname1 === groupname);
+          
+              // If the username exists in the useraccess array
+              if (index !== -1) {
+                this.groupaccess[index] = {
+                  ...this.groupaccess[index], // Keep existing properties
+                  ...event.data // Add additional properties from event data
+                };
+          
+                // Save the updated useraccess array to localStorage
+                localStorage.setItem('groupaccess', JSON.stringify(this.groupaccess));
+          
+                console.log('Updated groupaccess:', this.groupaccess);
+              } else {
+                console.log(`Group with groupname '${groupname}' not found in groupaccess array.`);
+              }
             }
+      
+            saveGroupNameToLocalStorage() {
+              // Extract group names from grouptable array
+              const groupNames = this.grouptable.map(group => group.groupname);
+            
+              // Save group names to local storage
+              localStorage.setItem('groupNames', JSON.stringify(groupNames));
+          
+          
+              const groupaccessdta = groupNames.map(groupname => (
+              { 
+                groupname1: groupname 
+              }
+              ));
+               console.log(groupaccessdta,'kopi')
+                    //  this.groupaccess= groupaccessdta;
+            localStorage.setItem('groupaccess', JSON.stringify(groupaccessdta));
 
-
+              const storedData = localStorage.getItem('groupaccess');
+              if (storedData) {
+                const parsedData = JSON.parse(storedData);
+                console.log("storeddata",storedData,parsedData);
+                }
+                this.groupaccess = storedData ? JSON.parse(storedData) : groupaccessdta;
+                console.log("groupaccess",this.groupaccess);
+                }
   }
