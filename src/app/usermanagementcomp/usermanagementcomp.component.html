@@ -256,7 +256,7 @@
             </dxi-item>
       
             <dxi-item dataField="password">
-         <!-- <dxi-validation-rule type="required" message="Password is required" ></dxi-validation-rule> -->
+         <dxi-validation-rule type="required" message="Password is required" ></dxi-validation-rule>
           </dxi-item>
 
           <dxi-item dataField="mobilenumber" caption="Mobile Number" 
@@ -266,15 +266,13 @@
             <dxi-item dataField="emailid" caption="Email" [width]="170" [dataType]="'email'">
             
             </dxi-item>
+
       
             <dxi-item dataField="designation" caption="Designation" [dataType]="'string'">
-              <!-- <dxi-validation-rule type="required" message=" Designation is required"></dxi-validation-rule> -->
+              <dxi-validation-rule type="required" message=" Designation is required"></dxi-validation-rule>
             </dxi-item>
-            <dxi-item dataField="active" caption="Active" [dataType]="'boolean'">
-
-            </dxi-item>
-
-          
+            <dxi-item dataField="active" caption="Active" [dataType]="'boolean'"></dxi-item>
+            
           </dxo-form>   
 
         </dxo-editing>
@@ -364,4 +362,5 @@
       </dxi-column>
         </dx-data-grid>
       </ng-container>
+      
     </ion-content>
