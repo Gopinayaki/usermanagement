@@ -86,19 +86,40 @@ export class UsermanagementcompComponent  implements OnInit {
 
     // this.useraccess = this.userAccessService.getUserAccess();
     console.log(this.useraccess);
-    this.updateUserAccess();
+    // this.updateUserAccess();
     this.retrieveUsernamesFromUserAccess();
     // this.saveGroupNameToLocalStorage();
 
 
-    // const astoredData = localStorage.getItem('groupaccess');
-    // if (astoredData) {
-    //   const parsedData = JSON.parse(astoredData);
-    //   console.log("storeddata",astoredData,parsedData);
-    //   }
-    //   this.groupaccess = astoredData ? JSON.parse(astoredData)
+    const astoredData = localStorage.getItem('groupaccess');
+    if (astoredData) {
+      this.groupaccess = JSON.parse(astoredData)
+      console.log("group storeddata",astoredData);
+      
+    }
+
+    const userStoredData = localStorage.getItem('useraccess');
+    if (userStoredData) {
+      this.useraccess = JSON.parse(userStoredData)
+      console.log("user storeddata",userStoredData);
+      const storedUsers = JSON.parse(userStoredData);
+      const normalUser: any[] = [];
+      const specialUser: any[] = [];
     
-    // }
+      storedUsers.forEach((group:any) => {
+        if (group.hierarchyManagementView === true) {
+          specialUser.push(group);
+        } else {
+          normalUser.push(group);
+        }
+      });
+    
+      console.log("Special Users:", specialUser);
+      const usernames = specialUser.map(user => user.username1);
+  console.log("Usernames:", usernames);
+      localStorage.setItem("hierarchyUsers",JSON.stringify(usernames));
+    }
+
     }
 
     onEditorPreparing(e:any) {
@@ -144,16 +165,31 @@ export class UsermanagementcompComponent  implements OnInit {
 
         onrowupdateuseraccesstable(event: any) {
           console.log(event)
-          // const updatedUserAccess = event.data;
-          // Update this.useraccess array
-          // this.useraccess.push(updatedUserAccess);
-          const name = event.key['username1'];
-          const updatedData = event.data;
-          updatedData['username1'] = name;    // localStorage.setItem('userAccessData', JSON.stringify(updatedUserAccess));
-          const dataToSave = JSON.stringify(updatedData);
-          localStorage.setItem('useraccess', dataToSave);
+          // const updatedData = event.data;
+          // updatedData['username1'] = name;    // localStorage.setItem('userAccessData', JSON.stringify(updatedUserAccess));
+          // const dataToSave = JSON.stringify(updatedData);
+          // localStorage.setItem('useraccess', dataToSave);
 
-          console.log(this.useraccess);
+          // console.log(this.useraccess);
+          const username = event.data.username1;
+      
+          // Find the index of the object in the groupaccess array based on the groupname
+          const index = this.useraccess.findIndex(item => item.username1 === username);
+      
+          // If the username exists in the useraccess array
+          if (index !== -1) {
+            this.useraccess[index] = {
+              ...this.useraccess[index], // Keep existing properties
+              ...event.data // Add additional properties from event data
+            };
+      
+            // Save the updated useraccess array to localStorage
+            localStorage.setItem('useraccess', JSON.stringify(this.useraccess));
+      
+            console.log('Updated useraccess:', this.useraccess);
+          } else {
+            console.log(`User with username '${username}' not found in groupaccess array.`);
+          }
         }
         
 
@@ -162,30 +198,27 @@ export class UsermanagementcompComponent  implements OnInit {
           const usernames = this.usertable2.map(user => user.username);
           localStorage.setItem('usernames', JSON.stringify(usernames));
 
-          // Optionally, you can also update this.useraccess if needed
-          const userAccessData = usernames.map(username => (
-            { 
-              username1: username ,
-              emailConfigEdit: false,
-              emailConfigView: false,
-              externalActivityEdit: false,
-              externalActivityView:false,
-              ftpManagementControl: false,
-              ftpManagementView: false,
-              hierarchyManagementControl: false,
-              hierarchyManagementView: false,
-              reportManagementControl: false,
-              reportManagementView: false,
-              smsConfigEdit: false,
-              smsConfigView: false,
-              supportControl: false,
-              supportView: false,
-              userManagementControl: false,
-              userManagementView: false,
-          }
-            ));
+          const existingUserAccess = localStorage.getItem('useraccess');
+          console.log(existingUserAccess, 'existingUserAccess');
 
-            this.useraccess= userAccessData;
+          const existingUserAccessData = existingUserAccess ? JSON.parse(existingUserAccess) : [];
+          console.log(existingUserAccessData, 'existingUserAccessData');
+        
+          // Merge existing groupaccess data with new data, avoiding duplicates
+          const mergedUserAccess = existingUserAccessData.slice(); // Create a shallow copy
+          usernames.forEach(username => {
+              // Check if groupname already exists in mergedUserAccess
+              const exists = mergedUserAccess.some((group:any) => group.username === username);
+              if (!exists) {
+                  // Add groupname to mergedUserAccess if it doesn't already exist
+                  mergedUserAccess.push({ username1: username });
+              }
+          });              
+          localStorage.setItem('useraccess', JSON.stringify(mergedUserAccess));
+        
+          console.log(mergedUserAccess, 'Merged useraccess data');
+
+            this.useraccess= mergedUserAccess;
 
           }
 
@@ -474,30 +507,60 @@ export class UsermanagementcompComponent  implements OnInit {
                 console.log(`Group with groupname '${groupname}' not found in groupaccess array.`);
               }
             }
+
+            
       
             saveGroupNameToLocalStorage() {
-              // Extract group names from grouptable array
-              const groupNames = this.grouptable.map(group => group.groupname);
-            
-              // Save group names to local storage
-              localStorage.setItem('groupNames', JSON.stringify(groupNames));
-          
-          
-              const groupaccessdta = groupNames.map(groupname => (
-              { 
-                groupname1: groupname 
-              }
-              ));
-               console.log(groupaccessdta,'kopi')
-                    //  this.groupaccess= groupaccessdta;
-            localStorage.setItem('groupaccess', JSON.stringify(groupaccessdta));
 
-              const storedData = localStorage.getItem('groupaccess');
-              if (storedData) {
-                const parsedData = JSON.parse(storedData);
-                console.log("storeddata",storedData,parsedData);
-                }
-                this.groupaccess = storedData ? JSON.parse(storedData) : groupaccessdta;
-                console.log("groupaccess",this.groupaccess);
-                }
+                const groupNames = this.grouptable.map(group => group.groupname);
+              
+                localStorage.setItem('groupNames', JSON.stringify(groupNames));
+              
+                const existingGroupAccess = localStorage.getItem('groupaccess');
+                console.log(existingGroupAccess, 'existingGroupAccess');
+
+                const existingGroupAccessData = existingGroupAccess ? JSON.parse(existingGroupAccess) : [];
+                console.log(existingGroupAccessData, 'existingGroupAccessData');
+              
+                // Merge existing groupaccess data with new data, avoiding duplicates
+                const mergedGroupAccess = existingGroupAccessData.slice(); // Create a shallow copy
+                groupNames.forEach(groupname => {
+                    // Check if groupname already exists in mergedGroupAccess
+                    const exists = mergedGroupAccess.some((group:any) => group.groupname1 === groupname);
+                    if (!exists) {
+                        // Add groupname to mergedGroupAccess if it doesn't already exist
+                        mergedGroupAccess.push({ groupname1: groupname });
+                    }
+                });              
+                localStorage.setItem('groupaccess', JSON.stringify(mergedGroupAccess));
+              
+                console.log(mergedGroupAccess, 'Merged groupaccess data');
+``              
+                this.groupaccess = mergedGroupAccess;
+              }
+              
+              // // Extract group names from grouptable array
+              // const groupNames = this.grouptable.map(group => group.groupname);
+            
+              // // Save group names to local storage
+              // localStorage.setItem('groupNames', JSON.stringify(groupNames));
+          
+              // const groupaccessdta = groupNames.map(groupname => (
+              // { 
+              //   groupname1: groupname 
+              // }
+              // ));
+
+              // console.log(groupaccessdta,'kopi')
+              // //  this.groupaccess= groupaccessdta;
+              // localStorage.setItem('groupaccess', JSON.stringify(groupaccessdta));
+
+              // const storedData = localStorage.getItem('groupaccess');
+              // if (storedData) {
+              //   const parsedData = JSON.parse(storedData);
+              //   console.log("storeddata",storedData,parsedData);
+              //   }
+              //   this.groupaccess = storedData ? JSON.parse(storedData) : groupaccessdta;
+              //   console.log("groupaccess",this.groupaccess);
+              //   }
   }
