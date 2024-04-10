@@ -12,23 +12,41 @@ export class HeirarchymanagemnetComponent  implements OnInit {
 
   tasksData = []
   isLevelsEmpty: boolean = true;
-  
+  ShowHierarchyAccess: boolean = false;
   
   constructor(  private dialog: MatDialog) { }
 
   ngOnInit() {
 
 
-        // Retrieve data from local storage when the component initializes
+    // Retrieve data from local storage when the component initializes
     const savedTasksData = localStorage.getItem('tasksData');
     if (savedTasksData) {
       this.tasksData = JSON.parse(savedTasksData);
     }
 
-      }
+    // Get the hierarchy users array from localStorage
+    const users = localStorage.getItem('hierarchyUsers');
+    let user = localStorage.getItem("userName");
+    console.log("usrs",user,users);
+    if (users && user) {
+        // Parse the hierarchy users array
+        const parsedUsers = JSON.parse(users);
+        // Check if the user exists in the parsed users array
+        const userExists = parsedUsers.some((u: any) => u === user);
+        
+        if (userExists) {
+          this.ShowHierarchyAccess = true;
+          console.log("User exists in hierarchy users array.");
+        } else {
+          this.ShowHierarchyAccess = false;
+          console.log("User does not exist in hierarchy users array.");
+        }
+    } else {
+        console.log("Hierarchy users data or user data is missing in localStorage.");
+    }
 
-
-
+    }
 
   onRowInserted(event:any){
     console.log(event)
