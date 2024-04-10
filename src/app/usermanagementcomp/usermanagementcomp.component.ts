@@ -99,22 +99,22 @@ export class UsermanagementcompComponent  implements OnInit {
     if (userStoredData) {
       this.useraccess = JSON.parse(userStoredData)
       console.log("user storeddata",userStoredData);
-      // const storedUsers = JSON.parse(userStoredData);
-      // const normalUser: any[] = [];
-      // const specialUser: any[] = [];
+      const storedUsers = JSON.parse(userStoredData);
+      const normalUser: any[] = [];
+      const specialUser: any[] = [];
     
-      // storedUsers.forEach((group:any) => {
-      //   if (group.hierarchyManagementView === true) {
-      //     specialUser.push(group);
-      //   } else {
-      //     normalUser.push(group);
-      //   }
-      // });
+      storedUsers.forEach((group:any) => {
+        if (group.hierarchyManagementView === true) {
+          specialUser.push(group);
+        } else {
+          normalUser.push(group);
+        }
+      });
     
-  //     console.log("Special Users:", specialUser);
-  //     const usernames = specialUser.map(user => user.username1);
-  // console.log("Usernames:", usernames);
-  //     localStorage.setItem("hierarchyUsers",JSON.stringify(usernames));
+      console.log("Special Users:", specialUser);
+      const usernames = specialUser.map(user => user.username1);
+  console.log("Usernames:", usernames);
+      localStorage.setItem("hierarchyUsers",JSON.stringify(usernames));
     }
 
     }
@@ -224,9 +224,6 @@ export class UsermanagementcompComponent  implements OnInit {
         }
         
 
-
-
-
         retrieveUsernamesFromUserAccess() {
           // Assuming useraccess is your data source containing usernames
           // Extract usernames from useraccess and populate usernamesArray
@@ -270,9 +267,7 @@ export class UsermanagementcompComponent  implements OnInit {
           onRowUpdatingForGroupTable(event:any){
             console.log(event)
             this.grouptablesave();
-            this.saveGroupNameToLocalStorage();
-            
-      
+            this.saveGroupNameToLocalStorage();      
           }
 
 
@@ -511,8 +506,6 @@ export class UsermanagementcompComponent  implements OnInit {
                 console.log(`Group with groupname '${groupname}' not found in groupaccess array.`);
               }
             }
-
-            
       
             saveGroupNameToLocalStorage() {
 
@@ -544,29 +537,5 @@ export class UsermanagementcompComponent  implements OnInit {
 ``              
                 this.groupaccess = mergedGroupAccess;
               }
-              
-              // // Extract group names from grouptable array
-              // const groupNames = this.grouptable.map(group => group.groupname);
-            
-              // // Save group names to local storage
-              // localStorage.setItem('groupNames', JSON.stringify(groupNames));
-          
-              // const groupaccessdta = groupNames.map(groupname => (
-              // { 
-              //   groupname1: groupname 
-              // }
-              // ));
 
-              // console.log(groupaccessdta,'kopi')
-              // //  this.groupaccess= groupaccessdta;
-              // localStorage.setItem('groupaccess', JSON.stringify(groupaccessdta));
-
-              // const storedData = localStorage.getItem('groupaccess');
-              // if (storedData) {
-              //   const parsedData = JSON.parse(storedData);
-              //   console.log("storeddata",storedData,parsedData);
-              //   }
-              //   this.groupaccess = storedData ? JSON.parse(storedData) : groupaccessdta;
-              //   console.log("groupaccessx",this.groupaccess);
-              //   }
   } 
