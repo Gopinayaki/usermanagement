@@ -6,7 +6,17 @@ import { UsermodelPage } from '../usermodel/usermodel.page';
 import { GroupnameselectPage } from '../groupnameselect/groupnameselect.page';
 import { LevelviewPage } from '../levelview/levelview.page';
 import { LevelviewusersPage } from '../levelviewusers/levelviewusers.page';
-
+interface UserData {
+  username: string;
+  password: string;
+  role: string;
+  active: boolean;
+  createdTime: string;
+  createdby: string;
+  designation: string;
+  emailid: string;
+  mobilenumber: string;
+}
 @Component({
   selector: 'app-usermanagementcomp',
   templateUrl: './usermanagementcomp.component.html',
@@ -20,12 +30,18 @@ export class UsermanagementcompComponent  implements OnInit {
   showPageSizeSelector = true;
   showInfo = true;
   showNavButtons = true;
-  usertable2: any[] = [];
+  usertable2: any[] = [
+    {username: 'admin', password:'admin',role:'super-admin', active: true, createdTime: "11-Apr-2024 14:48:42", createdby: "admin", designation: "ddd", emailid: "ddd", mobilenumber: "ddd"},
+    {username: 'supra', password:'supra@123',role:'field-operator', active: true, createdTime: "11-Apr-2024 14:48:42", createdby: "admin", designation: "ddd", emailid: "ddd", mobilenumber: "ddd"},
+    {username: 'manager', password:'manager',role:'personal', active: true, createdTime: "11-Apr-2024 14:48:42", createdby: "admin", designation: "ddd", emailid: "ddd", mobilenumber: "ddd"}
+  ];
   useraccess: any[] = []; 
   grouptable: any[] = []; 
   groupaccess: any[] = [];
   users: any[] = [];
   isNewlyAddedRow: boolean = false;
+
+
 
 
       onInitNewRow(event: any) {
@@ -69,19 +85,28 @@ export class UsermanagementcompComponent  implements OnInit {
 
 
     ngOnInit(): void {
-    
-    // Retrieve data from local storage on component initialization
-    const storedData = localStorage.getItem('usertable2');
-    if (storedData) {
-      this.usertable2 = JSON.parse(storedData);
-    } else {
-      this.usertable2 = []; // Initialize to an empty array if no data exists in local storage
-    }
+      const storedData = localStorage.getItem('usertable2');
+      if (storedData) {
+        // If there's data in local storage, merge it with the constant data
+        const localStorageData: UserData[] = JSON.parse(storedData); // Specify the type of localStorageData
+        // Filter out duplicates
+        const uniqueLocalStorageData = localStorageData.filter((item: UserData) =>
+          !this.usertable2.some(user =>
+            user.username === item.username && user.password === item.password
+          )
+        );
+        // Merge unique data with the constant data
+        this.usertable2 = [...this.usertable2, ...uniqueLocalStorageData];
+      } else {
+        // If there's no data in local storage, use the constant data alone
+        this.usertable2 = [...this.usertable2];
+      }
+
 
     const storedGrouptable1 = localStorage.getItem('grouptable1');
     this.grouptable = storedGrouptable1 ? JSON.parse(storedGrouptable1) : [];
    
-
+    this.useraccess = this.usertable2.map(user => ({ username1: user.username }));
     // this.useraccess = this.userAccessService.getUserAccess();
     console.log(this.useraccess);
     // this.updateUserAccess();
@@ -94,29 +119,31 @@ export class UsermanagementcompComponent  implements OnInit {
       console.log("group storeddata",astoredData);
       
     }
+      this.setheirachy();
 
-    const userStoredData = localStorage.getItem('useraccess');
-    if (userStoredData) {
-      this.useraccess = JSON.parse(userStoredData)
-      console.log("user storeddata",userStoredData);
-      const storedUsers = JSON.parse(userStoredData);
-      const normalUser: any[] = [];
-      const specialUser: any[] = [];
-    
-      storedUsers.forEach((group:any) => {
-        if (group.hierarchyManagementView === true) {
-          specialUser.push(group);
-        } else {
-          normalUser.push(group);
-        }
-      });
-    
-      console.log("Special Users:", specialUser);
-      const usernames = specialUser.map(user => user.username1);
-  console.log("Usernames:", usernames);
-      localStorage.setItem("hierarchyUsers",JSON.stringify(usernames));
     }
 
+
+    setheirachy(){
+      const userStoredData = localStorage.getItem('useraccess');
+      if (userStoredData) {
+        this.useraccess = JSON.parse(userStoredData)
+        console.log("user storeddata",userStoredData);
+        const storedUsers = JSON.parse(userStoredData);
+        const normalUser: any[] = [];
+        const specialUser: any[] = [];
+        storedUsers.forEach((group:any) => {
+          if (group.hierarchyManagementView === true) {
+            specialUser.push(group);
+          } else {
+            normalUser.push(group);
+          }
+        });
+        console.log("Special Users:", specialUser);
+        const usernames = specialUser.map(user => user.username1);
+        console.log("Usernames:", usernames);
+        localStorage.setItem("hierarchyUsers",JSON.stringify(usernames));
+      }
     }
 
     onEditorPreparing(e:any) {
@@ -138,16 +165,27 @@ export class UsermanagementcompComponent  implements OnInit {
       onRowUpdated(event: any) {
         this.saveDataToLocalStorage();
         this.updateUserAccess(); 
-
       }
 
-        onrowdeleted(event: any) {
-          const deletedUserName = event.data.username; // Assuming 'username' is the field in the row representing the user name
-          this.usertable2 = this.usertable2.filter(item => item.username !== deletedUserName);
-          this.saveDataToLocalStorage(); // Save updated data to local storage
-          console.log(this.usertable2);
-          this.updateUserAccess(); 
-      }
+      onrowdeleted(event: any) {
+        const deletedUserName = event.data.username; // Assuming 'username' is the field in the row representing the user name
+        
+        // Delete the user from usertable2
+        this.usertable2 = this.usertable2.filter(item => item.username !== deletedUserName);
+        
+        // Save updated data to local storage
+        this.saveDataToLocalStorage();
+        
+        // Update the useraccess table to remove the deleted user's username
+        this.useraccess = this.useraccess.filter(user => user.username1 !== deletedUserName);
+        
+        // Update local storage to reflect the changes in useraccess
+        localStorage.setItem('useraccess', JSON.stringify(this.useraccess));
+    
+        console.log(this.usertable2);
+        console.log(this.useraccess);
+    }
+    
 
       saveDataToLocalStorage() {
         const dataToSave = JSON.stringify(this.usertable2);
@@ -155,39 +193,33 @@ export class UsermanagementcompComponent  implements OnInit {
       }
 
       SelectSegment(e:any){ 
-
       }
-
-        onrowupdateuseraccesstable(event: any) {
-          console.log(event)
-          // const updatedData = event.data;
-          // updatedData['username1'] = name;    // localStorage.setItem('userAccessData', JSON.stringify(updatedUserAccess));
-          // const dataToSave = JSON.stringify(updatedData);
-          // localStorage.setItem('useraccess', dataToSave);
-
-          // console.log(this.useraccess);
-          const username = event.data.username1;
+      onrowupdateuseraccesstable(event: any) {
+        const updatedData = event.data; // Assuming event.data contains the updated row data
+        const username = updatedData.username1;
       
-          // Find the index of the object in the groupaccess array based on the groupname
-          const index = this.useraccess.findIndex(item => item.username1 === username);
+        // Find the index of the object in the useraccess array based on the username
+        const index = this.useraccess.findIndex(item => item.username1 === username);
       
-          // If the username exists in the useraccess array
-          if (index !== -1) {
-            this.useraccess[index] = {
-              ...this.useraccess[index], // Keep existing properties
-              ...event.data // Add additional properties from event data
-            };
+        // If the username exists in the useraccess array
+        if (index !== -1) {
+          // Update the existing entry with the new data
+          this.useraccess[index] = {
+            ...this.useraccess[index], // Keep existing properties
+            ...updatedData // Add additional properties from updatedData
+          };
       
-            // Save the updated useraccess array to localStorage
-            localStorage.setItem('useraccess', JSON.stringify(this.useraccess));
+          // Save the updated useraccess array to localStorage
+          localStorage.setItem('useraccess', JSON.stringify(this.useraccess));
       
-            console.log('Updated useraccess:', this.useraccess);
-          } else {
-            console.log(`User with username '${username}' not found in groupaccess array.`);
-          }
+          console.log('Updated useraccess:', this.useraccess);
+      
+          this.setheirachy(); // Call any additional function if needed
+        } else {
+          console.log(`User with username '${username}' not found in useraccess array.`);
         }
-
-
+      }
+      
 
           updateUserAccess() {
             // Extract usernames from the usertable2 array
@@ -212,8 +244,8 @@ export class UsermanagementcompComponent  implements OnInit {
                     // Add username to mergedUserAccess if it doesn't already exist
                     mergedUserAccess.push({ username1: username });
                 }
-            });              
-        
+            });  
+      
             // Save merged user access data back to local storage
             localStorage.setItem('useraccess', JSON.stringify(mergedUserAccess));
         
@@ -231,7 +263,7 @@ export class UsermanagementcompComponent  implements OnInit {
         }
 
           onDeleteUser(username: string) {
-            // Remove the deleted username from assignedUsers array
+            // Remove the deleted username from assignedUsers arraytt
             this.usernamesArray = this.usernamesArray.filter(user => user !== username);
           }
 
@@ -252,8 +284,6 @@ export class UsermanagementcompComponent  implements OnInit {
           let data = event.data;  
           data.createdby=localStorage.getItem('userName');
           console.log(data)
-
-
           }
 
 
@@ -271,27 +301,62 @@ export class UsermanagementcompComponent  implements OnInit {
           }
 
 
-            onRowRemovingForGroupTable(event: any) {
-              // Log the event object to the console for debugging
-              console.log(event);
+          //   onRowRemovingForGroupTable(event: any) {
+          //     // Log the event object to the console for debugging
+          //     console.log(event,this.grouptable);
               
-              // Remove the row from the data source (assuming grouptable is an array)
-              const rowIndex = this.grouptable.findIndex((item: any) => item === event.data);
-              if (rowIndex !== -1) {
-                  this.grouptable.splice(rowIndex, 1);
+          //     // Remove the row from the data source (assuming grouptable is an array)
+          //     const rowIndex = this.grouptable.findIndex((item: any) => item === event.data);
+
+          //     const rowGrpAccess = this.groupaccess.findIndex((item: any) => item.groupname1 === event.data.groupname);
+          //     console.log("rowIndex",rowGrpAccess);
+          //     if (rowGrpAccess !== -1) {
+          //       const finalGrpAcc = this.groupaccess.splice(rowGrpAccess, 1);
+          //       console.log("grpAcc",finalGrpAcc);
+          //       localStorage.setItem('groupaccess', JSON.stringify(finalGrpAcc));
+          //     }
+              
+          //     if (rowIndex !== -1) {
+          //         this.grouptable.splice(rowIndex, 1);
                   
-                  // Save the updated data to local storage
-                  this.grouptablesave();
+          //         // Save the updated data to local storage
+          //         this.grouptablesave();
                   
-                  // Save any other changes you need to make to local storage
-                  this.saveGroupNameToLocalStorage();
+          //         // Save any other changes you need to make to local storage
+          //         this.saveGroupNameToLocalStorage();
                   
-                  // Optionally, you may want to log a message to indicate successful deletion
-                  console.log("Row deleted successfully.");
-              } else {
-                  console.error("Error: Row not found in data source.");
-              }
-          }
+          //         // Optionally, you may want to log a message to indicate successful deletion
+          //         console.log("Row deleted successfully.");
+          //     } else {
+          //         console.error("Error: Row not found in data source.");
+          //     }
+          // }
+          onRowRemovingForGroupTable(event: any) {
+            // Log the event object to the console for debugging
+            console.log(event, this.grouptable);
+            
+            // Remove the row from the data source (assuming grouptable is an array)
+            const rowIndex = this.grouptable.findIndex((item: any) => item === event.data);
+            
+            if (rowIndex !== -1) {
+                this.grouptable.splice(rowIndex, 1);
+                
+                // Save the updated data to local storage
+                this.grouptablesave();
+                
+                // Remove the group from groupaccess
+                const rowGrpAccessIndex = this.groupaccess.findIndex((item: any) => item.groupname1 === event.data.groupname);
+                if (rowGrpAccessIndex !== -1) {
+                    this.groupaccess.splice(rowGrpAccessIndex, 1);
+                    localStorage.setItem('groupaccess', JSON.stringify(this.groupaccess));
+                }
+                
+                // Optionally, you may want to log a message to indicate successful deletion
+                console.log("Row deleted successfully.");
+            } else {
+                console.error("Error: Row not found in data source.");
+            }
+        }
         
 
           grouptablesave() {
@@ -417,6 +482,7 @@ export class UsermanagementcompComponent  implements OnInit {
           });
 
         }
+        
         openDialoguserlevel(data:any){
 
           const name=data.row.data.username;
@@ -508,34 +574,32 @@ export class UsermanagementcompComponent  implements OnInit {
             }
       
             saveGroupNameToLocalStorage() {
-
-                const groupNames = this.grouptable.map(group => group.groupname);
-              
-                localStorage.setItem('groupNames', JSON.stringify(groupNames));
-              
-                const existingGroupAccess = localStorage.getItem('groupaccess');
-                console.log(existingGroupAccess, 'existingGroupAccess');
-
-                const existingGroupAccessData = existingGroupAccess ? JSON.parse(existingGroupAccess) : [];
-                console.log(existingGroupAccessData, 'existingGroupAccessData');
-              
-                // Merge existing groupaccess data with new data, avoiding duplicates
-                const mergedGroupAccess = existingGroupAccessData.slice(); // Create a shallow copy
-                groupNames.forEach(groupname => {
-                    // Check if groupname already exists in mergedGroupAccess
-                    const exists = mergedGroupAccess.some((group:any) => group.groupname1 === groupname);
-                    if (!exists) {
-                        // Add groupname to mergedGroupAccess if it doesn't already exist
-                        mergedGroupAccess.push({ groupname1: groupname });
-                    }
-                });              
-                localStorage.setItem('groupaccess', JSON.stringify(mergedGroupAccess));
-
-                
-              
-                console.log(mergedGroupAccess, 'Merged groupaccess data');
-``              
-                this.groupaccess = mergedGroupAccess;
-              }
+              const groupNames = this.grouptable.map(group => group.groupname);
+            
+              localStorage.setItem('groupNames', JSON.stringify(groupNames));
+            
+              const existingGroupAccess = localStorage.getItem('groupaccess');
+              console.log(existingGroupAccess, 'existingGroupAccess');
+          
+              const existingGroupAccessData = existingGroupAccess ? JSON.parse(existingGroupAccess) : [];
+              console.log(existingGroupAccessData, 'existingGroupAccessData');
+            
+              // Merge existing groupaccess data with new data, avoiding duplicates
+              const mergedGroupAccess = existingGroupAccessData.slice(); // Create a shallow copy
+              groupNames.forEach(groupname => {
+                  // Check if groupname already exists in mergedGroupAccess
+                  const exists = mergedGroupAccess.some((group:any) => group.groupname1 === groupname);
+                  if (!exists) {
+                      // Add groupname to mergedGroupAccess if it doesn't already exist
+                      mergedGroupAccess.push({ groupname1: groupname });
+                  }
+              });              
+          
+              localStorage.setItem('groupaccess', JSON.stringify(mergedGroupAccess));
+          
+              console.log(mergedGroupAccess, 'Merged groupaccess data');
+              this.groupaccess = mergedGroupAccess;
+          }
+          
 
   } 

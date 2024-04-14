@@ -8,6 +8,7 @@ import { LevelassignedgroupsPage } from '../levelassignedgroups/levelassignedgro
   templateUrl: './heirarchymanagemnet.component.html',
   styleUrls: ['./heirarchymanagemnet.component.scss'],
 })
+
 export class HeirarchymanagemnetComponent  implements OnInit {
 
   tasksData = []
@@ -27,17 +28,22 @@ export class HeirarchymanagemnetComponent  implements OnInit {
 
     // Get the hierarchy users array from localStorage
     const users = localStorage.getItem('hierarchyUsers');
+    console.log(users)
     let user = localStorage.getItem("userName");
+    console.log(user)
+
     console.log("usrs",user,users);
     if (users && user) {
         // Parse the hierarchy users array
         const parsedUsers = JSON.parse(users);
+        console.log(parsedUsers)
         // Check if the user exists in the parsed users array
         const userExists = parsedUsers.some((u: any) => u === user);
         
         if (userExists) {
           this.ShowHierarchyAccess = true;
           console.log("User exists in hierarchy users array.");
+
         } else {
           this.ShowHierarchyAccess = false;
           console.log("User does not exist in hierarchy users array.");
@@ -84,7 +90,6 @@ export class HeirarchymanagemnetComponent  implements OnInit {
 
 
   openDialousers(data:any) {
-     
     const name=data.row.data.levels;
     console.log('Editing row:', data, name);
        // Open your dialog here

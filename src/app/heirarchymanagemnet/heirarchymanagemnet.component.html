@@ -28,21 +28,17 @@
             </div>
         </dxo-templates>
 
-       
-
       <dxi-column dataField="id" [Width]="150" [visible]="false"></dxi-column>
     
       <dxi-column dataField="levels" [alignment]="'left'"> 
         <dxi-validation-rule type="required" ></dxi-validation-rule>
       </dxi-column>  
-
       <dxo-editing
     mode="cell"
-    [allowAdding]="true"
-    [allowUpdating]="true"
-    [allowDeleting]="true"
+    [allowAdding]="ShowHierarchyAccess"
+    [allowUpdating]="ShowHierarchyAccess"
+    [allowDeleting]="ShowHierarchyAccess"
     [useIcons]="true"
- 
   >
   </dxo-editing>
     </dx-tree-list>

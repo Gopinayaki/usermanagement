@@ -25,7 +25,11 @@ export class HomePage {
   ngOnInit() {
     console.log()
     this.menu.enable(false);
+    const storedData = localStorage.getItem('usertable2');
+    this.users = storedData ? JSON.parse(storedData) : this.users;
     
+
+    console.log(storedData,this.users)
   }
 
 
@@ -35,19 +39,20 @@ export class HomePage {
   }
 
 
-  users =[
-    {user: 'admin', password:'admin@123',role:'super-admin'},
-    {user: 'supra', password:'supra@123',role:'field-operator'},
-    {user: 'admin', password:'admin',role:'personal'}
-  ];
+  users = [
+    {username: 'admin', password:'admin@123',role:'super-admin', active: true, createdTime: "11-Apr-2024 14:48:42", createdby: "admin", designation: "ddd", emailid: "ddd", mobilenumber: "ddd"},
+    {username: 'supra', password:'supra@123',role:'field-operator', active: true, createdTime: "11-Apr-2024 14:48:42", createdby: "admin", designation: "ddd", emailid: "ddd", mobilenumber: "ddd"},
+    {username: 'admin', password:'admin',role:'personal', active: true, createdTime: "11-Apr-2024 14:48:42", createdby: "admin", designation: "ddd", emailid: "ddd", mobilenumber: "ddd"}
+];
+
 
   async login() {
     // Replace this with actual authentication logic
-    const foundUser = this.users.find(user => user.user === this.username && user.password === this.password);
-  
+    const foundUser = this.users.find(user => user.username === this.username && user.password === this.password);
+  console.log(foundUser)
     if (foundUser) {
    localStorage.setItem("userRole", foundUser.role);
-      localStorage.setItem("userName", foundUser.user);
+      localStorage.setItem("userName", foundUser.username);
       console.log('Authenticated User:', foundUser);
       // Authentication successful, navigate to the next page
       console.log('Authenticated User Role:', foundUser.role);
