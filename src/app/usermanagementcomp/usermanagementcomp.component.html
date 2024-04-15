@@ -1,3 +1,5 @@
+
+
     <ion-content [fullscreen]="true">
 
       <ion-segment  [(ngModel)]="selectedSegment" 
@@ -32,7 +34,7 @@
           [allowColumnResizing]="true"
           (onInitNewRow)="onInitRowForGroupTable($event)"
           (onRowInserted)="onRowInsertedForGroupTable($event)"
-          (onRowUpdated)="onRowUpdatingForGroupTable($event)"
+          (onRowUpdating)="onRowUpdatingForGroupTable($event)"
           (onRowRemoving)="onRowRemovingForGroupTable($event)"
           [customizeColumns]="customizeColumns"
           (onCellClick)="onCellClick($event)"
@@ -78,6 +80,7 @@
                   [height]="250"
                   position="center"
               ></dxo-popup>
+      
               <dxo-form [colCount]="1">
                   <dxi-item dataField="groupname" caption="Group Name" [fixed]="true" [alignment]="'center'" ></dxi-item>
                   <!-- <dxi-item dataField="assignedusers" caption="Users" [alignment]="'center'" [visible]="false" [alignment]="'center'" ></dxi-item> -->
@@ -169,7 +172,7 @@
               <dxi-column dataField="supportControl" caption="Control" dataType="boolean"></dxi-column>
             </dxi-column>
             </dx-data-grid>
-        </ng-container> 
+        </ng-container>
 
       <ng-container *ngIf="selectedSegment === 'user'"> 
                   <dx-data-grid
@@ -184,7 +187,7 @@
                   [allowColumnResizing]="true"
                   (onInitNewRow)="onInitNewRow($event)"
                   (onRowInserted)="onRowInserted($event)"
-                  (onRowUpdated)="onRowUpdated($event)"
+                  (onRowUpdating)="onRowUpdated($event)"
                   (onInitNewRow)="  onInitNewRow($event)"
                   (onRowRemoving)="onrowdeleted($event)"
                   (onEditorPreparing)="onEditorPreparing($event)"
@@ -288,6 +291,7 @@
         [allowColumnResizing]="true"
         [rowAlternationEnabled]="true"
         (onRowUpdated)="onrowupdateuseraccesstable($event)"
+        
       >
         <dxo-search-panel [visible]="true">
         </dxo-search-panel>
@@ -358,5 +362,5 @@
       </dxi-column>
         </dx-data-grid>
       </ng-container>
-            
+      
     </ion-content>

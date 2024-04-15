@@ -31,9 +31,9 @@ export class UsermanagementcompComponent  implements OnInit {
   showInfo = true;
   showNavButtons = true;
   usertable2: any[] = [
-    {username: 'admin', password:'admin',role:'super-admin', active: true, createdTime: "11-Apr-2024 14:48:42", createdby: "admin", designation: "ddd", emailid: "ddd", mobilenumber: "ddd"},
-    {username: 'supra', password:'supra@123',role:'field-operator', active: true, createdTime: "11-Apr-2024 14:48:42", createdby: "admin", designation: "ddd", emailid: "ddd", mobilenumber: "ddd"},
-    {username: 'manager', password:'manager',role:'personal', active: true, createdTime: "11-Apr-2024 14:48:42", createdby: "admin", designation: "ddd", emailid: "ddd", mobilenumber: "ddd"}
+    {userId: 1, username: 'admin', password:'admin',role:'super-admin', active: true, createdTime: "11-Apr-2024 14:48:42", createdby: "admin", designation: "ddd", emailid: "ddd", mobilenumber: "ddd"},
+    {userId: 2, username: 'supra', password:'supra@123',role:'field-operator', active: true, createdTime: "11-Apr-2024 14:48:42", createdby: "admin", designation: "ddd", emailid: "ddd", mobilenumber: "ddd"},
+    {userId: 3, username: 'manager', password:'manager',role:'personal', active: true, createdTime: "11-Apr-2024 14:48:42", createdby: "admin", designation: "ddd", emailid: "ddd", mobilenumber: "ddd"}
   ];
   useraccess: any[] = []; 
   grouptable: any[] = []; 
@@ -163,6 +163,7 @@ export class UsermanagementcompComponent  implements OnInit {
       }
 
       onRowUpdated(event: any) {
+        console.log("ew",event);
         this.saveDataToLocalStorage();
         this.updateUserAccess(); 
       }
@@ -188,6 +189,19 @@ export class UsermanagementcompComponent  implements OnInit {
     
 
       saveDataToLocalStorage() {
+        // const lastUserId = this.usertable2.length > 0 ? this.usertable2[this.usertable2.length - 1].userId : 0;
+
+        // // Generate the new user ID by incrementing the last user ID
+        // const newUserId = lastUserId + 1;
+        // console.log("lll",this.usertable2,lastUserId,newUserId  );
+      
+        // // Update the user ID for the new user
+        // const newData = this.usertable2.map((user: any) => {
+        //   return { ...user, userId: newUserId };
+        // });
+      
+        // // Convert the updated data to JSON and save it to localStorage
+        // const dataToSave = JSON.stringify(newData);
         const dataToSave = JSON.stringify(this.usertable2);
         localStorage.setItem('usertable2', dataToSave);
       }
@@ -295,7 +309,7 @@ export class UsermanagementcompComponent  implements OnInit {
           }
 
           onRowUpdatingForGroupTable(event:any){
-            console.log(event)
+            console.log("ev",event)
             this.grouptablesave();
             this.saveGroupNameToLocalStorage();      
           }
@@ -548,6 +562,57 @@ export class UsermanagementcompComponent  implements OnInit {
 
             // }
 
+            setheirachyfromGroup(){
+              const userStoredData = localStorage.getItem('groupaccess');
+              if (userStoredData) {
+                this.groupaccess = JSON.parse(userStoredData)
+                console.log("user from groups storeddata",userStoredData);
+                const storedUsers = JSON.parse(userStoredData);
+                const normalGrp: any[] = [];
+                const specialGrp: any[] = [];
+                let arrdata: any[] = [];
+
+                storedUsers.forEach((group:any) => {
+                  if (group.hierarchyManagementView === true) {
+                    specialGrp.push(group);
+                  } else {
+                    normalGrp.push(group);
+                  }
+                });
+                console.log("Special Users from Group:", specialGrp);
+
+                const groupNames = specialGrp.map(group => group.groupname1);
+                console.log("Group Names:", groupNames);
+
+                const storedData = localStorage.getItem('dataofgroupnmae');
+                if (storedData) {
+                  const parsedData = JSON.parse(storedData); 
+                  
+                  groupNames.forEach((grp:any)=>{
+                    const filteredData = parsedData.filter((item: { Tags: any; }) => item.Tags === grp);
+                    console.log('Filtered Data for', grp, ':', filteredData);
+                    arrdata = arrdata.concat(filteredData); // Concatenate filtered data to arrdata
+                  });
+            
+                  // Remove duplicates from arrdata based on the username property
+                  const uniqueUsernames = [...new Set(arrdata.map(user => user.username))];
+                  console.log("Unique Usernames:", uniqueUsernames);
+
+                  // const existingUsers = localStorage.getItem('hierarchyUsers');
+                  // const existingUserAccess = existingUsers ? JSON.parse(existingUsers) : [];
+
+                  // const mergedUserAccess = existingUserAccess.slice(); // Create a shallow copy
+                  // uniqueUsernames.forEach(username => {
+                  //     const exists = mergedUserAccess.some((user: any) => user === username);
+                  //     if (!exists) {
+                  //         mergedUserAccess.push({ username });
+                  //     }
+                  // });
+                  // console.log("plo",mergedUserAccess);
+                  localStorage.setItem("hierarchyUsers", JSON.stringify(uniqueUsernames));
+              }
+            }
+            }
 
             onRowInsertedgrpaccess(event:any){
               console.log("eve",event)
@@ -568,6 +633,7 @@ export class UsermanagementcompComponent  implements OnInit {
                 localStorage.setItem('groupaccess', JSON.stringify(this.groupaccess));
           
                 console.log('Updated groupaccess:', this.groupaccess);
+                this.setheirachyfromGroup();
               } else {
                 console.log(`Group with groupname '${groupname}' not found in groupaccess array.`);
               }
