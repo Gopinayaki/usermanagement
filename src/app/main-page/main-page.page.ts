@@ -46,7 +46,8 @@ export class MainPagePage implements OnInit {
     const users = localStorage.getItem('hierarchyUsers');
     if (users && username) {
       // Parse the hierarchy users array
-      const parsedUsers = JSON.parse(users);
+      const parsedUsers = users ? JSON.parse(users) : [];
+      // const parsedUsers = JSON.parse(users);
       // Check if the user exists in the parsed users array
       const userExists = parsedUsers.some((u: any) => u === username);
       this.ShowHierarchyAccess = userExists;
