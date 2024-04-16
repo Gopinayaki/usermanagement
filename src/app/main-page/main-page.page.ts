@@ -17,7 +17,7 @@ export class MainPagePage implements OnInit {
     { name: 'Heirachy Management', url: '/main-page/heirarchymanagemnet' , icon: 'customer-satisfaction.gif'},
     { name: 'Page Management', url: '/main-page/pagemanagement', icon: 'checklist.gif'},
     { name: 'Report Management', url: '/main-page/reportmanagemnet', icon: 'file-delivery.gif' },
-    { name: 'FTP Management', url: '/main-page/fptmanagement'},
+    { name: 'FTP Management', url: '/main-page/fptmanagement' , icon: 'cloud.gif'},
     { name: 'External Activity', url: '/main-page/externalactiviy' , icon: 'bowling.gif'},
     { name: 'SMS E-Mail Config', url: '/main-page/smscongig'  , icon: 'message.gif'},
     { name: 'Support', url: '/main-page/support', icon: 'customer-support.gif' },
