@@ -187,19 +187,17 @@
                   [allowColumnResizing]="true"
                   (onInitNewRow)="onInitNewRow($event)"
                   (onRowInserted)="onRowInserted($event)"
-                  (onRowUpdating)="onRowUpdated($event)"
-                  (onInitNewRow)="  onInitNewRow($event)"
+                  (onRowUpdated)="onRowUpdated($event)"
+                
                   (onRowRemoving)="onrowdeleted($event)"
                   (onEditorPreparing)="onEditorPreparing($event)"
                   [customizeColumns]="customizegroupColumns"
                   >
-
-
                 <dxo-templates  style="text-align: center !important; ">
                   <div *dxTemplate="let data of 'customCellTemplategroup'"  style="text-align: center;">
                       <mat-icon (click)="openDialogroup(data)">list</mat-icon>
                   </div>
-              </dxo-templates>
+                </dxo-templates>
               
               <dxo-templates  style="text-align: center !important; ">
                 <div *dxTemplate="let data of 'customCellTemplatelevels'"  style="text-align: center;">
@@ -312,7 +310,6 @@
           class="my-modal-class"
         >
         </dxo-editing>
-      
         <dxi-column dataField="username1" caption="List of Users" [alignment]="'center'" [allowEditing]="false" [fixed]="true"></dxi-column>
 
           <!-- <dxi-column dataField="selectAll" caption="Select All" dataType="boolean"  [alignment]="'center'" ></dxi-column> -->
@@ -352,7 +349,6 @@
       <dxi-column caption="SMS/Email Configuration" [alignment]="'center'">
         <dxi-column dataField="smsConfigView" caption="View" dataType="boolean"></dxi-column>
         <dxi-column dataField="smsConfigEdit" caption="Control" dataType="boolean"></dxi-column>
-       
       </dxi-column>
 
       <!-- Support Management -->
@@ -360,7 +356,7 @@
         <dxi-column dataField="supportView" caption="View" dataType="boolean"></dxi-column>
         <dxi-column dataField="supportControl" caption="Control" dataType="boolean"></dxi-column>
       </dxi-column>
+
         </dx-data-grid>
       </ng-container>
-      
     </ion-content>

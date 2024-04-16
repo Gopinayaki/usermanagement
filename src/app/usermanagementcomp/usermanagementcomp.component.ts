@@ -31,32 +31,17 @@ export class UsermanagementcompComponent  implements OnInit {
   showInfo = true;
   showNavButtons = true;
   usertable2: any[] = [
-    {userId: 1, username: 'admin', password:'admin',role:'super-admin', active: true, createdTime: "11-Apr-2024 14:48:42", createdby: "admin", designation: "ddd", emailid: "ddd", mobilenumber: "ddd"},
-    {userId: 2, username: 'supra', password:'supra@123',role:'field-operator', active: true, createdTime: "11-Apr-2024 14:48:42", createdby: "admin", designation: "ddd", emailid: "ddd", mobilenumber: "ddd"},
-    {userId: 3, username: 'manager', password:'manager',role:'personal', active: true, createdTime: "11-Apr-2024 14:48:42", createdby: "admin", designation: "ddd", emailid: "ddd", mobilenumber: "ddd"}
+    {username: 'admin', password:'admin',role:'super-admin', active: true, createdTime: "11-Apr-2024 14:48:42", createdby: "admin", designation: "ddd", emailid: "ddd", mobilenumber: "ddd"},
+    {username: 'supra', password:'supra@123',role:'field-operator', active: true, createdTime: "11-Apr-2024 14:48:42", createdby: "admin", designation: "ddd", emailid: "ddd", mobilenumber: "ddd"},
+    // {username: 'manager', password:'manager',role:'personal', active: true, createdTime: "11-Apr-2024 14:48:42", createdby: "admin", designation: "ddd", emailid: "ddd", mobilenumber: "ddd"}
   ];
   useraccess: any[] = []; 
   grouptable: any[] = []; 
   groupaccess: any[] = [];
   users: any[] = [];
   isNewlyAddedRow: boolean = false;
+  usernames!: string[];
 
-
-
-
-      onInitNewRow(event: any) {
-        // Set the default value for the "active" property to true for new rows
-        event.data.active = true;
-
-        // Get the current date and time
-        const currentDate = new Date();
-
-        // Format the date and time as "dd-mm-yyyy HH:MM:SS"
-        const formattedDate = this.formatDate(currentDate);
-
-        // Set the formatted date and time to the "createdTime" property
-        event.data.createdTime = formattedDate;
-    }
 
     formatDate(date: Date): string {
       const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
@@ -79,8 +64,15 @@ export class UsermanagementcompComponent  implements OnInit {
     constructor(
       private dialog: MatDialog,
       private router: Router,
-      private modalController: ModalController
-      ) { }
+      private modalController: ModalController,
+      
+      ) { 
+
+        const storedUsernames = localStorage.getItem('usernames');
+        this.usernames = storedUsernames ? JSON.parse(storedUsernames) : [];
+
+        this.updateUserAccess();
+      }
 
 
 
@@ -112,6 +104,11 @@ export class UsermanagementcompComponent  implements OnInit {
     // this.updateUserAccess();
     this.retrieveUsernamesFromUserAccess();
 
+    const userStoredData = localStorage.getItem('useraccess');
+    if (userStoredData) {
+      this.useraccess = JSON.parse(userStoredData)
+    }
+
 
     const astoredData = localStorage.getItem('groupaccess');
     if (astoredData) {
@@ -119,8 +116,8 @@ export class UsermanagementcompComponent  implements OnInit {
       console.log("group storeddata",astoredData);
       
     }
-      this.setheirachy();
-
+      // this.setheirachy();
+      // this.setheirachyfromGroup();
     }
 
 
@@ -133,7 +130,7 @@ export class UsermanagementcompComponent  implements OnInit {
         const normalUser: any[] = [];
         const specialUser: any[] = [];
         storedUsers.forEach((group:any) => {
-          if (group.hierarchyManagementView === true) {
+          if (group.hierarchyManagementControl === true) {
             specialUser.push(group);
           } else {
             normalUser.push(group);
@@ -143,6 +140,9 @@ export class UsermanagementcompComponent  implements OnInit {
         const usernames = specialUser.map(user => user.username1);
         console.log("Usernames:", usernames);
         localStorage.setItem("hierarchyUsers",JSON.stringify(usernames));
+
+        window.location.reload();
+
       }
     }
 
@@ -152,6 +152,20 @@ export class UsermanagementcompComponent  implements OnInit {
         }
       }
 
+      onInitNewRow(event: any) {
+        // Set the default value for the "active" property to true for new rows
+        event.data.active = true;
+
+        // Get the current date and time
+        const currentDate = new Date();
+
+        // Format the date and time as "dd-mm-yyyy HH:MM:SS"
+        const formattedDate = this.formatDate(currentDate);
+
+        // Set the formatted date and time to the "createdTime" property
+        event.data.createdTime = formattedDate;
+        this.updateUserAccess();
+    }
 
       onRowInserted(event: any) {
         let data = event.data;  
@@ -163,7 +177,7 @@ export class UsermanagementcompComponent  implements OnInit {
       }
 
       onRowUpdated(event: any) {
-        console.log("ew",event);
+        console.log(event)
         this.saveDataToLocalStorage();
         this.updateUserAccess(); 
       }
@@ -189,19 +203,6 @@ export class UsermanagementcompComponent  implements OnInit {
     
 
       saveDataToLocalStorage() {
-        // const lastUserId = this.usertable2.length > 0 ? this.usertable2[this.usertable2.length - 1].userId : 0;
-
-        // // Generate the new user ID by incrementing the last user ID
-        // const newUserId = lastUserId + 1;
-        // console.log("lll",this.usertable2,lastUserId,newUserId  );
-      
-        // // Update the user ID for the new user
-        // const newData = this.usertable2.map((user: any) => {
-        //   return { ...user, userId: newUserId };
-        // });
-      
-        // // Convert the updated data to JSON and save it to localStorage
-        // const dataToSave = JSON.stringify(newData);
         const dataToSave = JSON.stringify(this.usertable2);
         localStorage.setItem('usertable2', dataToSave);
       }
@@ -309,42 +310,13 @@ export class UsermanagementcompComponent  implements OnInit {
           }
 
           onRowUpdatingForGroupTable(event:any){
-            console.log("ev",event)
+            console.log(event)
             this.grouptablesave();
             this.saveGroupNameToLocalStorage();      
           }
 
 
-          //   onRowRemovingForGroupTable(event: any) {
-          //     // Log the event object to the console for debugging
-          //     console.log(event,this.grouptable);
-              
-          //     // Remove the row from the data source (assuming grouptable is an array)
-          //     const rowIndex = this.grouptable.findIndex((item: any) => item === event.data);
-
-          //     const rowGrpAccess = this.groupaccess.findIndex((item: any) => item.groupname1 === event.data.groupname);
-          //     console.log("rowIndex",rowGrpAccess);
-          //     if (rowGrpAccess !== -1) {
-          //       const finalGrpAcc = this.groupaccess.splice(rowGrpAccess, 1);
-          //       console.log("grpAcc",finalGrpAcc);
-          //       localStorage.setItem('groupaccess', JSON.stringify(finalGrpAcc));
-          //     }
-              
-          //     if (rowIndex !== -1) {
-          //         this.grouptable.splice(rowIndex, 1);
-                  
-          //         // Save the updated data to local storage
-          //         this.grouptablesave();
-                  
-          //         // Save any other changes you need to make to local storage
-          //         this.saveGroupNameToLocalStorage();
-                  
-          //         // Optionally, you may want to log a message to indicate successful deletion
-          //         console.log("Row deleted successfully.");
-          //     } else {
-          //         console.error("Error: Row not found in data source.");
-          //     }
-          // }
+         
           onRowRemovingForGroupTable(event: any) {
             // Log the event object to the console for debugging
             console.log(event, this.grouptable);
@@ -378,28 +350,21 @@ export class UsermanagementcompComponent  implements OnInit {
           }
           
           customizeColumns(columns: any) {
-
             const customColumn = {
               caption: 'Assigned Users', // Caption for the column header
               cellTemplate: 'customCellTemplate',
               cssClass: 'custom-column-header' // Specifies a custom cell template for the column
             };
 
-
             columns.unshift(customColumn);
 
-
-            
             const customColumn2 = {
               caption: 'Assigned Levels', // Caption for the column header
               cellTemplate: 'customCellTemplatelevels',
               cssClass: 'custom-column-header' // Specifies a custom cell template for the column
             };
 
-
             columns.unshift(customColumn2);
-
-            
 
             // Update local storage with the customized columns
           }
@@ -432,7 +397,6 @@ export class UsermanagementcompComponent  implements OnInit {
 
 
         openDialogroup(data:any) {
-        
           const name=data.row.data.username;
           console.log('Editing row:', data, name);
             // Open your dialog here
@@ -464,7 +428,6 @@ export class UsermanagementcompComponent  implements OnInit {
           }
 
           openDialog(data:any) {
-      // Save the clicked cell's data to local storage
 
           const name=data.row.data.groupname;
           console.log('Editing row:', data, name);
@@ -513,112 +476,66 @@ export class UsermanagementcompComponent  implements OnInit {
           });
 
         }
+        setheirachyfromGroup(){
+          const userStoredData = localStorage.getItem('groupaccess');
+          if (userStoredData) {
+            this.groupaccess = JSON.parse(userStoredData)
+            console.log("user from groups storeddata",userStoredData);
+            const storedUsers = JSON.parse(userStoredData);
+            const normalGrp: any[] = [];
+            const specialGrp: any[] = [];
+            let arrdata: any[] = [];
 
-          // saveGroupNameToLocalStorage() {
-          //   // Extract group names from grouptable array
-          //   const groupNames = this.grouptable.map(group => group.groupname);
-          
-          //   // Save group names to local storage
-          //   localStorage.setItem('groupNames', JSON.stringify(groupNames));
-          
-          //   // Optionally, you can also update this.useraccess if needed
-          //       const groupaccessdta = groupNames.map(groupname => (
-          //   { 
-          //     groupname1: groupname ,
-          //     emailConfigEdit: false,
-          //     emailConfigView: false,
-          //     externalActivityEdit: false,
-          //     externalActivityView:false,
-          //     ftpManagementControl: false,
-          //     ftpManagementView: false,
-          //     hierarchyManagementControl: false,
-          //     hierarchyManagementView: false,
-          //     reportManagementControl: false,
-          //     reportManagementView: false,
-          //     smsConfigEdit: false,
-          //     smsConfigView: false,
-          //     supportControl: false,
-          //     supportView: false,
-          //     userManagementControl: false,
-          //     userManagementView: false,
-          //   }
-          //   ));
-
-          //     this.groupaccess= groupaccessdta;
-          //   localStorage.setItem('grpacc', JSON.stringify(groupaccessdta));
-
-          //     }
-
-            // onRowInsertedgrpaccess(event:any){
-
-            //   const acc = localStorage.getItem('grpacc');
-            //   if (acc !== null) {
-            //       const parsedAcc = JSON.parse(acc); // Parse the string to convert it into an array of objects
-            //       const arrayOfValues = parsedAcc.map((obj: any) => Object.values(obj));
-            //       console.log(arrayOfValues);
-            //   } else {
-            //       console.log('No data found for the key "grpacc" in localStorage.');
-            //   }
-
-            // }
-
-            setheirachyfromGroup(){
-              const userStoredData = localStorage.getItem('groupaccess');
-              if (userStoredData) {
-                this.groupaccess = JSON.parse(userStoredData)
-                console.log("user from groups storeddata",userStoredData);
-                const storedUsers = JSON.parse(userStoredData);
-                const normalGrp: any[] = [];
-                const specialGrp: any[] = [];
-                let arrdata: any[] = [];
-
-                storedUsers.forEach((group:any) => {
-                  if (group.hierarchyManagementView === true) {
-                    specialGrp.push(group);
-                  } else {
-                    normalGrp.push(group);
-                  }
-                });
-                console.log("Special Users from Group:", specialGrp);
-
-                const groupNames = specialGrp.map(group => group.groupname1);
-                console.log("Group Names:", groupNames);
-
-                const storedData = localStorage.getItem('dataofgroupnmae');
-                if (storedData) {
-                  const parsedData = JSON.parse(storedData); 
-                  
-                  groupNames.forEach((grp:any)=>{
-                    const filteredData = parsedData.filter((item: { Tags: any; }) => item.Tags === grp);
-                    console.log('Filtered Data for', grp, ':', filteredData);
-                    arrdata = arrdata.concat(filteredData); // Concatenate filtered data to arrdata
-                  });
-            
-                  // Remove duplicates from arrdata based on the username property
-                  const uniqueUsernames = [...new Set(arrdata.map(user => user.username))];
-                  console.log("Unique Usernames:", uniqueUsernames);
-
-                  // const existingUsers = localStorage.getItem('hierarchyUsers');
-                  // const existingUserAccess = existingUsers ? JSON.parse(existingUsers) : [];
-
-                  // const mergedUserAccess = existingUserAccess.slice(); // Create a shallow copy
-                  // uniqueUsernames.forEach(username => {
-                  //     const exists = mergedUserAccess.some((user: any) => user === username);
-                  //     if (!exists) {
-                  //         mergedUserAccess.push({ username });
-                  //     }
-                  // });
-                  // console.log("plo",mergedUserAccess);
-                  localStorage.setItem("hierarchyUsers", JSON.stringify(uniqueUsernames));
+            storedUsers.forEach((group:any) => {
+              if (group.hierarchyManagementControl === true) {
+                specialGrp.push(group);
+              } else {
+                normalGrp.push(group);
               }
-            }
-            }
+            });
+            console.log("Special Users from Group:", specialGrp);
+
+            const groupNames = specialGrp.map(group => group.groupname1);
+            console.log("Group Names:", groupNames);
+
+            const storedData = localStorage.getItem('dataofgroupnmae');
+            if (storedData) {
+              const parsedData = JSON.parse(storedData); 
+              
+              groupNames.forEach((grp:any)=>{
+                const filteredData = parsedData.filter((item: { Tags: any; }) => item.Tags === grp);
+                console.log('Filtered Data for', grp, ':', filteredData);
+                arrdata = arrdata.concat(filteredData); // Concatenate filtered data to arrdata
+              });
+        
+              // Remove duplicates from arrdata based on the username property
+              const uniqueUsernames = [...new Set(arrdata.map(user => user.username))];
+              console.log("Unique Usernames:", uniqueUsernames);
+
+              const existingUsers = localStorage.getItem('hierarchyUsers');
+              const existingUserAccess = existingUsers ? JSON.parse(existingUsers) : [];
+
+              const mergedUserAccess = existingUserAccess.slice(); // Create a shallow copy
+              uniqueUsernames.forEach(username => {
+                  const exists = mergedUserAccess.some((user: any) => user === username);
+                  if (!exists) {
+                      mergedUserAccess.push(username);
+                  }
+              });
+              console.log("plo",mergedUserAccess);
+              localStorage.setItem("hierarchyUsers", JSON.stringify(mergedUserAccess));
+          }
+        }
+
+        window.location.reload();
+
+        }
 
             onRowInsertedgrpaccess(event:any){
               console.log("eve",event)
       
               const groupname = event.data.groupname1;
-      
+     
               // Find the index of the object in the groupaccess array based on the groupname
               const index = this.groupaccess.findIndex(item => item.groupname1 === groupname);
           
@@ -667,5 +584,8 @@ export class UsermanagementcompComponent  implements OnInit {
               this.groupaccess = mergedGroupAccess;
           }
           
+          handleRefresh() {
+            window.location.reload();
+  }
 
   } 

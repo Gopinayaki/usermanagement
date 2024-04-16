@@ -6,22 +6,28 @@
 
       <ion-label class="text-white">Username</ion-label>
 
-<ion-row>
-  <ion-col>
-    <div style="display: flex; justify-content: end; ">
-      <ion-input type="text" style="color: black;" [(ngModel)]="username" required></ion-input>
-      <!-- <ion-icon name="person" slot="start" class="icon"></ion-icon> -->
-    </div>
+      <ion-row>
+        <ion-col>
+          <div style="display: flex; justify-content: end; ">
+            <ion-input type="text" style="color: black;" [(ngModel)]="username" required></ion-input>
+            <!-- <ion-icon name="person" slot="start" class="icon"></ion-icon> -->
+          </div>
+        </ion-col>
+      </ion-row>
+      
 
-  </ion-col>
+      <div>
+
  
-
-</ion-row>
- 
-
         <ion-label position="floating">Password</ion-label>
         <ion-input type="{{ showPassword ? 'text' : 'password' }}" style="color: black;" class="input" [(ngModel)]="password" required>
-        </ion-input>
+        </ion-input>  
+        <!-- <ion-button size="small" (click)="togglePasswordVisibility()">
+          {{ showPassword ? 'Hide' : 'Show' }} 
+          <ion-icon name="eye-outline"></ion-icon>
+        </ion-button> -->
+      </div>
+      
     </div>
     <ion-button color="success" (click)="login()" type="submit">Login</ion-button>
   </div>

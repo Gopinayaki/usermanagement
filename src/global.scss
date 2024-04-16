@@ -84,7 +84,7 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
 .grid{
   padding: 20px;
-  
+  width: 100% !important;
 }
 
 
@@ -166,7 +166,7 @@ border: green;
 border: 1px solid red;
 }
 
-// .dx-popup-bottom {
+.input-wrapper.sc-ion-input-md input.sc-ion-input-md {
 
-//   margin-left: -86px;
-// }
+  padding: 10px;
+}

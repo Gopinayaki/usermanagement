@@ -5,9 +5,7 @@
     </button>
     <span>{{ selectedPageName }}</span>
     <span *ngIf="loggedInUser" slot="end" style="padding: 10px;"> {{ loggedInUser }}</span>
-    <!-- <button slot="end" style="padding: 10px;">
-    <mat-icon>logout</mat-icon>
-    </button> -->
+  
   </ion-toolbar>
 </ion-header>
 
@@ -15,6 +13,7 @@
   <mat-drawer #drawer mode="over">
     <mat-nav-list>
       <a mat-list-item *ngFor="let link of list" [routerLink]="link.url" routerLinkActive="active" (click)="drawer.close()">
+       <img src="assets/icon/{{link.icon}}" class="icon">
         {{ link.name }}
       </a>
     </mat-nav-list>

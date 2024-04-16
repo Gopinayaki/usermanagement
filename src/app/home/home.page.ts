@@ -14,6 +14,7 @@ export class HomePage {
   password: string = '';
   userRole: string ='';
   showPassword = false;
+  usernames!: string[];
 
   constructor(private navCtrl: NavController,
     private router: Router,
@@ -30,6 +31,21 @@ export class HomePage {
     
 
     console.log(storedData,this.users)
+
+
+
+
+
+
+
+
+    const storedUsernames = localStorage.getItem('usernames');
+
+    this.usernames = storedUsernames ? JSON.parse(storedUsernames) : [];
+
+
+
+
   }
 
 
