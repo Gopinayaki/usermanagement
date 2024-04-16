@@ -1,26 +1,33 @@
 
 
+<ion-header>
+
+
+  <ion-segment  [(ngModel)]="selectedSegment" 
+  (ionChange)="SelectSegment($event)">
+
+    <ion-segment-button value="group">
+      <ion-label>Group</ion-label>
+    </ion-segment-button>
+
+    <ion-segment-button value="groupaccess">
+      <ion-label>Group Access</ion-label>
+    </ion-segment-button>
+
+    <ion-segment-button value="user">
+      <ion-label>user</ion-label>
+    </ion-segment-button>
+    <ion-segment-button value="access">
+      <ion-label>User Access</ion-label>
+    </ion-segment-button>
+
+  </ion-segment>
+</ion-header>
+
+
     <ion-content [fullscreen]="true">
 
-      <ion-segment  [(ngModel)]="selectedSegment" 
-      (ionChange)="SelectSegment($event)">
-
-        <ion-segment-button value="group">
-          <ion-label>Group</ion-label>
-        </ion-segment-button>
-
-        <ion-segment-button value="groupaccess">
-          <ion-label>Group Access</ion-label>
-        </ion-segment-button>
-
-        <ion-segment-button value="user">
-          <ion-label>user</ion-label>
-        </ion-segment-button>
-        <ion-segment-button value="access">
-          <ion-label>User Access</ion-label>
-        </ion-segment-button>
-
-      </ion-segment>
+     
 
         <ng-container *ngIf="selectedSegment === 'group'"> 
           <dx-data-grid
@@ -188,7 +195,6 @@
                   (onInitNewRow)="onInitNewRow($event)"
                   (onRowInserted)="onRowInserted($event)"
                   (onRowUpdated)="onRowUpdated($event)"
-                
                   (onRowRemoving)="onrowdeleted($event)"
                   (onEditorPreparing)="onEditorPreparing($event)"
                   [customizeColumns]="customizegroupColumns"
@@ -247,7 +253,6 @@
           >   
           </dxo-popup>
       
-
           <dxo-form colCount="1">           
             <dxi-item dataField="username" caption="User Name" [fixed]="true" [dataType]="'string'">
             <dxi-validation-rule type="required" message="Username is required"></dxi-validation-rule>
@@ -261,14 +266,13 @@
           [width]="150" [dataType]="'number'">
         </dxi-item>
       
-            <dxi-item dataField="emailid" caption="Email" [width]="170" [dataType]="'email'">
-            
-            </dxi-item>
+        <dxi-item dataField="emailid" caption="Email" [width]="170" [dataType]="'email'">
+        </dxi-item>
 
-      
-            <dxi-item dataField="designation" caption="Designation" [dataType]="'string'">
-              <dxi-validation-rule type="required" message=" Designation is required"></dxi-validation-rule>
-            </dxi-item>
+  
+        <dxi-item dataField="designation" caption="Designation" [dataType]="'string'">
+          <dxi-validation-rule type="required" message=" Designation is required"></dxi-validation-rule>
+        </dxi-item>
             <dxi-item dataField="active" caption="Active" [dataType]="'boolean'"></dxi-item>
             
           </dxo-form>   
