@@ -44,9 +44,21 @@ export class MainPagePage implements OnInit {
    
     // Get the hierarchy users array from localStorage
     const users = localStorage.getItem('hierarchyUsers');
-    if (users && username) {
+    console.log("users",users);
+    let parsedUsers: any[];
+    if(users === null){
+      parsedUsers= [];
+      const userExists = parsedUsers.some((u: any) => u === username);
+      this.ShowHierarchyAccess = userExists;
+      // If user doesn't have hierarchy access, remove the item from the list
+      if (!this.ShowHierarchyAccess) {
+        this.list = this.list.filter(item => item.name !== 'Heirachy Management');
+      }
+      console.log(this.ShowHierarchyAccess,this.list);
+    }
+    else if (users != null && username) {
       // Parse the hierarchy users array
-      const parsedUsers = users ? JSON.parse(users) : [];
+      parsedUsers = users ? JSON.parse(users) : [];
       // const parsedUsers = JSON.parse(users);
       // Check if the user exists in the parsed users array
       const userExists = parsedUsers.some((u: any) => u === username);
