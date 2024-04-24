@@ -27,7 +27,7 @@ export class HeirarchymanagemnetComponent  implements OnInit {
     }
 
     // Get the hierarchy users array from localStorage
-    const users = localStorage.getItem('hierarchyUsers');
+    const users = localStorage.getItem('hierarchyUsersControl');
     console.log(users)
     let user = localStorage.getItem("userName");
     console.log(user)
@@ -89,19 +89,19 @@ export class HeirarchymanagemnetComponent  implements OnInit {
   }
 
 
-  openDialousers(data:any) {
-    const name=data.row.data.levels;
-    console.log('Editing row:', data, name);
-       // Open your dialog here
-       this.dialog.open(LevelassigneduserPage, {
-           width: '40%', // Set the width of the dialog
-           height: '60%', // Set the height of the dialog
-           // You can add other options like data, panelClass, etc.
-           data: {
-            levels: name,
-          },
-       });
-      }
+      openDialousers(data:any) {
+        const name=data.row.data.levels;
+        console.log('Editing row:', data, name);
+          // Open your dialog here
+          this.dialog.open(LevelassigneduserPage, {
+              width: '40%', // Set the width of the dialog
+              height: '60%', // Set the height of the dialog
+              // You can add other options like data, panelClass, etc.
+              data: {
+                levels: name,
+              },
+          });
+          }
 
 
       openDialogroup(data:any) {

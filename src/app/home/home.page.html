@@ -14,18 +14,21 @@
           </div>
         </ion-col>
       </ion-row>
-      
-
       <div>
 
  
         <ion-label position="floating">Password</ion-label>
-        <ion-input type="{{ showPassword ? 'text' : 'password' }}" style="color: black;" class="input" [(ngModel)]="password" required>
-        </ion-input>  
-        <!-- <ion-button size="small" (click)="togglePasswordVisibility()">
-          {{ showPassword ? 'Hide' : 'Show' }} 
-          <ion-icon name="eye-outline"></ion-icon>
-        </ion-button> -->
+        <div>
+          <ion-input type="{{ showPassword ? 'text' : 'password' }}" style="color: black;" class="input" [(ngModel)]="password" required>
+          </ion-input>  
+<!--   
+          <ion-button size="small" (click)="togglePasswordVisibility()">
+            <ion-icon name="eye-outline"></ion-icon>
+            {{ showPassword ? 'Hide' : 'Show' }} 
+          </ion-button> -->
+
+        </div>
+       
       </div>
       
     </div>

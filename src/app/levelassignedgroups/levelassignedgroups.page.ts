@@ -20,15 +20,15 @@ export class LevelassignedgroupsPage implements OnInit {
   gp: Option[] = []; 
   selectedRows: any[] = [];
   selectGroup!: [];
-  accessallonly = ['All', 'Only', 'Exclude'];
+ // accessallonly = ['All', 'Only', 'Exclude'];
+  accessallonly = ['All', 'Only'];
+
   selAccLevelgrp: string | undefined;
 
   
   // Assuming group names are strings
   constructor(@Inject(MAT_DIALOG_DATA) public data: any) {
 
-
-    
    }
 
       ngOnInit(): void {
@@ -189,6 +189,5 @@ export class LevelassignedgroupsPage implements OnInit {
         console.log('Row not found in user data.');
       }
       }
-
 
 }

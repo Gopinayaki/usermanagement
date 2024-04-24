@@ -18,7 +18,8 @@ export class LevelassigneduserPage implements OnInit {
       selectedRows: any[] = [];
       selectUser!: [];
       selectedValue: Option[] = [];
-      accessallonly = ['All', 'Only', 'Exclude'];
+      // accessallonly = ['All', 'Only', 'Exclude'];
+      accessallonly = ['All', 'Only'];
       selAccLevel: string | undefined;
 
       // @Input() data:any
@@ -46,10 +47,9 @@ export class LevelassigneduserPage implements OnInit {
         console.log("storeddata",storedData);
           if (storedData) {
             const parsedData = JSON.parse(storedData);
-            // Use a Set to keep track of unique levels values
+            // Use a Set to keep track of unique levels values1
         const uniqueTags = new Set();
-
-
+        
           const arrdata = parsedData.filter((item: { levels: any; }) => item.levels === this.data.levels);
           const filteredData = arrdata.filter((item: { Tags: any; }) => {
             if (!uniqueTags.has(item.Tags)) {
@@ -99,7 +99,6 @@ export class LevelassigneduserPage implements OnInit {
           uniqueEntries.add(newItemString);
         });
       
-      
         this.selectedRows=mappedData
         console.log(mappedData, this.dataSource);
       }
@@ -108,11 +107,10 @@ export class LevelassigneduserPage implements OnInit {
       onRowDeleted(event: any) {
         // Extract the deleted row data from the event object
         const deletedRowData = event.data;
-      
+                                                                                
         // Perform any necessary actions with the deleted row data
         console.log('Deleted row data:', deletedRowData);
-      
-
+        
     // Remove the deleted row data from the local storage
       let storedData = localStorage.getItem('leveluser');
       let existingData: any[] = storedData ? JSON.parse(storedData) : [];
@@ -133,25 +131,21 @@ export class LevelassigneduserPage implements OnInit {
       } else {
         console.log('Row not found in local storage.');
       }
-  
 
-      }
+    
+      } 
 
       onRowInserting(event: any) {
         console.log("n",event);
         const gname = this.data.levels;
         let storedData = localStorage.getItem('leveluser');
         let data: any[] = storedData ? JSON.parse(storedData) : [];
-      
-       
-      
         console.log(data);
-
         // Concatenate existing dataSource with selectedRows
         let existingData = data.concat(this.selectedRows);
         console.log(this.selectedRows)
 
-        // Convert the existingData array to a Set to remove duplicates
+        // Convert the existingData array ton a Set to remove duplicates
         const uniqueEntries = new Set(existingData.map(item => JSON.stringify(item)));
 
         // Convert the uniqueEntries Set back to an array of objects
@@ -159,13 +153,46 @@ export class LevelassigneduserPage implements OnInit {
         
         // Filter the data based on levels
         const filteredData = existingData.filter((item: { levels: any; }) => item.levels === gname );
-    ;
+                                                                                                                                               
         localStorage.setItem('leveluser', JSON.stringify(existingData));
 
         // Update the dataSource and save it to local storage
         this.dataSource = filteredData;
      
         console.log(existingData, this.dataSource);
+        this.levelaccessview();
       
         }
+
+
+        levelaccessview() {
+          // Retrieve user data from local storage
+          const userStoredData = localStorage.getItem('leveluser');
+      
+          if (userStoredData) {
+              // Parse the JSON string to convert it into an array of objects
+              const userData = JSON.parse(userStoredData);
+      
+              // Implement your condition based on the userData
+              // For example, iterate through the userData array and apply your logic
+              userData.forEach((userEntry: any) => {
+                  const Access = userEntry.Access;
+                  const assignedLevels = userEntry.assignedLevels;
+      
+                  // Implement your logic here based on Access and assignedLevels
+                  // For example:
+                  if (Access === 'All') {
+                      // User has access to all levels, handle accordingly
+                      console.log('User has access to all levels');
+                  } else if (Access === 'Only') {
+                      // User has access to specific levels, handle accordingly
+                      console.log('User has access to specific levels');
+                  }
+              });
+          } else {
+              // Handle case where no user data is found in local storage
+              console.log('No user data found in local storage');
+          }
+      }
+      
 }

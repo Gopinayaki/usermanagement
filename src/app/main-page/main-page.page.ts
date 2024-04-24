@@ -8,7 +8,7 @@ import { Component, OnInit } from '@angular/core';
 export class MainPagePage implements OnInit {
   loggedInUser: string | null = null; // Initialize to null
   selectedPageName: string = '';
-  ShowHierarchyAccess: boolean = false;
+  ShowHierarchyAccess: boolean = true;
   usernames!: string[];
 
   
@@ -28,55 +28,51 @@ export class MainPagePage implements OnInit {
     this.selectedPageName = name;
   }
 
-  constructor() {
-
-
-    const username = localStorage.getItem('userName');
-    if (username) {
-      this.loggedInUser = username;
-    }
-
-  }
-
-  ngOnInit(): void {
-    // Retrieve username from local storage
-    const username = localStorage.getItem('userName');
-   
-    // Get the hierarchy users array from localStorage
-    const users = localStorage.getItem('hierarchyUsers');
-    console.log("users",users);
-    let parsedUsers: any[];
-    if(users === null){
-      parsedUsers= [];
-      const userExists = parsedUsers.some((u: any) => u === username);
-      this.ShowHierarchyAccess = userExists;
-      // If user doesn't have hierarchy access, remove the item from the list
-      if (!this.ShowHierarchyAccess) {
-        this.list = this.list.filter(item => item.name !== 'Heirachy Management');
+      constructor() {
+        const username = localStorage.getItem('userName');
+        if (username) {
+          this.loggedInUser = username;
+        }
       }
-      console.log(this.ShowHierarchyAccess,this.list);
-    }
-    else if (users != null && username) {
-      // Parse the hierarchy users array
-      parsedUsers = users ? JSON.parse(users) : [];
-      // const parsedUsers = JSON.parse(users);
-      // Check if the user exists in the parsed users array
-      const userExists = parsedUsers.some((u: any) => u === username);
-      this.ShowHierarchyAccess = userExists;
-      // If user doesn't have hierarchy access, remove the item from the list
-      if (!this.ShowHierarchyAccess) {
-        this.list = this.list.filter(item => item.name !== 'Heirachy Management');
+      ngOnInit(): void {
+        // Retrieve username from local storage
+        const username = localStorage.getItem('userName');
+       
+        // Get the hierarchy users array from localStorage
+        const users = localStorage.getItem('hierarchyUsersView');
+        console.log("users",users);
+        let parsedUsers: any[];
+        if(users === null){
+          parsedUsers= [];
+          const userExists = parsedUsers.some((u: any) => u === username);
+          this.ShowHierarchyAccess = userExists;
+          // If user doesn't have hierarchy access, remove the item from the list
+          if (!this.ShowHierarchyAccess) {
+            this.list = this.list.filter(item => item.name !== 'Heirachy Management');
+          }
+          console.log(this.ShowHierarchyAccess,this.list);
+        }
+        else if (users != null && username) {
+          // Parse the hierarchy users array
+          parsedUsers = users ? JSON.parse(users) : [];
+          // const parsedUsers = JSON.parse(users);
+          // Check if the user exists in the parsed users array
+          const userExists = parsedUsers.some((u: any) => u === username);
+          this.ShowHierarchyAccess = userExists;
+          // If user doesn't have hierarchy access, remove the item from the list
+          if (!this.ShowHierarchyAccess) {
+            this.list = this.list.filter(item => item.name !== 'Heirachy Management');
+          }
+          console.log(this.ShowHierarchyAccess,this.list);
+    
+        } else {
+          console.log("Hierarchy users data or user data is missing in localStorage.");
+        }
+      
+        const storedUsernames = localStorage.getItem('usernames');
+    
+        this.usernames = storedUsernames ? JSON.parse(storedUsernames) : [];
       }
-      console.log(this.ShowHierarchyAccess,this.list);
-
-    } else {
-      console.log("Hierarchy users data or user data is missing in localStorage.");
-    }
-  
-    const storedUsernames = localStorage.getItem('usernames');
-
-    this.usernames = storedUsernames ? JSON.parse(storedUsernames) : [];
-  }
 
 
   ionViewDidEnter(){

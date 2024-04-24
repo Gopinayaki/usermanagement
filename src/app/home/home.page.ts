@@ -28,27 +28,10 @@ export class HomePage {
     this.menu.enable(false);
     const storedData = localStorage.getItem('usertable2');
     this.users = storedData ? JSON.parse(storedData) : this.users;
-    
-
     console.log(storedData,this.users)
-
-
-
-
-
-
-
-
     const storedUsernames = localStorage.getItem('usernames');
-
     this.usernames = storedUsernames ? JSON.parse(storedUsernames) : [];
-
-
-
-
   }
-
-
 
   ngOnDestroy() {
     this.menuCtrl.enable(true, 'menu1'); // Enable the menu with menuId 'menu1'
@@ -60,7 +43,6 @@ export class HomePage {
     {username: 'supra', password:'supra@123',role:'field-operator', active: true, createdTime: "11-Apr-2024 14:48:42", createdby: "admin", designation: "ddd", emailid: "ddd", mobilenumber: "ddd"},
     {username: 'admin', password:'admin',role:'personal', active: true, createdTime: "11-Apr-2024 14:48:42", createdby: "admin", designation: "ddd", emailid: "ddd", mobilenumber: "ddd"}
 ];
-
 
   async login() {
     // Replace this with actual authentication logic

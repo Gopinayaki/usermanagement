@@ -72,9 +72,8 @@ export class UsermanagementcompComponent  implements OnInit {
         this.usernames = storedUsernames ? JSON.parse(storedUsernames) : [];
 
         this.updateUserAccess();
+        
       }
-
-
 
     ngOnInit(): void {
       const storedData = localStorage.getItem('usertable2');
@@ -93,7 +92,6 @@ export class UsermanagementcompComponent  implements OnInit {
         // If there's no data in local storage, use the constant data alone
         this.usertable2 = [...this.usertable2];
       }
-
 
     const storedGrouptable1 = localStorage.getItem('grouptable1');
     this.grouptable = storedGrouptable1 ? JSON.parse(storedGrouptable1) : [];
@@ -121,30 +119,68 @@ export class UsermanagementcompComponent  implements OnInit {
     }
 
 
-    setheirachy(){
+    // setheirachy(){
+    //   const userStoredData = localStorage.getItem('useraccess');
+    //   if (userStoredData) {
+    //     this.useraccess = JSON.parse(userStoredData)
+    //     console.log("user storeddata",userStoredData);
+    //     const storedUsers = JSON.parse(userStoredData);
+    //     const normalUser: any[] = [];
+    //     const specialUser: any[] = [];
+    //     storedUsers.forEach((group:any) => {
+    //       if (group.hierarchyManagementControl === true) {
+    //         specialUser.push(group);
+    //       } else {
+    //         normalUser.push(group);
+    //       }
+    //     });
+    //     console.log("Special Users:", specialUser);
+    //     const usernames = specialUser.map(user => user.username1);
+    //     console.log("Usernames:", usernames);
+    //     localStorage.setItem("hierarchyUsers",JSON.stringify(usernames));
+
+    //     window.location.reload();
+
+    //   }
+    // }
+
+
+
+
+    setheirachy() {
       const userStoredData = localStorage.getItem('useraccess');
       if (userStoredData) {
-        this.useraccess = JSON.parse(userStoredData)
-        console.log("user storeddata",userStoredData);
-        const storedUsers = JSON.parse(userStoredData);
-        const normalUser: any[] = [];
-        const specialUser: any[] = [];
-        storedUsers.forEach((group:any) => {
-          if (group.hierarchyManagementControl === true) {
-            specialUser.push(group);
-          } else {
-            normalUser.push(group);
-          }
-        });
-        console.log("Special Users:", specialUser);
-        const usernames = specialUser.map(user => user.username1);
-        console.log("Usernames:", usernames);
-        localStorage.setItem("hierarchyUsers",JSON.stringify(usernames));
-
-        window.location.reload();
-
+          this.useraccess = JSON.parse(userStoredData);
+          console.log("user storeddata", userStoredData);
+          const storedUsers = JSON.parse(userStoredData);
+          const normalUser: any[] = [];
+          const specialUserControl: any[] = [];
+          const specialUserView: any[] = [];
+          storedUsers.forEach((group: any) => {
+              if (group.hierarchyManagementControl === true && group.hierarchyManagementView === true) {
+                  specialUserControl.push(group);
+                  specialUserView.push(group);
+              } else if (group.hierarchyManagementControl === true) {
+                  specialUserControl.push(group);
+              } else if (group.hierarchyManagementView === true) {
+                  specialUserView.push(group);
+              } else {
+                  normalUser.push(group);
+              }
+          });
+          console.log("Special Users with Control:", specialUserControl);
+          console.log("Special Users with View:", specialUserView);
+          const usernamesControl = specialUserControl.map(user => user.username1);
+          const usernamesView = specialUserView.map(user => user.username1);
+          console.log("Usernames with Control:", usernamesControl);
+          console.log("Usernames with View:", usernamesView);
+          localStorage.setItem("hierarchyUsersControl", JSON.stringify(usernamesControl));
+          localStorage.setItem("hierarchyUsersView", JSON.stringify(usernamesView));
+  
+          window.location.reload();
       }
-    }
+  }
+  
 
     onEditorPreparing(e:any) {
         if (e.parentType === 'dataRow' && e.dataField === 'password') {
@@ -209,6 +245,7 @@ export class UsermanagementcompComponent  implements OnInit {
 
       SelectSegment(e:any){ 
       }
+      
       onrowupdateuseraccesstable(event: any) {
         const updatedData = event.data; // Assuming event.data contains the updated row data
         const username = updatedData.username1;
@@ -230,7 +267,7 @@ export class UsermanagementcompComponent  implements OnInit {
           console.log('Updated useraccess:', this.useraccess);
       
           this.setheirachy(); // Call any additional function if needed
-        } else {
+        } else {  
           console.log(`User with username '${username}' not found in useraccess array.`);
         }
       }
@@ -315,8 +352,6 @@ export class UsermanagementcompComponent  implements OnInit {
             this.saveGroupNameToLocalStorage();      
           }
 
-
-         
           onRowRemovingForGroupTable(event: any) {
             // Log the event object to the console for debugging
             console.log(event, this.grouptable);

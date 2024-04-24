@@ -24,6 +24,18 @@
 
       >
 
+    <!-- New column with dropdown -->
+    <dxi-column dataField="Access" caption="Access" editCellTemplate="accessEditor" >
+      <div *dxTemplate="let cellInfo of 'accessEditor'">
+        <dx-select-box
+          [dataSource]="accessallonly"
+          (onValueChanged)="onValChanged($event)"
+        ></dx-select-box>
+      </div>
+    </dxi-column>
+
+
+
         <dxi-column dataField="Tags" caption="Group Name" editCellTemplate="groupNAMEditor" >
           <div *dxTemplate="let cellInfo of 'groupNAMEditor'">
             <dx-tag-box [dataSource]="gp" 
@@ -41,21 +53,10 @@
       
         </dxi-column>
         
-    <!-- New column with dropdown -->
-    <dxi-column dataField="Access" caption="Access" editCellTemplate="accessEditor" >
-      <div *dxTemplate="let cellInfo of 'accessEditor'">
-        <dx-select-box
-          [dataSource]="accessallonly"
-          (onValueChanged)="onValChanged($event)"
-        ></dx-select-box>
-      </div>
-    </dxi-column>
 
-
-      
         <dxo-editing
             [allowAdding]="true"
-            [allowUpdating]="true"
+            [allowUpdating]="false"
             [allowDeleting]="true"
             [useIcons]="true"
             >

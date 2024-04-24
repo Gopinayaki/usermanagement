@@ -1,63 +1,56 @@
-<ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title>{{ data.levels }}</ion-title>
-    <ion-buttons slot="end">
-      <ion-button (click)="closeModal()">
-        <ion-icon slot="icon-only" name="close"></ion-icon>
-      </ion-button>
-    </ion-buttons>
-  </ion-toolbar>
-</ion-header>
+    <ion-header [translucent]="true">
+      <ion-toolbar>
+        <ion-title>{{ data.levels }}</ion-title>
+        <ion-buttons slot="end">
+          <ion-button (click)="closeModal()">
+            <ion-icon slot="icon-only" name="close"></ion-icon>
+          </ion-button>
+        </ion-buttons>
+      </ion-toolbar>
+    </ion-header>
 
 
-<ion-content [fullscreen]="true">
+    <ion-content [fullscreen]="true">
+      <dx-data-grid
+          class="grid"
+          [dataSource]="dataSource"
+          [showBorders]="true"
+          allowSorting="true"
+          [rowAlternationEnabled]="true"
+          [allowColumnResizing]="true"
+          (onRowInserted)="onRowInserting($event)"
+          (onRowRemoving)="onRowDeleted($event)"
+        >
+        <dxi-column dataField="Access" caption="Access Level" editCellTemplate="accesuserselect">
+            <div *dxTemplate="let cellInfo of 'accesuserselect'">
+              <dx-select-box  [dataSource]="accessallonly"
+                          (onValueChanged)="onValChanged($event)"
+                          >
+              </dx-select-box>
+          </div>
+        </dxi-column>
+        
+        <dxi-column dataField="Tags" caption="Select User" editCellTemplate="tagBoxEditor">
+          <div *dxTemplate="let cellInfo of 'tagBoxEditor'">
+            <dx-tag-box [dataSource]="tagname" 
+                        [showSelectionControls]="true"
+                        [showMultiTagOnly]="false" 
+                        [searchEnabled]="true"
+                        [multiline]="true"
+                        displayExpr="text"
+                        valueExpr="text"
+                        (onValueChanged)="onValueChanged($event)"
+                        >
+            </dx-tag-box>
+        </div>
+        </dxi-column>
 
-  <dx-data-grid
-      class="grid"
-      [dataSource]="dataSource"
-      [showBorders]="true"
-      allowSorting="true"
-      [rowAlternationEnabled]="true"
-      [allowColumnResizing]="true"
-      (onRowInserted)="onRowInserting($event)"
-      (onRowRemoving)="onRowDeleted($event)"
-    >
-    <dxi-column dataField="Tags" caption="Select User" editCellTemplate="tagBoxEditor">
-    </dxi-column>
-    <dxi-column dataField="Access" caption="Acess Level" editCellTemplate="accesuserselect" >
-     
-
-        <div *dxTemplate="let cellInfo of 'accesuserselect'">
-          <dx-select-box  [dataSource]="accessallonly"
-                      (onValueChanged)="onValChanged($event)"
-
-                      >
-          </dx-select-box>
-      </div>
-
-
-    </dxi-column>
-    
-      <div *dxTemplate="let cellInfo of 'tagBoxEditor'">
-          <dx-tag-box [dataSource]="tagname" 
-                      [showSelectionControls]="true"
-                      [showMultiTagOnly]="false" 
-                      [searchEnabled]="true"
-                      [multiline]="true"
-                      displayExpr="text"
-                      valueExpr="text"
-                      (onValueChanged)="onValueChanged($event)"
-                      >
-          </dx-tag-box>
-      </div>
-
-      
-      <dxo-editing
-          mode="row"
-          [allowAdding]="true"
-          [allowDeleting]="true"
-          [useIcons]="true">
-      </dxo-editing>
-    </dx-data-grid>
-    
-</ion-content>
+        <dxo-editing
+              mode="row"
+              [allowAdding]="true"
+              [allowDeleting]="true"
+              [useIcons]="true">
+          </dxo-editing>
+        </dx-data-grid>
+        
+    </ion-content>

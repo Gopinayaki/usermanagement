@@ -1,3 +1,6 @@
+
+<ion-content [fullscreen]="true">
+
 <div id="tree-list-demo"  style="padding: 20px;">
             <dx-tree-list
               id="tasks"
@@ -14,7 +17,6 @@
               (onRowInserted)="onRowInserted($event)"
               (onRowRemoving)="onrowdeleted($event)"
               [customizeColumns]="customizeColumns"
-
             >
             <dxo-templates  style="text-align: center !important; ">
               <div *dxTemplate="let data of 'customCellTemplategroups'"  style="text-align: center;">
@@ -43,3 +45,4 @@
   </dxo-editing>
     </dx-tree-list>
   </div>
+</ion-content>
