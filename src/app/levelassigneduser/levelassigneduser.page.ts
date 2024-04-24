@@ -209,26 +209,28 @@ export class LevelassigneduserPage implements OnInit {
             const finalFilteredTasks = filteredUserData.filter(task => task.Access === "All");
             // const filTasks= finalFilteredTasks.map(user => user.Tags);
             // console.log("finalFilteredTasks",filTasks);
-            const taskIDs = filteredLevels.map((task: { Task_ID: any; }) => task.Task_ID);
-            console.log("id",taskIDs,finalFilteredTasks);
+            const taskIDs = filteredLevels.filter((task: { Task_ID: any; levels: any}) => task.Task_ID && ( task.levels=== this.selLevel));
             let arr = [];
-            let selectedOpts: any[] = [];
+            let arr2 = [];
 
-            taskIDs.forEach((element: any) => {  
+            let selectedOpts: any[] = [];
+            const filTasks= taskIDs.map((task: { Task_ID: any; }) => task.Task_ID);
+            console.log("id",taskIDs,filTasks);
+
+            filTasks.forEach((element: any) => {  
               // for (let index = 0; index < taskIDs.length; index++) {
-              //   const element = taskIDs[index];
+              // const element = taskIDs[index];
                 arr = tasksData.filter((task: { Task_Parent_ID: any; })=> task.Task_Parent_ID === element);
                 const levls = arr.map((tk: { levels: any; })=>tk.levels);
-                console.log("arr",arr,levls);
-
-                // levls.forEach((level: any) => {
+                arr2 = tasksData.filter((task: { Task_ID: any; })=> task.Task_ID === element);
+                console.log("arr",arr,arr2,levls);
+              // const taskID = this.getTaskIDByLevels(this.selLevel);
+              //  if(this.selLevel === "" )
+                levls.forEach((level: any) => {
                   finalFilteredTasks.forEach((element: any) => {
-                    selectedOpts.push({ Tags: element.Tags, levels: this.selLevel, Access: "All" });
+                    selectedOpts.push({ Tags: element.Tags, levels: level, Access: "All" });
                   });
-                 
-                // });
-
-              
+                });
             });
 
             let existData = existingData.concat(selectedOpts);
@@ -239,5 +241,14 @@ export class LevelassigneduserPage implements OnInit {
           }
         } 
       }
+
+    // getTaskIDByLevels(levels:any) {
+    //   for (const task of tasks) {
+    //     if (task.levels === levels) {
+    //       return task.Task_ID;
+    //     }
+    //   }
+    //   return null;
+    // }
     
 }

@@ -11,28 +11,46 @@ import { LevelassignedgroupsPage } from '../levelassignedgroups/levelassignedgro
 
 export class HeirarchymanagemnetComponent  implements OnInit {
 
-  tasksData = []
+  tasksData = [];
+  tasks = [];
   isLevelsEmpty: boolean = true;
   ShowHierarchyAccess: boolean = false;
   
   constructor(  private dialog: MatDialog) { }
 
   ngOnInit() {
-
-
     // Retrieve data from local storage when the component initializes
     const savedTasksData = localStorage.getItem('tasksData');
     if (savedTasksData) {
-      this.tasksData = JSON.parse(savedTasksData);
+      this.tasks = JSON.parse(savedTasksData);
+      console.log("tdt",this.tasks);
     }
 
+    let storedData = localStorage.getItem('leveluser');
+    console.log("dtd",storedData);
+    let array : any[]=[];
+    let arrayTasks : any[]=[];
+
+    if (storedData !== null) {
+      array =  JSON.parse(storedData);
+    }
     // Get the hierarchy users array from localStorage
     const users = localStorage.getItem('hierarchyUsersControl');
     console.log(users)
     let user = localStorage.getItem("userName");
     console.log(user)
-
-    console.log("usrs",user,users);
+    const yg = array.filter(task => task.Tags === user);
+    const lev = yg.map(lev=> lev.levels);
+    console.log("Filtered Objects:", yg);
+    console.log("Extracted Levels:", lev);
+    
+    lev.forEach(element => {
+      // this.tasksData.filter(qw=> qw === element);
+      const result = this.tasks.filter((task: { levels: any; })=> task.levels === element);
+      this.tasksData =result;
+    });
+    
+    console.log(this.tasksData,"usrs",user,users);
     if (users && user) {
         // Parse the hierarchy users array
         const parsedUsers = JSON.parse(users);
