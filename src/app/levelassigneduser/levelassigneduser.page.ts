@@ -72,6 +72,7 @@ export class LevelassigneduserPage implements OnInit {
 
       onValChanged(event: any) {
         const selectedValue = event.value;
+        this.selAccLevel = selectedValue;
         console.log(selectedValue)
         localStorage.setItem("selAccLevel",selectedValue)
       }
@@ -160,39 +161,52 @@ export class LevelassigneduserPage implements OnInit {
         this.dataSource = filteredData;
      
         console.log(existingData, this.dataSource);
-        this.levelaccessview();
       
-        }
+        const taskd = localStorage.getItem('tasksData');
+        if (taskd !== null) {
+          let tasksData = JSON.parse(taskd);
 
+          // const filteredTasks = tasksData.filter((task: { Task_Parent_ID: number; levels: string; }) => task.Task_Parent_ID === 0);
+          if(this.selAccLevel ===  "All"){
+            const filteredLevels = tasksData.filter((task: { Task_Parent_ID: number; }) => task.Task_Parent_ID === 0);
+            const filteredUserData = existingData.filter((user: { levels: any }) =>
+              filteredLevels.some((filteredLevel: { levels: any; }) => filteredLevel.levels === user.levels)
+            );
+            console.log(filteredLevels,filteredUserData);
 
-        levelaccessview() {
-          // Retrieve user data from local storage
-          const userStoredData = localStorage.getItem('leveluser');
-      
-          if (userStoredData) {
-              // Parse the JSON string to convert it into an array of objects
-              const userData = JSON.parse(userStoredData);
-      
-              // Implement your condition based on the userData
-              // For example, iterate through the userData array and apply your logic
-              userData.forEach((userEntry: any) => {
-                  const Access = userEntry.Access;
-                  const assignedLevels = userEntry.assignedLevels;
-      
-                  // Implement your logic here based on Access and assignedLevels
-                  // For example:
-                  if (Access === 'All') {
-                      // User has access to all levels, handle accordingly
-                      console.log('User has access to all levels');
-                  } else if (Access === 'Only') {
-                      // User has access to specific levels, handle accordingly
-                      console.log('User has access to specific levels');
-                  }
-              });
-          } else {
-              // Handle case where no user data is found in local storage
-              console.log('No user data found in local storage');
+            const finalFilteredTasks = filteredUserData.filter(task => task.Access === "All");
+            // const filTasks= finalFilteredTasks.map(user => user.Tags);
+            // console.log("finalFilteredTasks",filTasks);
+            const taskIDs = filteredLevels.map((task: { Task_ID: any; }) => task.Task_ID);
+            console.log("id",taskIDs,finalFilteredTasks);
+            let arr = [];
+            let selectedOpts: any[] = [];
+
+            taskIDs.forEach((element: any) => {  
+              // for (let index = 0; index < taskIDs.length; index++) {
+              //   const element = taskIDs[index];
+                arr = tasksData.filter((task: { Task_Parent_ID: any; })=> task.Task_Parent_ID === element);
+                const levls = arr.map((tk: { levels: any; })=>tk.levels);
+                console.log("arr",arr,levls);
+
+                levls.forEach((level: any) => {
+                  finalFilteredTasks.forEach((element: any) => {
+                    selectedOpts.push({ Tags: element.Tags, levels: level, Access: "All" });
+                  });
+                  // selectedOpts.push({ Tags: "arr[0].Tags", levels: level, Access: "All" });
+                });
+
+              // }
+            });
+
+            let existData = data.concat(selectedOpts);
+            console.log("opt",selectedOpts,existData)
+
+            localStorage.setItem('leveluser', JSON.stringify(existData));
+
           }
+
+        } 
       }
       
 }
