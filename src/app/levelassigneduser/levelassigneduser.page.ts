@@ -169,4 +169,3 @@ export class LevelassigneduserPage implements OnInit {
       
         }
 }
- 
