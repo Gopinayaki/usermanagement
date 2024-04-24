@@ -22,8 +22,6 @@
       (onRowInserted)="onRowInserting($event)"
       (onRowRemoving)="onRowDeleted($event)"
     >
-    <dxi-column dataField="Tags" caption="Select User" editCellTemplate="tagBoxEditor">
-    </dxi-column>
     <dxi-column dataField="Access" caption="Acess Level" editCellTemplate="accesuserselect" >
      
 
@@ -37,7 +35,9 @@
 
 
     </dxi-column>
-    
+    <dxi-column dataField="Tags" caption="Select User" editCellTemplate="tagBoxEditor">
+    </dxi-column>
+
       <div *dxTemplate="let cellInfo of 'tagBoxEditor'">
           <dx-tag-box [dataSource]="tagname" 
                       [showSelectionControls]="true"

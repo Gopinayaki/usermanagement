@@ -72,6 +72,7 @@ export class LevelassigneduserPage implements OnInit {
 
       onValChanged(event: any) {
         const selectedValue = event.value;
+        this.selAccLevel = selectedValue;
         console.log(selectedValue)
         localStorage.setItem("selAccLevel",selectedValue)
       }
@@ -159,14 +160,59 @@ export class LevelassigneduserPage implements OnInit {
         
         // Filter the data based on levels
         const filteredData = existingData.filter((item: { levels: any; }) => item.levels === gname );
-    ;
+
         localStorage.setItem('leveluser', JSON.stringify(existingData));
 
         // Update the dataSource and save it to local storage
         this.dataSource = filteredData;
      
         console.log(existingData, this.dataSource);
-      
-        }
+        const taskd = localStorage.getItem('tasksData');
+        if (taskd !== null) {
+          let tasksData = JSON.parse(taskd);
+
+          // const filteredTasks = tasksData.filter((task: { Task_Parent_ID: number; levels: string; }) => task.Task_Parent_ID === 0);
+          if(this.selAccLevel ===  "All"){
+            const filteredLevels = tasksData.filter((task: { Task_Parent_ID: number; }) => task.Task_Parent_ID === 0);
+            const filteredUserData = existingData.filter((user: { levels: any }) =>
+              filteredLevels.some((filteredLevel: { levels: any; }) => filteredLevel.levels === user.levels)
+            );
+            console.log(filteredLevels,filteredUserData);
+  
+            const finalFilteredTasks = filteredUserData.filter(task => task.Access === "All");
+            // const filTasks= finalFilteredTasks.map(user => user.Tags);
+            // console.log("finalFilteredTasks",filTasks);
+            const taskIDs = filteredLevels.map((task: { Task_ID: any; }) => task.Task_ID);
+            console.log("id",taskIDs,finalFilteredTasks);
+            let arr = [];
+            let selectedOpts: any[] = [];
+
+            taskIDs.forEach((element: any) => {  
+              // for (let index = 0; index < taskIDs.length; index++) {
+              //   const element = taskIDs[index];
+                arr = tasksData.filter((task: { Task_Parent_ID: any; })=> task.Task_Parent_ID === element);
+                const levls = arr.map((tk: { levels: any; })=>tk.levels);
+                console.log("arr",arr,levls);
+    
+                levls.forEach((level: any) => {
+                  finalFilteredTasks.forEach((element: any) => {
+                    selectedOpts.push({ Tags: element.Tags, levels: level, Access: "All" });
+                  });
+                  // selectedOpts.push({ Tags: "arr[0].Tags", levels: level, Access: "All" });
+                });
+    
+              // }
+            });
+
+            let existData = data.concat(selectedOpts);
+            console.log("opt",selectedOpts,existData)
+  
+            localStorage.setItem('leveluser', JSON.stringify(existData));
+  
+          }
+
+        } 
+      }
+
 }
  
