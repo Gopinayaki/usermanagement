@@ -65,6 +65,8 @@ export class HeirarchymanagemnetComponent  implements OnInit {
 
   saveToLocalStorage(): void {
     // Convert data to JSON string and save it to local storage
+
+
     localStorage.setItem('tasksData', JSON.stringify(this.tasksData));
   }
 

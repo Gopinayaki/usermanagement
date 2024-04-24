@@ -71,17 +71,19 @@ export class LevelassigneduserPage implements OnInit {
       }
 
       onValChanged(event: any) {
-        const selectedValue = event.value;
-        this.selAccLevel = selectedValue;
+        const selectedValue = event.value; 
+          this.selAccLevel = selectedValue;
+
         console.log(selectedValue)
         localStorage.setItem("selAccLevel",selectedValue)
       }
-      
+      selLevel: any;
       onValueChanged(event: any) {
         this.selectUser = event.value;
         
         // Just an example, you can handle the selected options here
         const gname = this.data.levels;
+        this.selLevel=gname;
         const selAccLevel = localStorage.getItem("selAccLevel");
         const selectedOptions: Option[] = event.value;
         console.log(selectedOptions) // Explicitly specify the type of selectedOptions
@@ -136,11 +138,41 @@ export class LevelassigneduserPage implements OnInit {
     
       } 
 
+      // onRowInserting(event: any) {
+      //   console.log("n",event);
+      //   const gname = this.data.levels;
+      //   let storedData = localStorage.getItem('leveluser');
+      //   let data: any[] = storedData ? JSON.parse(storedData) : [];
+      //   console.log(data);
+      //   // Concatenate existing dataSource with selectedRows
+      //   let existingData = data.concat(this.selectedRows);
+      //   console.log(this.selectedRows)
+
+      //   // Convert the existingData array ton a Set to remove duplicates
+      //   const uniqueEntries = new Set(existingData.map(item => JSON.stringify(item)));
+
+      //   // Convert the uniqueEntries Set back to an array of objects
+      //   existingData = Array.from(uniqueEntries).map(item => JSON.parse(item));
+        
+      //   // Filter the data based on levels
+      //   const filteredData = existingData.filter((item: { levels: any; }) => item.levels === gname );
+                                                                                                                                               
+      //   localStorage.setItem('leveluser', JSON.stringify(existingData));
+
+      //   // Update the dataSource and save it to local storage
+      //   this.dataSource = filteredData;
+     
+      //   console.log(existingData, this.dataSource);
+       
+      
+      //   }
+
+
       onRowInserting(event: any) {
         console.log("n",event);
         const gname = this.data.levels;
         let storedData = localStorage.getItem('leveluser');
-        let data: any[] = storedData ? JSON.parse(storedData) : [];
+        let data: any[] = storedData ? JSON.parse(storedData) : []; 
         console.log(data);
         // Concatenate existing dataSource with selectedRows
         let existingData = data.concat(this.selectedRows);
@@ -189,24 +221,23 @@ export class LevelassigneduserPage implements OnInit {
                 const levls = arr.map((tk: { levels: any; })=>tk.levels);
                 console.log("arr",arr,levls);
 
-                levls.forEach((level: any) => {
+                // levls.forEach((level: any) => {
                   finalFilteredTasks.forEach((element: any) => {
-                    selectedOpts.push({ Tags: element.Tags, levels: level, Access: "All" });
+                    selectedOpts.push({ Tags: element.Tags, levels: this.selLevel, Access: "All" });
                   });
-                  // selectedOpts.push({ Tags: "arr[0].Tags", levels: level, Access: "All" });
-                });
+                 
+                // });
 
-              // }
+              
             });
 
-            let existData = data.concat(selectedOpts);
+            let existData = existingData.concat(selectedOpts);
             console.log("opt",selectedOpts,existData)
 
             localStorage.setItem('leveluser', JSON.stringify(existData));
 
           }
-
         } 
       }
-      
+    
 }
