@@ -144,8 +144,6 @@ export class LevelassigneduserPage implements OnInit {
         let storedData = localStorage.getItem('leveluser');
         let data: any[] = storedData ? JSON.parse(storedData) : [];
       
-       
-      
         console.log(data);
 
         // Concatenate existing dataSource with selectedRows
@@ -206,13 +204,8 @@ export class LevelassigneduserPage implements OnInit {
 
             let existData = data.concat(selectedOpts);
             console.log("opt",selectedOpts,existData)
-  
             localStorage.setItem('leveluser', JSON.stringify(existData));
-  
           }
-
         } 
       }
-
 }
- 
