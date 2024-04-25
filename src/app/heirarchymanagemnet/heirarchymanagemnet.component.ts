@@ -47,18 +47,26 @@ export class HeirarchymanagemnetComponent  implements OnInit {
   
   console.log("Filtered Objects:", yg);
   console.log("Extracted Levels:", lev);
+
+  if(user != 'admin'){
   
-  for (let index = 0; index < lev.length; index++) {
-      const element = lev[index];
-      const result = this.tasks.filter((task: { levels: any; })=> task.levels === element);
-  
-      // Push each element of the result array into the tasksData array
-      for (let i = 0; i < result.length; i++) {
-          this.tasksData.push(result[i]);
-      }
-  }
+    for (let index = 0; index < lev.length; index++) {
+        const element = lev[index];
+        const result = this.tasks.filter((task: { levels: any; })=> task.levels === element);
     
+        // Push each element of the result array into the tasksData array
+        for (let i = 0; i < result.length; i++) {
+            this.tasksData.push(result[i]);
+        }
+    }
       
+  }
+  else {
+    const savedTasksData = localStorage.getItem('tasksData');
+    if (savedTasksData) {
+      this.tasksData = JSON.parse(savedTasksData);
+    }
+  }
     
     // lev.forEach(element => {
     //   // this.tasksData.filter(qw=> qw === element);
