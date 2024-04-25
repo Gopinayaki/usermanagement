@@ -33,22 +33,38 @@ export class HeirarchymanagemnetComponent  implements OnInit {
 
     if (storedData !== null) {
       array =  JSON.parse(storedData);
-    }
-    // Get the hierarchy users array from localStorage
-    const users = localStorage.getItem('hierarchyUsersControl');
-    console.log(users)
-    let user = localStorage.getItem("userName");
-    console.log(user)
-    const yg = array.filter(task => task.Tags === user);
-    const lev = yg.map(lev=> lev.levels);
-    console.log("Filtered Objects:", yg);
-    console.log("Extracted Levels:", lev);
-    
-    lev.forEach(element => {
-      // this.tasksData.filter(qw=> qw === element);
+  }
+  
+  // Get the hierarchy users array from localStorage
+  const users = localStorage.getItem('hierarchyUsersControl');
+  console.log(users)
+  
+  let user = localStorage.getItem("userName");
+  console.log(user)
+  
+  const yg = array.filter(task => task.Tags === user);
+  const lev = yg.map(lev => lev.levels);
+  
+  console.log("Filtered Objects:", yg);
+  console.log("Extracted Levels:", lev);
+  
+  for (let index = 0; index < lev.length; index++) {
+      const element = lev[index];
       const result = this.tasks.filter((task: { levels: any; })=> task.levels === element);
-      this.tasksData =result;
-    });
+  
+      // Push each element of the result array into the tasksData array
+      for (let i = 0; i < result.length; i++) {
+          this.tasksData.push(result[i]);
+      }
+  }
+    
+      
+    
+    // lev.forEach(element => {
+    //   // this.tasksData.filter(qw=> qw === element);
+    //   const result = this.tasks.filter((task: { levels: any; })=> task.levels === element);
+    //   this.tasksData =result;
+    // });
     
     console.log(this.tasksData,"usrs",user,users);
     if (users && user) {
