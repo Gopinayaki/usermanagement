@@ -88,41 +88,41 @@ export class HeirarchymanagemnetComponent  implements OnInit {
 
     }
 
-  onRowInserted(event:any){
-    console.log(event)
+      onRowInserted(event:any){
+        console.log(event)
 
-    this.saveToLocalStorage();
-
-
-  }
-  
-
-  saveToLocalStorage(): void {
-    // Convert data to JSON string and save it to local storage
+        this.saveToLocalStorage();
 
 
-    localStorage.setItem('tasksData', JSON.stringify(this.tasksData));
-  }
+      }
+      
 
-  customizeColumns(columns: any) {
-
-    const customColumngroup = {
-      caption: 'Assigned Groups', // Caption for the column header
-      cellTemplate: 'customCellTemplategroups',
-      cssClass: 'custom-column-header' // Specifies a custom cell template for the column
-    };
-
-    const customColumnuser = {
-      caption: 'Assigned Users', // Caption for the column header
-      cellTemplate: 'customCellTemplateusers',
-      cssClass: 'custom-column-header' // Specifies a custom cell template for the column
-    };
+      saveToLocalStorage(): void {
+        // Convert data to JSON string and save it to local storage
 
 
-    columns.unshift(customColumnuser);
-    columns.unshift(customColumngroup);
+        localStorage.setItem('tasksData', JSON.stringify(this.tasksData));
+      }
 
-  }
+      customizeColumns(columns: any) {
+
+        const customColumngroup = {
+          caption: 'Assigned Groups', // Caption for the column header
+          cellTemplate: 'customCellTemplategroups',
+          cssClass: 'custom-column-header' // Specifies a custom cell template for the column
+        };
+
+        const customColumnuser = {
+          caption: 'Assigned Users', // Caption for the column header
+          cellTemplate: 'customCellTemplateusers',
+          cssClass: 'custom-column-header' // Specifies a custom cell template for the column
+        };
+
+
+        columns.unshift(customColumnuser);
+        columns.unshift(customColumngroup);
+
+      }
 
 
       openDialousers(data:any) {
