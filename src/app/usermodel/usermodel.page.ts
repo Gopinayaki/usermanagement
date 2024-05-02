@@ -1,5 +1,5 @@
 import { Component, Inject, Input, OnInit, input } from '@angular/core';
-import { MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 
 // Define an interface for your option objects
 interface Option {
@@ -20,9 +20,48 @@ export class UsermodelPage implements OnInit {
 
   // @Input() data:any
   constructor(@Inject(MAT_DIALOG_DATA) public data: any) { 
- 
+
   }
 
+
+  selectedUsernames: string[] = ['supra']; // Keep track of selected usernames
+
+  // Function to determine if an item is already selected
+  isAlreadySelected() {
+    let UserData = localStorage.getItem('usertable2');
+    let usertable2;
+    if (UserData) {
+      usertable2 = JSON.parse(UserData);
+      // Now you can safely use usertable2
+      
+    } else {
+      console.error("User data is null.");
+    }    console.log('extD',usertable2);
+  
+    const usernames = usertable2.map((user: { username: any; }) => user.username);
+    localStorage.setItem('usernames', JSON.stringify(usernames));    
+
+    const storedUsernames = localStorage.getItem('usernames');
+    this.usernames = storedUsernames ? JSON.parse(storedUsernames) : [];
+    // Convert the usernames array into Option objects and assign it to the tagname property
+    this.tagname = this.usernames.map(username => ({ text: username }));
+    
+    let storedData = localStorage.getItem('dataSource');
+    let existingData: any[] = storedData ? JSON.parse(storedData) : [];
+
+     
+  // Extract Tags values from existingData
+  const tagsArray = existingData.map(item => item.Tags);
+
+  // Check if any of the Tags values are already selected in usernames
+  tagsArray.forEach(tag => {
+    if (this.usernames.includes(tag)) {
+      // If the tag is already selected, remove it from usernames
+      this.removeUsername(tag);
+    }
+  });
+  }
+ 
   ngOnInit() {
     console.log(this.data);
     const storedUsernames = localStorage.getItem('usernames');
@@ -53,10 +92,27 @@ export class UsermodelPage implements OnInit {
       } else {
           console.log('No data found for the selected group.');
       }
-  }
+    }
+
+    this.isAlreadySelected();
+
   }
 
 
+
+  removeUsername(usernameToRemove: string) {
+    // Check if the username exists in the array
+    const index = this.usernames.indexOf(usernameToRemove);
+    if (index !== -1) {
+      // Remove the username from the array
+      this.usernames.splice(index, 1);
+      // Update the tagname property to reflect the changes
+      this.tagname = this.usernames.map(username => ({ text: username }));
+      // Update the local storage with the modified usernames array
+      localStorage.setItem('usernames', JSON.stringify(this.usernames));
+    }
+  }
+  
   onValueChanged(event: any) {
     this.selectUser = event.value;
     
@@ -89,6 +145,8 @@ export class UsermodelPage implements OnInit {
     // this.dataSource = filteredData;
     this.selectedRows=mappedData
     console.log(mappedData, this.dataSource);
+    this.isAlreadySelected();
+
   }
   
 
@@ -138,8 +196,12 @@ export class UsermodelPage implements OnInit {
   // Perform any other necessary actions with the deleted row data
   console.log('Deleted row data:', deletedRowData);
 
+  this.isAlreadySelected();
+
     }
 
+    ionViewDidLeave() {
+    }    
 
   onRowInserting(event: any) {
     const gname = this.data.groupname;
@@ -183,8 +245,8 @@ export class UsermodelPage implements OnInit {
     groupexistingData = Array.from(groupuUniqueEntries).map(item => JSON.parse(item));
     
     localStorage.setItem('dataofgroupnmae', JSON.stringify(groupexistingData));
+    this.isAlreadySelected();
 
 }
-
 
 }
