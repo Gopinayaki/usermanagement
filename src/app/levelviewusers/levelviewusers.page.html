@@ -1,6 +1,15 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
-    <ion-title>{{ data.username }}</ion-title>
+    <ion-title>
+      <span class="title-text">Assigned Levels</span>
+      <span class="group-name">({{ data.username }})</span>
+    </ion-title>
+
+    <ion-buttons slot="end">
+      <ion-button (click)="dismiss()">
+        <ion-icon name="close"></ion-icon>
+      </ion-button>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 

@@ -1,5 +1,5 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 interface Option {
   text: string;
 }
@@ -27,7 +27,11 @@ export class LevelassignedgroupsPage implements OnInit {
 
   
   // Assuming group names are strings
-  constructor(@Inject(MAT_DIALOG_DATA) public data: any) {
+  constructor(@Inject(MAT_DIALOG_DATA) public data: any,
+  public dailogRef: MatDialogRef<LevelassignedgroupsPage>,
+
+
+) {
 
    }
 
@@ -189,5 +193,11 @@ export class LevelassignedgroupsPage implements OnInit {
         console.log('Row not found in user data.');
       }
       }
+
+      dismiss() {
+        this.dailogRef.close();
+      }
+      
+
 
 }

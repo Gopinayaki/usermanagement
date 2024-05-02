@@ -1,0 +1,27 @@
+<div class="container">
+  <mat-card class="custom-card">
+    <mat-card-content>
+
+      <div class="form">
+        <div class="dx-fieldset">
+          <div class="dx-field">
+            <div class="dx-field-label">Title Name</div>
+            <div class="dx-field-value">
+              <dx-text-box
+                value=""
+                [inputAttr]="{ 'aria-label': 'Name' }"
+                placeholder="enter here..."
+              ></dx-text-box>
+            </div>
+          </div>
+        </div>
+      </div>
+    </mat-card-content>
+
+    <mat-card-actions class="centered-actions">
+      <button mat-button class="mat-green-theme" (click)="saveTitle()">Save</button>
+      <button mat-button class="mat-red-theme">Cancel </button>
+    </mat-card-actions>
+    
+  </mat-card>
+</div>

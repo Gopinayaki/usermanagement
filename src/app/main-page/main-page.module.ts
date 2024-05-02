@@ -20,6 +20,8 @@ import { InputTextModule } from 'primeng/inputtext';
 import { DxiValidationRuleModule } from 'devextreme-angular/ui/nested';
 import dxButton from 'devextreme/ui/button';
 import { HeirarchymanagemnetComponent } from '../heirarchymanagemnet/heirarchymanagemnet.component';
+import { SettingsComponent } from '../settings/settings.component';
+import {MatCardModule} from '@angular/material/card';
 
 @NgModule({
   imports: [
@@ -46,10 +48,11 @@ import { HeirarchymanagemnetComponent } from '../heirarchymanagemnet/heirarchyma
       DxSelectBoxModule,
       DxButtonModule,
       DxTreeListModule,
-      DxFormModule
+      DxFormModule,
+      MatCardModule
       
     ],
-  declarations: [MainPagePage,UsermanagementcompComponent,PagemanagementComponent,HeirarchymanagemnetComponent],
+  declarations: [MainPagePage,UsermanagementcompComponent,PagemanagementComponent,HeirarchymanagemnetComponent,SettingsComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
 export class MainPagePageModule {}

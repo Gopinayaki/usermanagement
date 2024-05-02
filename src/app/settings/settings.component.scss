@@ -1,0 +1,28 @@
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 180vh; /* Adjust this value as needed */
+  }
+  
+  .custom-card {
+    max-width: 400px; /* Adjust the max-width according to your design */
+    width: 100%;
+  }
+  .centered-actions {
+    display: flex;
+    justify-content: center;
+  }
+
+  /* Define custom theme colors */
+.mat-green-theme {
+    background-color: green !important;
+    color: white !important;
+    margin-right: 10px; /* Add margin to create space between buttons */
+  }
+  
+  .mat-red-theme {
+    background-color: red !important;
+    color: white !important;
+  }
+  

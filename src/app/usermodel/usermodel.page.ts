@@ -1,6 +1,6 @@
 import { Component, Inject, Input, OnInit, input } from '@angular/core';
-import { MAT_DIALOG_DATA } from '@angular/material/dialog';
-
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { ModalController, NavController } from '@ionic/angular';
 // Define an interface for your option objects
 interface Option {
   text: string;
@@ -12,16 +12,22 @@ interface Option {
   styleUrls: ['./usermodel.page.scss'],
 })
 export class UsermodelPage implements OnInit {
+
   dataSource: any[] = [];
   usernames!: string[];
   tagname: Option[] = []; // Initialize as an empty array
   selectedRows: any[] = [];
   selectUser!: [];
 
-  // @Input() data:any
-  constructor(@Inject(MAT_DIALOG_DATA) public data: any) { 
- 
-  }
+      // @Input() data:any
+      constructor(@Inject(MAT_DIALOG_DATA) public data: any,
+      public dailogRef: MatDialogRef<UsermodelPage>,
+      private modalController: ModalController,
+      private modalCtrl: ModalController
+         ) { 
+
+    
+      }
 
   ngOnInit() {
     console.log(this.data);
@@ -53,6 +59,7 @@ export class UsermodelPage implements OnInit {
       } else {
           console.log('No data found for the selected group.');
       }
+      
   }
   }
 
@@ -184,6 +191,12 @@ export class UsermodelPage implements OnInit {
     
     localStorage.setItem('dataofgroupnmae', JSON.stringify(groupexistingData));
 
+}
+
+
+
+dismiss() {
+  this.dailogRef.close();
 }
 
 

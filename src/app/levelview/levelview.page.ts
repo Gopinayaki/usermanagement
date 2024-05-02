@@ -1,5 +1,5 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 
 // Define an interface to represent the structure of your data
 interface MyData {
@@ -17,7 +17,12 @@ export class LevelviewPage implements OnInit {
   storedData: MyData[] = [];
   groupname: string;
 
-  constructor(@Inject(MAT_DIALOG_DATA) public data: any) {
+  constructor(@Inject(MAT_DIALOG_DATA) public data: any,
+  public dailogRef: MatDialogRef<LevelviewPage>,
+
+
+
+) {
     this.groupname = data.groupname;
   }
 
@@ -36,4 +41,10 @@ export class LevelviewPage implements OnInit {
       console.log("No data found in local storage");
     }
   }
+
+
+  dismiss() {
+    this.dailogRef.close();
+  }
+  
 }

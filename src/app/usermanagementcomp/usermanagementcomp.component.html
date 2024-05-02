@@ -3,8 +3,7 @@
 <ion-header>
 
 
-  <ion-segment  [(ngModel)]="selectedSegment" 
-  (ionChange)="SelectSegment($event)">
+  <ion-segment  [(ngModel)]="selectedSegment" (ionChange)="SelectSegment($event)">
 
     <ion-segment-button value="group">
       <ion-label>Group</ion-label>
@@ -17,6 +16,7 @@
     <ion-segment-button value="user">
       <ion-label>user</ion-label>
     </ion-segment-button>
+
     <ion-segment-button value="access">
       <ion-label>User Access</ion-label>
     </ion-segment-button>
@@ -26,8 +26,6 @@
 
 
     <ion-content [fullscreen]="true">
-
-     
 
         <ng-container *ngIf="selectedSegment === 'group'"> 
           <dx-data-grid
@@ -141,8 +139,8 @@
                 <dxi-column dataField="userManagementControl" caption="Control" dataType="boolean"></dxi-column>
               </dxi-column>
           
-              <!-- Hierarchy Management -->
-              <dxi-column caption="Hierarchy Management" [alignment]="'center'">
+              <!-- Level Management -->
+              <dxi-column caption="Level Management" [alignment]="'center'">
                 <dxi-column dataField="hierarchyManagementView" caption="View" dataType="boolean"></dxi-column>
                 <dxi-column dataField="hierarchyManagementControl" caption="Control" dataType="boolean"></dxi-column>
               </dxi-column>
@@ -161,7 +159,7 @@
                 
 
               <!-- External Activity Management -->
-            <dxi-column caption="External Activity Management" [alignment]="'center'">
+            <dxi-column caption="External Activity" [alignment]="'center'">
               <dxi-column dataField="externalActivityView" caption="View" dataType="boolean"></dxi-column>
               <dxi-column dataField="externalActivityEdit" caption="Control" dataType="boolean"></dxi-column>
             </dxi-column>
@@ -173,10 +171,10 @@
            
             </dxi-column>
 
-            <!-- Support Management -->
-            <dxi-column caption="Support Management" [alignment]="'center'">
-              <dxi-column dataField="supportView" caption="View" dataType="boolean"></dxi-column>
-              <dxi-column dataField="supportControl" caption="Control" dataType="boolean"></dxi-column>
+            <!-- Settings Management -->
+            <dxi-column caption="Settings" [alignment]="'center'">
+              <dxi-column dataField="SettingsView" caption="View" dataType="boolean"></dxi-column>
+              <dxi-column dataField="SettingsControl" caption="Control" dataType="boolean"></dxi-column>
             </dxi-column>
             </dx-data-grid>
         </ng-container>
@@ -259,19 +257,20 @@
             </dxi-item>
       
             <dxi-item dataField="password">
-         <dxi-validation-rule type="required" message="Password is required" ></dxi-validation-rule>
+            <dxi-validation-rule type="required" message="Password is required" ></dxi-validation-rule>
           </dxi-item>
 
-          <dxi-item dataField="mobilenumber" caption="Mobile Number" 
-          [width]="150" [dataType]="'number'">
-        </dxi-item>
-      
+          <dxi-item dataField="mobilenumber" caption="Mobile Number" [width]="150" [dataType]="'number'">
+            <dxi-validation-rule type="pattern" pattern="[0-9]{10}" message="Please enter a 10-digit mobile number"></dxi-validation-rule>
+          </dxi-item>
+        
         <dxi-item dataField="emailid" caption="Email" [width]="170" [dataType]="'email'">
+          <dxi-validation-rule type="email" message="Please enter a valid email address"></dxi-validation-rule>
         </dxi-item>
-
-  
+        
+      
         <dxi-item dataField="designation" caption="Designation" [dataType]="'string'">
-          <dxi-validation-rule type="required" message=" Designation is required"></dxi-validation-rule>
+          <!-- <dxi-validation-rule type="required" message=" Designation is required"></dxi-validation-rule> -->
         </dxi-item>
             <dxi-item dataField="active" caption="Active" [dataType]="'boolean'"></dxi-item>
             
@@ -304,7 +303,7 @@
           [showInfo]="showInfo"
           [showNavigationButtons]="showNavButtons"
           [pager]="{ visible: true, showPageSizeSelector: true, 
-            allowedPageSizes: [5,10,20], showInfo: true 
+          allowedPageSizes: [5,10,20], showInfo: true 
             }"
         ></dxo-pager>
         <dxo-editing
@@ -324,8 +323,8 @@
           <dxi-column dataField="userManagementControl" caption="Control" dataType="boolean"></dxi-column>
         </dxi-column>
 
-        <!-- Hierarchy Management -->
-        <dxi-column caption="Hierarchy Management" [alignment]="'center'">
+        <!-- Level Management -->
+        <dxi-column caption="Level Management" [alignment]="'center'">
           <dxi-column dataField="hierarchyManagementView" caption="View" dataType="boolean"></dxi-column>
           <dxi-column dataField="hierarchyManagementControl" caption="Control" dataType="boolean"></dxi-column>
         </dxi-column>
@@ -344,7 +343,7 @@
           
 
         <!-- External Activity Management -->
-      <dxi-column caption="External Activity Management" [alignment]="'center'">
+      <dxi-column caption="External Activity " [alignment]="'center'">
         <dxi-column dataField="externalActivityView" caption="View" dataType="boolean"></dxi-column>
         <dxi-column dataField="externalActivityEdit" caption="Control" dataType="boolean"></dxi-column>
       </dxi-column>
@@ -355,12 +354,13 @@
         <dxi-column dataField="smsConfigEdit" caption="Control" dataType="boolean"></dxi-column>
       </dxi-column>
 
-      <!-- Support Management -->
-      <dxi-column caption="Support Management" [alignment]="'center'">
-        <dxi-column dataField="supportView" caption="View" dataType="boolean"></dxi-column>
-        <dxi-column dataField="supportControl" caption="Control" dataType="boolean"></dxi-column>
+      <!-- Settings Management -->
+      <dxi-column caption="Settings" [alignment]="'center'">
+        <dxi-column dataField="SettingsView" caption="View" dataType="boolean"></dxi-column>
+        <dxi-column dataField="SettingsControl" caption="Control" dataType="boolean"></dxi-column>
       </dxi-column>
 
         </dx-data-grid>
       </ng-container>
+
     </ion-content>
