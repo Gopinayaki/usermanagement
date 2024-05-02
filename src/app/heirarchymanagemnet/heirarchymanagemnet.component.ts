@@ -10,6 +10,7 @@ import { LevelassignedgroupsPage } from '../levelassignedgroups/levelassignedgro
 })
 
 export class HeirarchymanagemnetComponent  implements OnInit {
+  selectedSegment: string = 'structure';
 
   tasksData = [];
   tasks = [];
@@ -132,7 +133,9 @@ export class HeirarchymanagemnetComponent  implements OnInit {
 
       }
 
-
+      SelectSegment(e:any){ 
+      }
+      
       openDialousers(data:any) {
         const name=data.row.data.levels;
         console.log('Editing row:', data, name);

@@ -12,6 +12,7 @@ import { FtpmanagemnetComponent } from '../ftpmanagemnet/ftpmanagemnet.component
 import { ExternalactiviyComponent } from '../externalactiviy/externalactiviy.component';
 import { SmscongigComponent } from '../smscongig/smscongig.component';
 import { SupportComponent } from '../support/support.component';
+import { SettingsComponent } from '../settings/settings.component';
 
 const routes: Routes = [
   {
@@ -54,6 +55,10 @@ const routes: Routes = [
       {
         path: 'support',
         component:SupportComponent
+      },
+      {
+        path: 'settings',
+        component: SettingsComponent
       },
     ]
   }

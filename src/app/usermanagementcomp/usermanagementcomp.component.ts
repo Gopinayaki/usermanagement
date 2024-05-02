@@ -41,7 +41,7 @@ export class UsermanagementcompComponent  implements OnInit {
   users: any[] = [];
   isNewlyAddedRow: boolean = false;
   usernames!: string[];
-
+  loggedInUserName: string | null = null; // Initialize logged-in username
 
     formatDate(date: Date): string {
       const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
@@ -76,6 +76,11 @@ export class UsermanagementcompComponent  implements OnInit {
       }
 
     ngOnInit(): void {
+
+
+      const filteredData = this.filterUserData();
+      console.log(filteredData, 'Filtered Data');
+
       const storedData = localStorage.getItem('usertable2');
       if (storedData) {
         // If there's data in local storage, merge it with the constant data
@@ -114,36 +119,33 @@ export class UsermanagementcompComponent  implements OnInit {
       console.log("group storeddata",astoredData);
       
     }
-      // this.setheirachy();
-      // this.setheirachyfromGroup();
+
     }
 
 
-    // setheirachy(){
-    //   const userStoredData = localStorage.getItem('useraccess');
-    //   if (userStoredData) {
-    //     this.useraccess = JSON.parse(userStoredData)
-    //     console.log("user storeddata",userStoredData);
-    //     const storedUsers = JSON.parse(userStoredData);
-    //     const normalUser: any[] = [];
-    //     const specialUser: any[] = [];
-    //     storedUsers.forEach((group:any) => {
-    //       if (group.hierarchyManagementControl === true) {
-    //         specialUser.push(group);
-    //       } else {
-    //         normalUser.push(group);
-    //       }
-    //     });
-    //     console.log("Special Users:", specialUser);
-    //     const usernames = specialUser.map(user => user.username1);
-    //     console.log("Usernames:", usernames);
-    //     localStorage.setItem("hierarchyUsers",JSON.stringify(usernames));
 
-    //     window.location.reload();
-
-    //   }
-    // }
-
+    filterUserData(): any[] {
+      // Retrieve the data from local storage
+      const storedData = localStorage.getItem('usertable2');
+      let usertable2Data: any[] = [];
+    
+      // Parse the stored data if it exists
+      if (storedData) {
+        usertable2Data = JSON.parse(storedData);
+      }
+    
+      // Merge the static data with the data from local storage
+      const mergedData = [...this.usertable2, ...usertable2Data];
+    
+      // Get the username of the logged-in user
+      const loggedInUser = localStorage.getItem('userName');
+    
+      // Filter the merged data to display only rows where the 'username' matches the logged-in user
+      const filteredData = mergedData.filter((user: any) => user.username === loggedInUser);
+    
+      return filteredData;
+    }
+    
 
 
 
@@ -208,14 +210,16 @@ export class UsermanagementcompComponent  implements OnInit {
         data.createdby=localStorage.getItem('userName');
         console.log(data)
         console.log(event,this.usertable2)
-        this.saveDataToLocalStorage();
         this.updateUserAccess(); // Update user access information when a new user is added
+        this.saveDataToLocalStorage();
+
       }
 
       onRowUpdated(event: any) {
         console.log(event)
-        this.saveDataToLocalStorage();
+      
         this.updateUserAccess(); 
+        this.saveDataToLocalStorage();
       }
 
       onrowdeleted(event: any) {
@@ -224,8 +228,7 @@ export class UsermanagementcompComponent  implements OnInit {
         // Delete the user from usertable2
         this.usertable2 = this.usertable2.filter(item => item.username !== deletedUserName);
         
-        // Save updated data to local storage
-        this.saveDataToLocalStorage();
+     
         
         // Update the useraccess table to remove the deleted user's username
         this.useraccess = this.useraccess.filter(user => user.username1 !== deletedUserName);
@@ -235,6 +238,7 @@ export class UsermanagementcompComponent  implements OnInit {
     
         console.log(this.usertable2);
         console.log(this.useraccess);
+        this.saveDataToLocalStorage();
     }
     
 
@@ -243,6 +247,7 @@ export class UsermanagementcompComponent  implements OnInit {
         localStorage.setItem('usertable2', dataToSave);
       }
 
+  
       SelectSegment(e:any){ 
       }
       
@@ -273,46 +278,47 @@ export class UsermanagementcompComponent  implements OnInit {
       }
       
 
-          updateUserAccess() {
-            // Extract usernames from the usertable2 array
-            const usernames = this.usertable2.map(user => user.username);
-        
-            // Save usernames to local storage under the key 'usernames'
-            localStorage.setItem('usernames', JSON.stringify(usernames));
-        
-            // Retrieve existing user access data from local storage
-            const existingUserAccess = localStorage.getItem('useraccess');
-            console.log(existingUserAccess, 'existingUserAccess');
-        
-            // Parse existing user access data or initialize an empty array if no data exists
-            const existingUserAccessData = existingUserAccess ? JSON.parse(existingUserAccess) : [];
-        
-            // Merge existing user access data with new data, avoiding duplicates
-            const mergedUserAccess = existingUserAccessData.slice(); // Create a shallow copy
-            usernames.forEach(username => {
-                // Check if username already exists in mergedUserAccess
-                const exists = mergedUserAccess.some((user: any) => user.username1 === username);
-                if (!exists) {
-                    // Add username to mergedUserAccess if it doesn't already exist
-                    mergedUserAccess.push({ username1: username });
-                }
-            });  
       
-            // Save merged user access data back to local storage
-            localStorage.setItem('useraccess', JSON.stringify(mergedUserAccess));
-        
-            // Set the useraccess variable to the merged data
-            this.useraccess = mergedUserAccess;
-        
-            console.log(mergedUserAccess, 'Merged useraccess data');
-        }
-        
+      updateUserAccess() {
+        // Extract usernames from the usertable2 array
+        const usernames = this.usertable2.map(user => user.username);
+    
+        // Save usernames to local storage under the key 'usernames'
+        localStorage.setItem('usernames', JSON.stringify(usernames));
+    
+        // Retrieve existing user access data from local storage
+        const existingUserAccess = localStorage.getItem('useraccess');
+        console.log(existingUserAccess, 'existingUserAccess');
+    
+        // Parse existing user access data or initialize an empty array if no data exists
+        const existingUserAccessData = existingUserAccess ? JSON.parse(existingUserAccess) : [];
+    
+        // Merge existing user access data with new data, avoiding duplicates
+        const mergedUserAccess = existingUserAccessData.slice(); // Create a shallow copy
+        usernames.forEach(username => {
+            // Check if username already exists in mergedUserAccess
+            const exists = mergedUserAccess.some((user: any) => user.username1 === username);
+            if (!exists) {
+                // Add username to mergedUserAccess if it doesn't already exist
+                mergedUserAccess.push({ username1: username });
+            }
+        });  
+  
+        // Save merged user access data back to local storage
+        localStorage.setItem('useraccess', JSON.stringify(mergedUserAccess));
+    
+        // Set the useraccess variable to the merged data
+        this.useraccess = mergedUserAccess;
+    
+        console.log(mergedUserAccess, 'Merged useraccess data');
+    }
 
-        retrieveUsernamesFromUserAccess() {
-          // Assuming useraccess is your data source containing usernames
-          // Extract usernames from useraccess and populate usernamesArray
-          this.usernamesArray = this.usertable2.map(user => user.username);
-        }
+    
+            retrieveUsernamesFromUserAccess() {
+              // Assuming useraccess is your data source containing usernames
+              // Extract usernames from useraccess and populate usernamesArray
+              this.usernamesArray = this.usertable2.map(user => user.username);
+            }
 
           onDeleteUser(username: string) {
             // Remove the deleted username from assignedUsers arraytt
@@ -379,7 +385,6 @@ export class UsermanagementcompComponent  implements OnInit {
             }
         }
         
-
           grouptablesave() {
             localStorage.setItem('grouptable1', JSON.stringify(this.grouptable));
           }
@@ -455,7 +460,6 @@ export class UsermanagementcompComponent  implements OnInit {
                   console.log(element.groupname)
 
                   localStorage.setItem("groupdatasource",element.groupname)
-
                 }
               });
             }
@@ -511,6 +515,7 @@ export class UsermanagementcompComponent  implements OnInit {
           });
 
         }
+
         setheirachyfromGroup(){
           const userStoredData = localStorage.getItem('groupaccess');
           if (userStoredData) {

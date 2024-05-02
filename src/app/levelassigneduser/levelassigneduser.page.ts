@@ -1,5 +1,5 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { ModalController } from '@ionic/angular';
 
 // Define an interface for your option objects
@@ -24,6 +24,7 @@ export class LevelassigneduserPage implements OnInit {
 
       // @Input() data:any
       constructor(@Inject(MAT_DIALOG_DATA) public data: any,
+      public dailogRef: MatDialogRef<LevelassigneduserPage>,
       private modalCtrl: ModalController
     ) { 
     
@@ -242,13 +243,9 @@ export class LevelassigneduserPage implements OnInit {
         } 
       }
 
-    // getTaskIDByLevels(levels:any) {
-    //   for (const task of tasks) {
-    //     if (task.levels === levels) {
-    //       return task.Task_ID;
-    //     }
-    //   }
-    //   return null;
-    // }
+      dismiss() {
+        this.dailogRef.close();
+      }
+      
     
 }
