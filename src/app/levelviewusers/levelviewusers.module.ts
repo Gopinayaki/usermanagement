@@ -8,7 +8,7 @@ import { LevelviewusersPageRoutingModule } from './levelviewusers-routing.module
 
 import { LevelviewusersPage } from './levelviewusers.page';
 import dxDataGrid from 'devextreme/ui/data_grid';
-import { DxDataGridModule } from 'devextreme-angular';
+import { DxDataGridModule, DxSelectBoxModule, DxTagBoxModule } from 'devextreme-angular';
 
 @NgModule({
   imports: [
@@ -16,7 +16,9 @@ import { DxDataGridModule } from 'devextreme-angular';
     FormsModule,
     IonicModule,
     LevelviewusersPageRoutingModule,
-    DxDataGridModule
+    DxDataGridModule,
+    DxTagBoxModule,
+    DxSelectBoxModule
   ],
   declarations: [LevelviewusersPage]
 })

@@ -1,28 +1,32 @@
 
 
-<ion-header>
+        <ion-header>
+        <ion-toolbar color="medium">
+          <ion-title style="color: #000;" >
+            User Management
+        </ion-title>
+        </ion-toolbar>
 
+          <ion-segment  [(ngModel)]="selectedSegment" (ionChange)="SelectSegment($event)">
 
-  <ion-segment  [(ngModel)]="selectedSegment" (ionChange)="SelectSegment($event)">
+            <ion-segment-button value="group">
+              <ion-label>Group</ion-label>
+            </ion-segment-button>
 
-    <ion-segment-button value="group">
-      <ion-label>Group</ion-label>
-    </ion-segment-button>
+            <ion-segment-button value="groupaccess">
+              <ion-label>Group Access</ion-label>
+            </ion-segment-button>
 
-    <ion-segment-button value="groupaccess">
-      <ion-label>Group Access</ion-label>
-    </ion-segment-button>
+            <ion-segment-button value="user">
+              <ion-label>user</ion-label>
+            </ion-segment-button>
 
-    <ion-segment-button value="user">
-      <ion-label>user</ion-label>
-    </ion-segment-button>
+            <ion-segment-button value="access">
+              <ion-label>User Access</ion-label>
+            </ion-segment-button>
 
-    <ion-segment-button value="access">
-      <ion-label>User Access</ion-label>
-    </ion-segment-button>
-
-  </ion-segment>
-</ion-header>
+          </ion-segment>
+        </ion-header>
 
 
     <ion-content [fullscreen]="true">

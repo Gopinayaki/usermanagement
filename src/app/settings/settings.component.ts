@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { SharedDataService } from '../shared-data.service';
 
 @Component({
   selector: 'app-settings',
@@ -7,24 +9,26 @@ import { Component, OnInit } from '@angular/core';
 })
 export class SettingsComponent  implements OnInit {
   title: string = '';
+  projectTitle: string = '';
+  storedProjectTitle: string = '';
 
-  
-  constructor() { }
+  constructor(private sharedService: SharedDataService) { }
 
-  ngOnInit() {}
+  ngOnInit() {
 
 
+    this.storedProjectTitle = localStorage.getItem('projectTitle') || '';
+
+  }
 
 
   saveTitle(): void {
-    if (this.title.trim() !== '') {
-      localStorage.setItem('savedTitle', this.title);
-      // Optionally, you can provide a success message or perform any other action
-      console.log('Title saved successfully!');
-    } else {
-      // If no title is entered, you can provide an error message or handle it as per your requirement
-      console.error('Please enter a title!');
-    }
+    localStorage.setItem('projectTitle', this.projectTitle); 
+    this.sharedService.setPageName(this.projectTitle);
+
+   // Clear the input field after saving
+   this.projectTitle = '';
   }
 
+  
 }

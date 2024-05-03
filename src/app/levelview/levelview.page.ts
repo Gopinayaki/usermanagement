@@ -16,6 +16,11 @@ interface MyData {
 export class LevelviewPage implements OnInit {
   storedData: MyData[] = [];
   groupname: string;
+  accessallonly = ['All', 'Only'];
+  levelsss: any[] = []; 
+  tasksData: any[] = [];
+
+
 
   constructor(@Inject(MAT_DIALOG_DATA) public data: any,
   public dailogRef: MatDialogRef<LevelviewPage>,
@@ -28,6 +33,34 @@ export class LevelviewPage implements OnInit {
 
   ngOnInit() {
     this.retrieveAndFilterData();
+
+      // Retrieve data from local storage
+      const tasksDataString = localStorage.getItem('tasksData');
+
+      if (tasksDataString) {
+        // Parse the JSON string back to an object
+        this.tasksData = JSON.parse(tasksDataString);
+        console.log(this.tasksData,'ggg')
+
+
+        const levels = this.tasksData.map(task => task.levels);
+
+        // Save the mapped levels to local storage
+        localStorage.setItem('savedLevels', JSON.stringify(levels));
+       
+        const getstoredlevels = localStorage.getItem('savedLevels');
+      if (getstoredlevels) {
+
+        this.levelsss = JSON.parse(getstoredlevels)
+      }
+        console.log(this.levelsss,'gopi')
+
+      } else {
+        // Handle the case when the data doesn't exist in local storage
+        console.log('No data found in local storage.');
+      }
+
+ 
   }
 
   retrieveAndFilterData() {
@@ -42,6 +75,16 @@ export class LevelviewPage implements OnInit {
     }
   }
 
+  onValueChanged(event:any){
+
+  }
+  onValChangedaccess(event:any){
+  
+  }
+onRowDeleted(event:any){
+console.log(event)
+
+}
 
   dismiss() {
     this.dailogRef.close();

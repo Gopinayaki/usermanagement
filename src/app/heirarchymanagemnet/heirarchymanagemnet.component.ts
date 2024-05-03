@@ -20,6 +20,9 @@ export class HeirarchymanagemnetComponent  implements OnInit {
   constructor(  private dialog: MatDialog) { }
 
   ngOnInit() {
+          
+
+
     // Retrieve data from local storage when the component initializes
     const savedTasksData = localStorage.getItem('tasksData');
     if (savedTasksData) {
@@ -159,14 +162,17 @@ export class HeirarchymanagemnetComponent  implements OnInit {
            this.dialog.open(LevelassignedgroupsPage, {
                width: '40%', // Set the width of the dialog
                height: '60%', // Set the height of the dialog
-               // You can add other options like data, panelClass, etc.
                data: {
                 levels: name,
               },
            });
     
-          
-    
+         }
+
+
+         opendialog(event:any){
+        
+
          }
 
 

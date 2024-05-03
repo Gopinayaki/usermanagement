@@ -2,8 +2,9 @@
   <ion-toolbar>
 
     <ion-title>
-      <span class="title-text">Assigned Groups</span>
-      <span class="group-name">({{ data.username }})</span>
+   
+      <span class="title-text">Assigned Groups : {{ data.username }}</span>
+
     </ion-title>
 
     <ion-buttons slot="end">
@@ -49,7 +50,6 @@
                         displayExpr="text"
                         valueExpr="text"
                          (onValueChanged)="onValueChanged($event)"
-
                         >
             </dx-tag-box>
         </div>

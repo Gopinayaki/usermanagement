@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { SharedDataService } from '../shared-data.service';
 
 @Component({
   selector: 'app-main-page',
@@ -10,7 +11,7 @@ export class MainPagePage implements OnInit {
   selectedPageName: string = '';
   ShowHierarchyAccess: boolean = true;
   usernames!: string[];
-
+  storedProjectTitle: string = '';
   
   list = [
     { name: 'User Management', url: '/main-page/usercomponmentcomp', icon: 'student.gif'},
@@ -29,13 +30,21 @@ export class MainPagePage implements OnInit {
     this.selectedPageName = name;
   }
 
-      constructor() {
+      constructor(private sharedService: SharedDataService) {
         const username = localStorage.getItem('userName');
         if (username) {
           this.loggedInUser = username;
         }
+        this.storedProjectTitle = localStorage.getItem('projectTitle') || '';
+
       }
       ngOnInit(): void {
+
+        this.sharedService.pageName$.subscribe((pageName) => {
+          this.storedProjectTitle = pageName;
+        });
+
+        this.storedProjectTitle = localStorage.getItem('projectTitle') || '';
         // Retrieve username from local storage
         const username = localStorage.getItem('userName');
        
@@ -81,6 +90,11 @@ export class MainPagePage implements OnInit {
     if (username) {
       this.loggedInUser = username;
     }
+  }
+
+
+  ionViewWillEnter() {
+    // Retrieve project title from local storage
   }
 
 }

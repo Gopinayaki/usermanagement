@@ -24,15 +24,15 @@ interface UserData {
 })
 export class UsermanagementcompComponent  implements OnInit {
   usernamesArray: string[] = []; // Array to hold usernames for the lookup dropdown
-  selectedSegment: string = 'group';
+  selectedSegment: string = 'user';
   readonly allowedPageSizes = [5, 10, 'all'];
   displayMode = 'full';
   showPageSizeSelector = true;
   showInfo = true;
   showNavButtons = true;
   usertable2: any[] = [
-    {username: 'admin', password:'admin',role:'super-admin', active: true, createdTime: "11-Apr-2024 14:48:42", createdby: "admin", designation: "ddd", emailid: "ddd", mobilenumber: "ddd"},
-    {username: 'supra', password:'supra@123',role:'field-operator', active: true, createdTime: "11-Apr-2024 14:48:42", createdby: "admin", designation: "ddd", emailid: "ddd", mobilenumber: "ddd"},
+    {username: 'admin', password:'admin',role:'super-admin', active: true, createdTime: "11-Apr-2024 14:48:42", createdby: "admin", designation: "Manager", emailid: "admin@123", mobilenumber: "9876543210"},
+    // {username: 'supra', password:'supra@123',role:'field-operator', active: true, createdTime: "11-Apr-2024 14:48:42", createdby: "admin", designation: "ddd", emailid: "ddd", mobilenumber: "ddd"},
     // {username: 'manager', password:'manager',role:'personal', active: true, createdTime: "11-Apr-2024 14:48:42", createdby: "admin", designation: "ddd", emailid: "ddd", mobilenumber: "ddd"}
   ];
   useraccess: any[] = []; 
@@ -217,7 +217,6 @@ export class UsermanagementcompComponent  implements OnInit {
 
       onRowUpdated(event: any) {
         console.log(event)
-      
         this.updateUserAccess(); 
         this.saveDataToLocalStorage();
       }
@@ -247,71 +246,68 @@ export class UsermanagementcompComponent  implements OnInit {
         localStorage.setItem('usertable2', dataToSave);
       }
 
-  
-      SelectSegment(e:any){ 
-      }
-      
-      onrowupdateuseraccesstable(event: any) {
-        const updatedData = event.data; // Assuming event.data contains the updated row data
-        const username = updatedData.username1;
-      
-        // Find the index of the object in the useraccess array based on the username
-        const index = this.useraccess.findIndex(item => item.username1 === username);
-      
-        // If the username exists in the useraccess array
-        if (index !== -1) {
-          // Update the existing entry with the new data
-          this.useraccess[index] = {
-            ...this.useraccess[index], // Keep existing properties
-            ...updatedData // Add additional properties from updatedData
-          };
-      
-          // Save the updated useraccess array to localStorage
-          localStorage.setItem('useraccess', JSON.stringify(this.useraccess));
-      
-          console.log('Updated useraccess:', this.useraccess);
-      
-          this.setheirachy(); // Call any additional function if needed
-        } else {  
-          console.log(`User with username '${username}' not found in useraccess array.`);
+        SelectSegment(e:any){ 
         }
+        
+        onrowupdateuseraccesstable(event: any) {
+          const updatedData = event.data; // Assuming event.data contains the updated row data
+          const username = updatedData.username1;
+        
+          // Find the index of the object in the useraccess array based on the username
+          const index = this.useraccess.findIndex(item => item.username1 === username);
+        
+          // If the username exists in the useraccess array
+          if (index !== -1) {
+            // Update the existing entry with the new data
+            this.useraccess[index] = {
+              ...this.useraccess[index], // Keep existing properties
+              ...updatedData // Add additional properties from updatedData
+            };
+        
+            // Save the updated useraccess array to localStorage
+            localStorage.setItem('useraccess', JSON.stringify(this.useraccess));
+        
+            console.log('Updated useraccess:', this.useraccess);
+        
+            this.setheirachy(); // Call any additional function if needed
+          } else {  
+            console.log(`User with username '${username}' not found in useraccess array.`);
+          }
+        }
+        
+        updateUserAccess() {
+          // Extract usernames from the usertable2 array
+          const usernames = this.usertable2.map(user => user.username);
+      
+          // Save usernames to local storage under the key 'usernames'
+          localStorage.setItem('usernames', JSON.stringify(usernames));
+      
+          // Retrieve existing user access data from local storage
+          const existingUserAccess = localStorage.getItem('useraccess');
+          console.log(existingUserAccess, 'existingUserAccess');
+      
+          // Parse existing user access data or initialize an empty array if no data exists
+          const existingUserAccessData = existingUserAccess ? JSON.parse(existingUserAccess) : [];
+      
+          // Merge existing user access data with new data, avoiding duplicates
+          const mergedUserAccess = existingUserAccessData.slice(); // Create a shallow copy
+          usernames.forEach(username => {
+              // Check if username already exists in mergedUserAccess
+              const exists = mergedUserAccess.some((user: any) => user.username1 === username);
+              if (!exists) {
+                  // Add username to mergedUserAccess if it doesn't already exist
+                  mergedUserAccess.push({ username1: username });
+              }
+          });  
+    
+          // Save merged user access data back to local storage
+          localStorage.setItem('useraccess', JSON.stringify(mergedUserAccess));
+      
+          // Set the useraccess variable to the merged data
+          this.useraccess = mergedUserAccess;
+      
+          console.log(mergedUserAccess, 'Merged useraccess data');
       }
-      
-
-      
-      updateUserAccess() {
-        // Extract usernames from the usertable2 array
-        const usernames = this.usertable2.map(user => user.username);
-    
-        // Save usernames to local storage under the key 'usernames'
-        localStorage.setItem('usernames', JSON.stringify(usernames));
-    
-        // Retrieve existing user access data from local storage
-        const existingUserAccess = localStorage.getItem('useraccess');
-        console.log(existingUserAccess, 'existingUserAccess');
-    
-        // Parse existing user access data or initialize an empty array if no data exists
-        const existingUserAccessData = existingUserAccess ? JSON.parse(existingUserAccess) : [];
-    
-        // Merge existing user access data with new data, avoiding duplicates
-        const mergedUserAccess = existingUserAccessData.slice(); // Create a shallow copy
-        usernames.forEach(username => {
-            // Check if username already exists in mergedUserAccess
-            const exists = mergedUserAccess.some((user: any) => user.username1 === username);
-            if (!exists) {
-                // Add username to mergedUserAccess if it doesn't already exist
-                mergedUserAccess.push({ username1: username });
-            }
-        });  
-  
-        // Save merged user access data back to local storage
-        localStorage.setItem('useraccess', JSON.stringify(mergedUserAccess));
-    
-        // Set the useraccess variable to the merged data
-        this.useraccess = mergedUserAccess;
-    
-        console.log(mergedUserAccess, 'Merged useraccess data');
-    }
 
     
             retrieveUsernamesFromUserAccess() {
@@ -488,8 +484,8 @@ export class UsermanagementcompComponent  implements OnInit {
           console.log('Editing row:', data, name);
           // Open your dialog here
           this.dialog.open(LevelviewPage, {
-            width: '40%', // Set the width of the dialog
-            height: '60%', // Set the height of the dialog
+            width: '60%', // Set the width of the dialog
+            height: '80%', // Set the height of the dialog
               // You can add other options like data, panelClass, etc.
               data: {
                 groupname: name,
@@ -505,8 +501,8 @@ export class UsermanagementcompComponent  implements OnInit {
           console.log('Editing row:', data, name);
           // Open your dialog here
           this.dialog.open(LevelviewusersPage, {
-            width: '40%', // Set the width of the dialog
-            height: '60%', // Set the height of the dialog
+            width: '60%', // Set the width of the dialog
+            height: '80%', // Set the height of the dialog
               // You can add other options like data, panelClass, etc.
               data: {
                 username: name,

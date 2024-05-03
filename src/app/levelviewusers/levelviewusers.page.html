@@ -1,8 +1,7 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
     <ion-title>
-      <span class="title-text">Assigned Levels</span>
-      <span class="group-name">({{ data.username }})</span>
+      <span class="title-text">Assigned Levels : {{ data.username }}</span>
     </ion-title>
 
     <ion-buttons slot="end">
@@ -13,18 +12,54 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
-  <dx-data-grid
-  [dataSource]="storedData1"
-  [showBorders]="true"
-  class="grid"
-  [showRowLines]="true"
-  [columnAutoWidth]="true"
-  [rowAlternationEnabled]="true"
-  [allowColumnResizing]="true"
->
-  <dxi-column dataField="levels" caption="Level"></dxi-column>
-  <dxi-column dataField="Access" caption="Access"></dxi-column>
-</dx-data-grid>
+`<ion-content [fullscreen]="true">
+      <dx-data-grid
+      [dataSource]="storedData1"
+      [showBorders]="true"
+      class="grid"
+      [showRowLines]="true"
+      [columnAutoWidth]="true"
+      [rowAlternationEnabled]="true"
+      [allowColumnResizing]="true"
+      (onRowInserted)="onRowInserting($event)"
+    >
+    
+
+ 
+    <dxi-column dataField="levels" caption="Level"  editCellTemplate="levelnames" >
+
+      <div *dxTemplate="let cellInfo of 'levelnames'">
+        <dx-tag-box [dataSource]="levelsss" 
+                    [showSelectionControls]="true"
+                    [showMultiTagOnly]="false" 
+                    [searchEnabled]="true"
+                    [multiline]="true"
+                    (onValueChanged)="onValueChanged($event)"
+                    (onRowRemoving)="onRowDeleted($event)"
+
+                    >
+        </dx-tag-box>
+    </div>
+
+    </dxi-column>
+    <dxi-column dataField="Access" caption="Access Level" editCellTemplate="accesuserselect">
+      <div *dxTemplate="let cellInfo of 'accesuserselect'">
+        <dx-select-box  [dataSource]="accessallonly"
+                    (onValueChanged)="onValChangedaccess($event)"
+                    >
+        </dx-select-box>
+    </div>
+  </dxi-column>
+
+
+      <dxo-editing
+              mode="row"
+              [useIcons]="true"
+              [allowUpdating]="true"
+              [allowAdding]="true"
+              class="my-modal-class"
+            >
+            </dxo-editing>
+    </dx-data-grid>
 
 </ion-content>
