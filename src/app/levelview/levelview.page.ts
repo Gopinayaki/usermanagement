@@ -75,16 +75,21 @@ export class LevelviewPage implements OnInit {
     }
   }
 
-  onValueChanged(event:any){
+      onValueChanged(event:any){
+   
+      }
 
-  }
-  onValChangedaccess(event:any){
-  
-  }
-onRowDeleted(event:any){
-console.log(event)
 
-}
+      onValChangedaccess(event:any){
+
+      }
+
+
+
+    onRowDeleted(event:any){
+    console.log(event)
+
+    }
 
   dismiss() {
     this.dailogRef.close();

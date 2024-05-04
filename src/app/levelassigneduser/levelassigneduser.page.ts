@@ -78,6 +78,8 @@ export class LevelassigneduserPage implements OnInit {
         console.log(selectedValue)
         localStorage.setItem("selAccLevel",selectedValue)
       }
+
+      
       selLevel: any;
       onValueChanged(event: any) {
         this.selectUser = event.value;

@@ -25,7 +25,10 @@
         [columnAutoWidth]="true"
         [rowAlternationEnabled]="true"
         [allowColumnResizing]="true"
-      >   <dxi-column dataField="Access" caption="Access Level" editCellTemplate="accesuserselect">
+      >   
+      
+      
+      <dxi-column dataField="Access" caption="Access Level" editCellTemplate="accesuserselect">
         <div *dxTemplate="let cellInfo of 'accesuserselect'">
           <dx-select-box  [dataSource]="accessallonly"
                       (onValueChanged)="onValChangedaccess($event)"
@@ -33,6 +36,8 @@
           </dx-select-box>
       </div>
       </dxi-column>
+
+      
       <dxi-column dataField="levels" caption="Level"  editCellTemplate="levelnames" >
       <div *dxTemplate="let cellInfo of 'levelnames'">
         <dx-tag-box [dataSource]="levelsss" 
