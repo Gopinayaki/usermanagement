@@ -3,7 +3,6 @@
     <ion-title>
       <span class="title-text">Assigned Levels : {{ data.username }}</span>
     </ion-title>
-
     <ion-buttons slot="end">
       <ion-button (click)="dismiss()">
         <ion-icon name="close"></ion-icon>
@@ -23,10 +22,7 @@
       [allowColumnResizing]="true"
       (onRowInserted)="onRowInserting($event)"
     >
-    
-
- 
-    <dxi-column dataField="levels" caption="Level"  editCellTemplate="levelnames" >
+    <dxi-column dataField="levels" caption="Level"  editCellTemplate="levelnames">
 
       <div *dxTemplate="let cellInfo of 'levelnames'">
         <dx-tag-box [dataSource]="levelsss" 

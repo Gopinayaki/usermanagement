@@ -139,35 +139,7 @@ export class LevelassigneduserPage implements OnInit {
     
       } 
 
-      // onRowInserting(event: any) {
-      //   console.log("n",event);
-      //   const gname = this.data.levels;
-      //   let storedData = localStorage.getItem('leveluser');
-      //   let data: any[] = storedData ? JSON.parse(storedData) : [];
-      //   console.log(data);
-      //   // Concatenate existing dataSource with selectedRows
-      //   let existingData = data.concat(this.selectedRows);
-      //   console.log(this.selectedRows)
-
-      //   // Convert the existingData array ton a Set to remove duplicates
-      //   const uniqueEntries = new Set(existingData.map(item => JSON.stringify(item)));
-
-      //   // Convert the uniqueEntries Set back to an array of objects
-      //   existingData = Array.from(uniqueEntries).map(item => JSON.parse(item));
-        
-      //   // Filter the data based on levels
-      //   const filteredData = existingData.filter((item: { levels: any; }) => item.levels === gname );
-                                                                                                                                               
-      //   localStorage.setItem('leveluser', JSON.stringify(existingData));
-
-      //   // Update the dataSource and save it to local storage
-      //   this.dataSource = filteredData;
      
-      //   console.log(existingData, this.dataSource);
-       
-      
-      //   }
-
 
       onRowInserting(event: any) {
         console.log("n",event);
@@ -247,5 +219,5 @@ export class LevelassigneduserPage implements OnInit {
         this.dailogRef.close();
       }
       
-    
-}
+ 
+} 
