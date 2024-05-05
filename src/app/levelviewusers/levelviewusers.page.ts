@@ -70,14 +70,15 @@
 
       
         }
-
+        selLevel: any;
               onValueChanged(event:any){
                 this.selectlevels = event.value;
                 console.log(event,'kkk')
 
                 // Just an example, you can handle the selected options here
                     const gname = this.data.username;
-                    // this.selAccLevel2=gname;
+                    this.selLevel=gname;
+
                     const selAccLevel = localStorage.getItem("selAccLevel2");
                     const selectedOptions: Option[] = event.value;
                     console.log(selectedOptions) // Explicitly specify the type of selectedOptions
@@ -173,8 +174,15 @@
             );
             console.log(filteredLevels,filteredUserData);
 
+// Filter the objects based on the selLevel value
+const filterLevelUser = existingData.filter(item => item.Tags === this.selLevel);
+
+// Map the filtered data to get only the levels property
+let levelname = filterLevelUser.map(item => item.levels);
+console.log(filterLevelUser,levelname);
+
             const finalFilteredTasks = filteredUserData.filter(task => task.Access === "All");
-            const taskIDs = filteredLevels.filter((task: { Task_ID: any; levels: any}) => task.Task_ID && ( task.levels=== this.selAccLevel2));
+            const taskIDs = filteredLevels.filter((task: { Task_ID: any; levels: any}) =>  task.levels === levelname[0]);
             let arr = [];
             let arr2 = [];
 
