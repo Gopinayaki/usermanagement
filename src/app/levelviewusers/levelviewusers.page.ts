@@ -124,15 +124,9 @@
         }
 
 
-        
       dismiss() {
         this.dailogRef.close();
       }
-
-
-
-                                                              
-
 
       onRowInserting(event: any) {
         console.log("n",event);
@@ -174,12 +168,12 @@
             );
             console.log(filteredLevels,filteredUserData);
 
-// Filter the objects based on the selLevel value
-const filterLevelUser = existingData.filter(item => item.Tags === this.selLevel);
+            // Filter the objects based on the selLevel value
+            const filterLevelUser = existingData.filter(item => item.Tags === this.selLevel);
 
-// Map the filtered data to get only the levels property
-let levelname = filterLevelUser.map(item => item.levels);
-console.log(filterLevelUser,levelname);
+            // Map the filtered data to get only the levels property
+            let levelname = filterLevelUser.map(item => item.levels);
+            console.log(filterLevelUser,levelname);
 
             const finalFilteredTasks = filteredUserData.filter(task => task.Access === "All");
             const taskIDs = filteredLevels.filter((task: { Task_ID: any; levels: any}) =>  task.levels === levelname[0]);
@@ -206,16 +200,35 @@ console.log(filterLevelUser,levelname);
             console.log("opt",selectedOpts,existData)
 
             localStorage.setItem('leveluser', JSON.stringify(existData));
+            let luser = localStorage.getItem('leveluser');
+        // let storedData = localStorage.getItem('leveluser');
+        if(luser){
+          const filteredData = JSON.parse(luser).filter((item: { Tags: any; }) => item.Tags === gname );
 
+          this.storedData1 = filteredData;
+          console.log("str",luser,this.storedData1);
+        }
           }
         } 
       }
 
 
-      onRowDeleted(event:any){
-      console.log(event)
-
-      }
-
-
+      onRowDeleted(event: any) {
+        console.log(event); // Check the deleted row data
+    
+        // Assuming you have a unique identifier for each row, let's call it 'id'
+        const deletedRowId = event.data.id; // Adjust this according to your data structure
+        
+        let storedData = localStorage.getItem('leveluser');
+        let data: any[] = storedData ? JSON.parse(storedData) : [];
+    
+        // Filter out the deleted row from the data
+        const updatedData = data.filter((row: any) => row.id !== deletedRowId);
+    
+        // Save the updated data to local storage
+        localStorage.setItem('leveluser', JSON.stringify(updatedData));
+    
+        // Optionally, you can also update any component-level data bindings here
+    }
+    
       }

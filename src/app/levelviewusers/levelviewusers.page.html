@@ -21,7 +21,7 @@
       [rowAlternationEnabled]="true"
       [allowColumnResizing]="true"
       (onRowInserted)="onRowInserting($event)"
-    >
+      (onRowRemoving)="onRowDeleted($event)"    >
   
     <dxi-column dataField="Access" caption="Access Level" editCellTemplate="accesuserselect">
       <div *dxTemplate="let cellInfo of 'accesuserselect'">
@@ -40,7 +40,7 @@
                   [searchEnabled]="true"
                   [multiline]="true"
                   (onValueChanged)="onValueChanged($event)"
-                  (onRowRemoving)="onRowDeleted($event)"
+                 
                   >
       </dx-tag-box>
   </div>
@@ -50,8 +50,8 @@
       <dxo-editing
               mode="row"
               [useIcons]="true"
-              [allowUpdating]="true"
               [allowAdding]="true"
+              [allowDeleting]="true"
               class="my-modal-class"
             >
             </dxo-editing>

@@ -42,8 +42,8 @@ export class LevelassignedgroupsPage implements OnInit {
         const storedGroupNames = localStorage.getItem('groupNames');
         this.groupNames =storedGroupNames ? JSON.parse(storedGroupNames) : [];
 
-        this.gp = this.groupNames.map(groupNAME => ({ text: groupNAME }));
-
+        this.gp = this.groupNames.map((groupNAME:any) => ({ text: groupNAME.groupname }));
+          console.log(this.gp,'gp')
         const storedData = localStorage.getItem('levelgroupaccess');
 
         if (storedData) {

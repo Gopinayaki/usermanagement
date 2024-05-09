@@ -43,7 +43,7 @@ export class GroupnameselectPage implements OnInit {
         const storedGroupNames = localStorage.getItem('groupNames');
         this.groupNames =storedGroupNames ? JSON.parse(storedGroupNames) : [];
 
-        this.gp = this.groupNames.map(groupNAME => ({ text: groupNAME }));
+        this.gp = this.groupNames.map((groupNAME:any) => ({ text: groupNAME.groupname }));
 
         const storedData = localStorage.getItem('dataofgroupnmae');
 

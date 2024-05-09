@@ -72,8 +72,11 @@ export class UsermodelPage implements OnInit {
     console.log(this.data);
     const storedUsernames = localStorage.getItem('usernames');
     this.usernames = storedUsernames ? JSON.parse(storedUsernames) : [];
+    console.log(this.usernames);
+
     // Convert the usernames array into Option objects and assign it to the tagname property
-    this.tagname = this.usernames.map(username => ({ text: username }));
+    this.tagname = this.usernames.map((username:any) => ({ text: username.username1 }));
+    console.log(this.tagname)
     // Retrieve existing data from local storage
     const storedData = localStorage.getItem('dataSource');
     console.log("storeddata",storedData);
@@ -100,7 +103,7 @@ export class UsermodelPage implements OnInit {
       }
     }
 
-    this.isAlreadySelected();
+    // this.isAlreadySelected();
 
   }
 
@@ -151,7 +154,7 @@ export class UsermodelPage implements OnInit {
     // this.dataSource = filteredData;
     this.selectedRows=mappedData
     console.log(mappedData, this.dataSource);
-    this.isAlreadySelected();
+    // this.isAlreadySelected();
 
   }
   
@@ -202,7 +205,7 @@ export class UsermodelPage implements OnInit {
   // Perform any other necessary actions with the deleted row data
   console.log('Deleted row data:', deletedRowData);
 
-  this.isAlreadySelected();
+  // this.isAlreadySelected();
 
     }
 
@@ -251,7 +254,7 @@ export class UsermodelPage implements OnInit {
     groupexistingData = Array.from(groupuUniqueEntries).map(item => JSON.parse(item));
     
     localStorage.setItem('dataofgroupnmae', JSON.stringify(groupexistingData));
-    this.isAlreadySelected();
+    // this.isAlreadySelected();
 
   }
 

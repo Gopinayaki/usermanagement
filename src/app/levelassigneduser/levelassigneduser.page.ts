@@ -6,6 +6,12 @@ import { ModalController } from '@ionic/angular';
 interface Option {
   text: string;
 }
+
+interface UserName {
+  username1: string;
+  id: string; // Assuming id is also a string based on your example
+}
+
 @Component({
   selector: 'app-levelassigneduser',
   templateUrl: './levelassigneduser.page.html',
@@ -36,13 +42,14 @@ export class LevelassigneduserPage implements OnInit {
       
 
       ngOnInit() {
-        console.log(this.data);
         const storedUsernames = localStorage.getItem('usernames');
         this.usernames = storedUsernames ? JSON.parse(storedUsernames) : [];
+        console.log(this.usernames,this.data);
       
         // Convert the usernames array into Option objects and assign it to the tagname property
-        this.tagname = this.usernames.map(username => ({ text: username }));
-      
+        this.tagname = this.usernames.map((user:any)=> ({ text: user.username1 }));
+        
+       console.log(this.tagname)
         // Retrieve existing data from local storage
         const storedData = localStorage.getItem('leveluser');
         console.log("storeddata",storedData);
@@ -79,7 +86,7 @@ export class LevelassigneduserPage implements OnInit {
         localStorage.setItem("selAccLevel",selectedValue)
       }
 
-      
+
       selLevel: any;
       onValueChanged(event: any) {
         this.selectUser = event.value;
@@ -89,6 +96,7 @@ export class LevelassigneduserPage implements OnInit {
         this.selLevel=gname;
         const selAccLevel = localStorage.getItem("selAccLevel");
         const selectedOptions: Option[] = event.value;
+        console.log(event.value,'dummy')
         console.log(selectedOptions) // Explicitly specify the type of selectedOptions
         const mappedData = selectedOptions.map(option => ({ Tags: option, levels: gname, Access: selAccLevel }));
       
@@ -117,9 +125,9 @@ export class LevelassigneduserPage implements OnInit {
         // Perform any necessary actions with the deleted row data
         console.log('Deleted row data:', deletedRowData);
         
-    // Remove the deleted row data from the local storage
-      let storedData = localStorage.getItem('leveluser');
-      let existingData: any[] = storedData ? JSON.parse(storedData) : [];
+      // Remove the deleted row data from the local storage
+        let storedData = localStorage.getItem('leveluser');
+        let existingData: any[] = storedData ? JSON.parse(storedData) : [];
 
       // Find the index of the deleted row in the existing data
       const index = existingData.findIndex(item => item.levels === deletedRowData.levels && item.Tags === deletedRowData.Tags);
@@ -137,12 +145,10 @@ export class LevelassigneduserPage implements OnInit {
       } else {
         console.log('Row not found in local storage.');
       }
-
-    
       } 
-
+      
      
-
+      
       onRowInserting(event: any) {
         console.log("n",event);
         const gname = this.data.levels;
@@ -181,9 +187,9 @@ export class LevelassigneduserPage implements OnInit {
             );
             console.log(filteredLevels,filteredUserData);
 
-            const finalFilteredTasks = filteredUserData.filter(task => task.Access === "All");
+            const finalFilteredTasks = filteredUserData.filter(task => task.Access === "All" && task.levels === this.selLevel);
             // const filTasks= finalFilteredTasks.map(user => user.Tags);
-            // console.log("finalFilteredTasks",filTasks);
+            console.log("finalFilteredTasks",finalFilteredTasks);
             const taskIDs = filteredLevels.filter((task: { Task_ID: any; levels: any}) => task.Task_ID && ( task.levels=== this.selLevel));
             let arr = [];
             let arr2 = [];

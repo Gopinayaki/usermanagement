@@ -47,6 +47,7 @@
           (onRowRemoving)="onRowRemovingForGroupTable($event)"
           [customizeColumns]="customizeColumns"
           (onCellClick)="onCellClick($event)"
+          
           >
           <dxo-templates>
               <div *dxTemplate="let data of 'customCellTemplate'" style="text-align: center;">
@@ -272,7 +273,6 @@
           <dxi-validation-rule type="email" message="Please enter a valid email address"></dxi-validation-rule>
         </dxi-item>
         
-      
         <dxi-item dataField="designation" caption="Designation" [dataType]="'string'">
           <!-- <dxi-validation-rule type="required" message=" Designation is required"></dxi-validation-rule> -->
         </dxi-item>
@@ -319,7 +319,7 @@
         </dxo-editing>
         <dxi-column dataField="username1" caption="List of Users" [alignment]="'center'" [allowEditing]="false" [fixed]="true"></dxi-column>
 
-          <!-- <dxi-column dataField="selectAll" caption="Select All" dataType="boolean"  [alignment]="'center'" ></dxi-column> -->
+        <!-- <dxi-column dataField="selectAll" caption="Select All" dataType="boolean"  [alignment]="'center'" ></dxi-column> -->
 
         <!-- User Management -->
         <dxi-column caption="User Management" [alignment]="'center'">
@@ -366,5 +366,6 @@
 
         </dx-data-grid>
       </ng-container>
+
 
     </ion-content>
