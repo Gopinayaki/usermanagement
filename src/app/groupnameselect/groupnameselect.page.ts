@@ -43,7 +43,9 @@ export class GroupnameselectPage implements OnInit {
         const storedGroupNames = localStorage.getItem('groupNames');
         this.groupNames =storedGroupNames ? JSON.parse(storedGroupNames) : [];
 
-        this.gp = this.groupNames.map((groupNAME:any) => ({ text: groupNAME.groupname }));
+
+
+        this.gp = this.groupNames.map((groupNAME:any) => ({ text: groupNAME.groupname1 }));
 
         const storedData = localStorage.getItem('dataofgroupnmae');
 
@@ -183,7 +185,7 @@ export class GroupnameselectPage implements OnInit {
       const userIndex = userExistingData.findIndex(item => item.Tags === deletedRowData.username && item.groupname === deletedRowData.Tags);
 
       if (userIndex !== -1) {
-        userExistingData.splice(userIndex, 1);
+                userExistingData.splice(userIndex, 1);
         localStorage.setItem('dataSource', JSON.stringify(userExistingData));
       } else {
         console.log('Row not found in user data.');

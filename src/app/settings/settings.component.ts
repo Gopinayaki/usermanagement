@@ -12,7 +12,10 @@ export class SettingsComponent  implements OnInit {
   projectTitle: string = '';
   storedProjectTitle: string = '';
 
-  constructor(private sharedService: SharedDataService) { }
+  constructor(private sharedService: SharedDataService,
+        private router: Router
+
+  ) { }
 
   ngOnInit() {
 
@@ -29,6 +32,10 @@ export class SettingsComponent  implements OnInit {
    // Clear the input field after saving
    this.projectTitle = '';
   }
+ 
 
+  cancel(){
+
+    this.router.navigate(['/other-page']);  }
   
 }
