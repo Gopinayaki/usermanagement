@@ -306,9 +306,6 @@ export class UsermanagementcompComponent  implements OnInit {
           const usernames = this.usertable2.map(user => ({ username1: user.username, id:user.id }));
       
 
-
-        
-
           // Save usernames to local storage under the key 'usernames'
           localStorage.setItem('usernames', JSON.stringify(usernames));
       
@@ -354,13 +351,13 @@ export class UsermanagementcompComponent  implements OnInit {
         }
       });
 
-// Save merged user access data back to local storage
-localStorage.setItem('useraccess', JSON.stringify(mergedUserAccess));
+      // Save merged user access data back to local storage
+      localStorage.setItem('useraccess', JSON.stringify(mergedUserAccess));
 
-// Set the useraccess variable to the merged data
-this.useraccess = mergedUserAccess;
+      // Set the useraccess variable to the merged data
+      this.useraccess = mergedUserAccess;
 
-console.log(mergedUserAccess, 'Merged useraccess data');
+      console.log(mergedUserAccess, 'Merged useraccess data');
 
           //   usernames.forEach(username => {
           //   console.log(username,'sureshmutal')
@@ -417,16 +414,19 @@ console.log(mergedUserAccess, 'Merged useraccess data');
           let data = event.data;  
           data.id = event.data.__KEY__;
           console.log(data)
+          this.updateGroupAccess(); 
           this.grouptablesave();
-          this.saveGroupNameToLocalStorage(); 
           this.isNewlyAddedRow = true;
           }
 
           onRowUpdatingForGroupTable(event:any){
-            console.log(event)
-         
-            this.saveGroupNameToLocalStorage();    
+            console.log(event,'groupupdate')
+        
+            
+            // Update the corresponding row in your data source (grouptable)
+            this.updateGroupAccess();    
             this.grouptablesave();  
+            
           }
 
           onRowRemovingForGroupTable(event: any) {
@@ -667,50 +667,112 @@ console.log(mergedUserAccess, 'Merged useraccess data');
               }
             }
       
-            saveGroupNameToLocalStorage() {
-              const groupNames = this.grouptable.map(group => ({groupname :group.groupname ,id:group.id}));
+
+
+
+          //   updateGroupAccess() {
+          //     console.log('15.3',this.grouptable)
+
+
+          //     const groupNames = this.grouptable.map(group => ({groupname :group.groupname ,id:group.id}));
             
-              localStorage.setItem('groupNames', JSON.stringify(groupNames));
+
+          //     console.log(groupNames)
+          //     localStorage.setItem('groupNames', JSON.stringify(groupNames));
             
-              const existingGroupAccess = localStorage.getItem('groupaccess');
-              console.log(existingGroupAccess, 'existingGroupAccess');
+          //     const existingGroupAccess = localStorage.getItem('groupaccess');
+          //     console.log(existingGroupAccess, 'existingGroupAccess');
           
-              const existingGroupAccessData = existingGroupAccess ? JSON.parse(existingGroupAccess) : [];
-              console.log(existingGroupAccessData, 'existingGroupAccessData');
+          //     const existingGroupAccessData = existingGroupAccess ? JSON.parse(existingGroupAccess) : [];
+          //     console.log(existingGroupAccessData, 'existingGroupAccessData');
             
-              // Merge existing groupaccess data with new data, avoiding duplicates
-              const mergedGroupAccess = existingGroupAccessData.slice(); // Create a shallow copy
-              console.log(mergedGroupAccess, 'Merged groupaccess data');
+          //     // Merge existing groupaccess data with new data, avoiding duplicates
+          //     const mergedGroupAccess = existingGroupAccessData.slice(); // Create a shallow copy
+          //     console.log(mergedGroupAccess, 'Merged groupaccess data');
 
-              groupNames.forEach(groupname => {
-                console.log(groupname);
-                  // Check if groupname already exists in mergedGroupAccess
-                  const exists = mergedGroupAccess.some((group: { id: any; }) => group.id === groupname.id);
-                  console.log(mergedGroupAccess, 'Merged groupaccess data');
+          //     groupNames.forEach(groupname => {
+          //       console.log(groupname);
+          //         // Check if groupname already exists in mergedGroupAccess
+          //         const exists = mergedGroupAccess.some((group: { id: any; }) => group.id === groupname.id);
+          //         console.log(mergedGroupAccess, 'Merged groupaccess data');
 
-                  if (!exists) {
-                      mergedGroupAccess.push({ groupname1: groupname.groupname,id: groupname.id });
-                  }
+          //         if (!exists) {
+          //             mergedGroupAccess.push({ groupname1: groupname.groupname,id: groupname.id });
+          //         }
 
+          //       const index = mergedGroupAccess.findIndex((group: { id: any; }) => group.id === groupname.id);
+
+          //       // If the user with the same ID is found in mergedUserAccess
+          //       if (index !== -1) {
+          //         // Replace the username of the existing user with the new one
+          //         mergedGroupAccess[index].groupname1 = groupname.groupname;
+          //       } else {
+          //         // If the user with the same ID is not found, add it to mergedUserAccess
+          //         mergedGroupAccess.push(groupname);
+          //       }
+          //     });              
+          
+          //     localStorage.setItem('groupaccess', JSON.stringify(mergedGroupAccess));
+          
+          //     this.groupaccess = mergedGroupAccess;
+              
+          // }
+          
+
+          updateGroupAccess() {
+            console.log('grouptable', this.grouptable);
+        
+            // Extract group names and their corresponding IDs from the grouptable array
+            const groupNames = this.grouptable.map(group => ({ groupname1: group.groupname, id: group.id }));
+            console.log('groupNames', groupNames);
+        
+            // Save group names to local storage under the key 'groupNames'
+            localStorage.setItem('groupNames', JSON.stringify(groupNames));
+        
+            // Retrieve existing group access data from local storage
+            const existingGroupAccess = localStorage.getItem('groupaccess');
+            console.log(existingGroupAccess, 'existingGroupAccess');
+        
+            // Parse existing group access data or initialize an empty array if no data exists
+            const existingGroupAccessData = existingGroupAccess ? JSON.parse(existingGroupAccess) : [];
+        
+            // Merge existing group access data with new data, avoiding duplicates
+            const mergedGroupAccess = existingGroupAccessData.slice(); // Create a shallow copy
+        
+            // Merge the data from groupNames array to mergedGroupAccess
+            groupNames.forEach(groupname => {
+                // Find the index of the group with the same ID in mergedGroupAccess
                 const index = mergedGroupAccess.findIndex((group: { id: any; }) => group.id === groupname.id);
-
-                // If the user with the same ID is found in mergedUserAccess
+        
+                // If the group with the same ID is found in mergedGroupAccess
                 if (index !== -1) {
-                  // Replace the username of the existing user with the new one
-                  mergedGroupAccess[index].groupname1 = groupname.groupname;
+                    // Replace the group name of the existing group with the new one
+                    mergedGroupAccess[index].groupname1 = groupname.groupname1;
                 } else {
-                  // If the user with the same ID is not found, add it to mergedUserAccess
-                  mergedGroupAccess.push(groupname);
+                    // If the group with the same ID is not found, add it to mergedGroupAccess
+                    mergedGroupAccess.push(groupname);
                 }
-              });              
-          
-              localStorage.setItem('groupaccess', JSON.stringify(mergedGroupAccess));
-          
-              this.groupaccess = mergedGroupAccess;
-          }
-          
+            });
+         // Save merged group access data back to local storage
+            localStorage.setItem('groupaccess', JSON.stringify(mergedGroupAccess));
+        
+            // Set the groupaccess variable to the merged data
+            this.groupaccess = mergedGroupAccess;
+        
+            console.log(mergedGroupAccess, 'Merged groupaccess data');
+
+
+
+      }
+
+
+        
+        
+
+
+
           handleRefresh() {
-            window.location.reload();
+            window.location.reload();  
           }
 
-  } 
+  }           

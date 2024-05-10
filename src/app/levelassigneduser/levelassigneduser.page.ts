@@ -214,10 +214,26 @@ export class LevelassigneduserPage implements OnInit {
                 });
             });
 
-            let existData = existingData.concat(selectedOpts);
-            console.log("opt",selectedOpts,existData)
 
-            localStorage.setItem('leveluser', JSON.stringify(existData));
+
+        // Concatenate existingData array with uniqueSelectedOptsArray
+        let existData = existingData.concat(selectedOpts);
+        // Convert selectedOpts array to a Set to remove duplicates
+        const uniqueSelectedOpts = new Set(existData.map(item => JSON.stringify(item)));
+        console.log(uniqueSelectedOpts,'unique')
+        // Convert the uniqueSelectedOpts Set back to an array of objects
+        const uniqueSelectedOptsArray = Array.from(uniqueSelectedOpts).map(item => JSON.parse(item));
+        console.log(uniqueSelectedOptsArray,'unique2')
+
+        // console.log("opt", uniqueSelectedOptsArray, existData);
+
+        localStorage.setItem('leveluser', JSON.stringify(uniqueSelectedOptsArray));
+
+
+            // let existData = existingData.concat(selectedOpts);
+            // console.log("opt",selectedOpts,existData)
+
+            // localStorage.setItem('leveluser', JSON.stringify(existData));
 
           }
         } 

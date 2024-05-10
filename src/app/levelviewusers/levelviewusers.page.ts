@@ -217,18 +217,26 @@
         console.log(event); // Check the deleted row data
     
         // Assuming you have a unique identifier for each row, let's call it 'id'
-        const deletedRowId = event.data.id; // Adjust this according to your data structure
-        
+        const deletedRowData = event.data; // Adjust this according to your data structure
         let storedData = localStorage.getItem('leveluser');
-        let data: any[] = storedData ? JSON.parse(storedData) : [];
-    
-        // Filter out the deleted row from the data
-        const updatedData = data.filter((row: any) => row.id !== deletedRowId);
-    
-        // Save the updated data to local storage
-        localStorage.setItem('leveluser', JSON.stringify(updatedData));
-    
-        // Optionally, you can also update any component-level data bindings here
+        let existingData: any[] = storedData ? JSON.parse(storedData) : [];
+        console.log('kedusuresh',existingData)
+      // Find the index of the deleted row in the existing data
+      const index = existingData.findIndex(item => item.levels === deletedRowData.levels && item.Tags === deletedRowData.Tags);
+
+      if (index !== -1) {
+        // Remove the row from existingData
+        existingData.splice(index, 1);
+        localStorage.setItem('leveluser', JSON.stringify(existingData));
+
+        const filteredData = existingData.filter((item: { levels: any; }) => item.levels === this.data.levels);
+
+        // this.storedData1 = filteredData;
+        console.log(filteredData,this.storedData1);
+
+      } else {
+        console.log('Row not found in local storage.');
+      }
     }
     
       }

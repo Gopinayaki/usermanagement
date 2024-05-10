@@ -47,34 +47,9 @@ export class MainPagePage implements OnInit {
         this.storedProjectTitle = localStorage.getItem('projectTitle') || '';
         // Retrieve username from local storage
         const username = localStorage.getItem('userName');
-        const userStoredData = localStorage.getItem('useraccess');
-        if (userStoredData) {
-            console.log("user storeddata", userStoredData);
-            const storedUsers = JSON.parse(userStoredData);
-            const normalUser: any[] = [];
-            const specialUserControl: any[] = [];
-            const specialUserView: any[] = [];
-            storedUsers.forEach((group: any) => {
-                if (group.hierarchyManagementControl === true && group.hierarchyManagementView === true) {
-                    specialUserControl.push(group);
-                    specialUserView.push(group);
-                } else if (group.hierarchyManagementControl === true) {
-                    specialUserControl.push(group);
-                } else if (group.hierarchyManagementView === true) {
-                    specialUserView.push(group);
-                } else {
-                    normalUser.push(group);
-                }
-            });
-            console.log("Special Users with Control:", specialUserControl);
-            console.log("Special Users with View:", specialUserView);
-            const usernamesControl = specialUserControl.map(user => user.username1);
-            const usernamesView = specialUserView.map(user => user.username1);
-            console.log("Usernames with Control:", usernamesControl);
-            console.log("Usernames with View:", usernamesView);
-            localStorage.setItem("hierarchyUsersControl", JSON.stringify(usernamesControl));
-            localStorage.setItem("hierarchyUsersView", JSON.stringify(usernamesView));
-        }
+    
+        localStorage.setItem("hierarchyUsersView", JSON.stringify(['admin']));
+
         // Get the hierarchy users array from localStorage
         const users = localStorage.getItem('hierarchyUsersView');
         console.log("users",users);
@@ -102,7 +77,9 @@ export class MainPagePage implements OnInit {
           }
           console.log(this.ShowHierarchyAccess,this.list);
     
-        } else {
+        } 
+        
+        else {
           console.log("Hierarchy users data or user data is missing in localStorage.");
         }
       
