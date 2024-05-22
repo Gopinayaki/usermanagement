@@ -2,6 +2,9 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { LevelassigneduserPage } from '../levelassigneduser/levelassigneduser.page';
 import { LevelassignedgroupsPage } from '../levelassignedgroups/levelassignedgroups.page';
+import { AssignedreportsPage } from '../assignedreports/assignedreports.page';
+import { AssignedpagesPageModule } from '../assignedpages/assignedpages.module';
+import { AssignedpagesPage } from '../assignedpages/assignedpages.page';
 
 @Component({
   selector: 'app-heirarchymanagemnet',
@@ -131,8 +134,25 @@ export class HeirarchymanagemnetComponent  implements OnInit {
         };
 
 
-        columns.unshift(customColumnuser);
+        const customColumnreport = {
+          caption: 'Assigned Reports', // Caption for the column header
+          cellTemplate: 'customCellTemplatereports',
+          cssClass: 'custom-column-header' // Specifies a custom cell template for the column
+        };
+
+
+        
+        const customColumnrepages = {
+          caption: 'Assigned Pages', // Caption for the column header
+          cellTemplate: 'customCellTemplatepages',
+          cssClass: 'custom-column-header' // Specifies a custom cell template for the column
+        };
+
+
+        columns.unshift(customColumnrepages);
+        columns.unshift(customColumnreport);
         columns.unshift(customColumngroup);
+        columns.unshift(customColumnuser);
 
       }
 
@@ -170,11 +190,29 @@ export class HeirarchymanagemnetComponent  implements OnInit {
          }
 
 
-         opendialog(event:any){
-        
+         openDialoreports(event:any){
+             // Open your dialog here
+             this.dialog.open(AssignedreportsPage, {
+                 width: '40%', // Set the width of the dialog
+                 height: '60%', // Set the height of the dialog
+                 data: {
+                },
+             });
+      
 
          }
 
+
+
+         openDialopages(event:any){
+          // Open your dialog here
+          this.dialog.open( AssignedpagesPage, {
+              width: '40%', // Set the width of the dialog
+              height: '60%', // Set the height of the dialog
+              data: {
+             },
+          });
+      }
 
          onrowdeleted(event: any) {
           // Get the index of the deleted row in tasksData

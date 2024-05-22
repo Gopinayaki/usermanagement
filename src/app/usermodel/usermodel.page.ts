@@ -107,8 +107,6 @@ export class UsermodelPage implements OnInit {
 
   }
 
-
-
   removeUsername(usernameToRemove: string) {
     // Check if the username exists in the array
     const index = this.usernames.indexOf(usernameToRemove);
@@ -158,7 +156,7 @@ export class UsermodelPage implements OnInit {
 
   }
   
-
+  
    onRowDeleted(event: any) {
       // Extract the deleted row data from the event object
       const deletedRowData = event.data;

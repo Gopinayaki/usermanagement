@@ -246,9 +246,7 @@ export class UsermanagementcompComponent  implements OnInit {
         
         // Delete the user from usertable2
         this.usertable2 = this.usertable2.filter(item => item.username !== deletedUserName);
-        
-    
-          
+      
         // Update the useraccess table to remove the deleted user's username
         this.useraccess = this.useraccess.filter(user => user.username1 !== deletedUserName);
         
@@ -304,7 +302,6 @@ export class UsermanagementcompComponent  implements OnInit {
 
           // Extract usernames from the usertable2 array
           const usernames = this.usertable2.map(user => ({ username1: user.username, id:user.id }));
-      
 
           // Save usernames to local storage under the key 'usernames'
           localStorage.setItem('usernames', JSON.stringify(usernames));
@@ -421,8 +418,6 @@ export class UsermanagementcompComponent  implements OnInit {
 
           onRowUpdatingForGroupTable(event:any){
             console.log(event,'groupupdate')
-        
-            
             // Update the corresponding row in your data source (grouptable)
             this.updateGroupAccess();    
             this.grouptablesave();  
@@ -433,6 +428,71 @@ export class UsermanagementcompComponent  implements OnInit {
             // Log the event object to the console for debugging
             console.log(event, this.grouptable);
             
+
+            const sname = event.data.groupname;
+            console.log(sname);
+            
+
+                  // Retrieve the dataSource from local storages
+            const storedData = localStorage.getItem('dataSource');
+            let dataSource: any[] = storedData ? JSON.parse(storedData) : [];
+            console.log("Retrieved dataSource:", dataSource);
+
+         const gopinayaki = dataSource.find(data => data.groupname === sname )
+
+         console.log(gopinayaki)
+
+         const filteredTags = dataSource
+         .filter(item => item.groupname === sname)
+         .map(item => item.Tags);
+     
+        console.log(filteredTags);
+
+        // tags= groupname; username = username dataofgroupnmae( formate )
+            const storedaataa = localStorage.getItem('dataofgroupnmae');
+            let dataofgroupnmae: any[] = storedaataa ? JSON.parse(storedaataa) : [];
+
+        // Iterate over each element in the dataSource array
+        filteredTags.forEach((item, index) => {
+          // Check if the item matches the structure { tags, username }
+          if (item) {
+           console.log(item)
+        const userIndex = dataofgroupnmae.findIndex((baa: { Tags: any; username: any; }) => baa.Tags === sname && baa.username === item );
+       console.log(userIndex)
+;        if (userIndex !== -1) {
+          dataofgroupnmae.splice(userIndex, 1);
+          localStorage.setItem('dataofgroupnmae', JSON.stringify(dataofgroupnmae));
+          console.log(userIndex,dataofgroupnmae);
+
+        } else {
+          console.log('Row not found in user data.');
+        }
+
+
+        console.log(item)
+        const userIndex2 = dataSource.findIndex((baa: { Tags: any; groupname: any; }) => baa.Tags === item && baa.groupname === sname );
+       console.log(userIndex2);
+      if (userIndex2 !== -1) {
+          dataSource.splice(userIndex2, 1);
+          localStorage.setItem('dataSource', JSON.stringify(dataSource));
+          console.log(userIndex,dataSource);
+
+        } else {
+          console.log('Row not found in user data.');
+        }
+
+
+
+
+
+
+          }
+        });
+
+        // Save the updated data back to local storage
+        localStorage.setItem('dataSource', JSON.stringify(dataSource));
+
+
             // Remove the row from the data source (assuming grouptable is an array)
             const rowIndex = this.grouptable.findIndex((item: any) => item === event.data);
             
@@ -448,7 +508,6 @@ export class UsermanagementcompComponent  implements OnInit {
                     this.groupaccess.splice(rowGrpAccessIndex, 1);
                     localStorage.setItem('groupaccess', JSON.stringify(this.groupaccess));
                 }
-                
                 // Optionally, you may want to log a message to indicate successful deletion
                 console.log("Row deleted successfully.");
             } else {
@@ -667,9 +726,6 @@ export class UsermanagementcompComponent  implements OnInit {
               }
             }
       
-
-
-
           //   updateGroupAccess() {
           //     console.log('15.3',this.grouptable)
 
@@ -764,11 +820,6 @@ export class UsermanagementcompComponent  implements OnInit {
 
 
       }
-
-
-        
-        
-
 
 
           handleRefresh() {

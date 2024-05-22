@@ -3,34 +3,21 @@
     <ion-title>Login</ion-title>
 
     <div class="inputs">
-
       <ion-label class="text-white">Username</ion-label>
-
       <ion-row>
         <ion-col>
-          <div style="display: flex; justify-content: end; ">
+          <div style="display: flex; justify-content: end;">
             <ion-input type="text" style="color: black;" [(ngModel)]="username" required></ion-input>
-            <!-- <ion-icon name="person" slot="start" class="icon"></ion-icon> -->
           </div>
         </ion-col>
       </ion-row>
+
       <div>
-
- 
         <ion-label position="floating">Password</ion-label>
-        <div>
-          <ion-input type="{{ showPassword ? 'text' : 'password' }}" style="color: black;" class="input" [(ngModel)]="password" required>
-          </ion-input>  
-<!--   
-          <ion-button size="small" (click)="togglePasswordVisibility()">
-            <ion-icon name="eye-outline"></ion-icon>
-            {{ showPassword ? 'Hide' : 'Show' }} 
-          </ion-button> -->
-
-        </div>
-       
+        <div style="display: flex; align-items: center;">
+          <ion-input type="{{ showPassword ? 'text' : 'password' }}" style="color: black;" class="input" [(ngModel)]="password" required></ion-input>
+          <ion-icon name="{{ showPassword ? 'eye-off' : 'eye' }}" slot="end" class="icon" (click)="togglePasswordVisibility()"></ion-icon>        </div>
       </div>
-      
     </div>
     <ion-button color="success" (click)="login()" type="submit">Login</ion-button>
   </div>

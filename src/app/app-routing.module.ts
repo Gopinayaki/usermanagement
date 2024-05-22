@@ -43,6 +43,14 @@ const routes: Routes = [
   {
     path: 'levelviewusers',
     loadChildren: () => import('./levelviewusers/levelviewusers.module').then( m => m.LevelviewusersPageModule)
+  },
+  {
+    path: 'assignedreports',
+    loadChildren: () => import('./assignedreports/assignedreports.module').then( m => m.AssignedreportsPageModule)
+  },
+  {
+    path: 'assignedpages',
+    loadChildren: () => import('./assignedpages/assignedpages.module').then( m => m.AssignedpagesPageModule)
   }
 ];
 
@@ -52,4 +60,7 @@ const routes: Routes = [
   ],
   exports: [RouterModule]
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {
+
+
+ }

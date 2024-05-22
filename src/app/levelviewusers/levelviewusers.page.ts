@@ -29,7 +29,6 @@
         selectlevels!: [];
         selectedRows: any[] = [];
 
-
         constructor(@Inject(MAT_DIALOG_DATA) public data: any,
         public dailogRef: MatDialogRef<LevelviewusersPage>,
 
@@ -49,8 +48,6 @@
               // Parse the JSON string back to an object
               this.tasksData = JSON.parse(tasksDataString);
               console.log(this.tasksData,'ggg')
-
-
               const levels = this.tasksData.map(task => task.levels);
 
               // Save the mapped levels to local storage
@@ -67,8 +64,6 @@
               // Handle the case when the data doesn't exist in local storage
               console.log('No data found in local storage.');
             }
-
-      
         }
         selLevel: any;
               onValueChanged(event:any){
@@ -123,7 +118,6 @@
           }
         }
 
-
       dismiss() {
         this.dailogRef.close();
       }
@@ -154,9 +148,20 @@
 
         console.log(existingData, this.storedData1);
 
+        if (existingData) {
+          // const allData:any[] = JSON.parse(existingData);
+          // Filter data based on username
+          this.storedData1 = existingData.filter((item: MyData) => item.Tags === this.username);
+          console.log(this.storedData1)
+          
+        } else {
+          console.log("No data found in local storage");
+        }
+      
         const taskd = localStorage.getItem('tasksData');
         if (taskd !== null) {
           let tasksData = JSON.parse(taskd);
+
           console.log(tasksData,this.selAccLevel2);
 
           // const filteredTasks = tasksData.filter((task: { Task_Parent_ID: number; levels: string; }) => task.Task_Parent_ID === 0);
@@ -220,7 +225,7 @@
         const deletedRowData = event.data; // Adjust this according to your data structure
         let storedData = localStorage.getItem('leveluser');
         let existingData: any[] = storedData ? JSON.parse(storedData) : [];
-        console.log('kedusuresh',existingData)
+        console.log('suresh',existingData)
       // Find the index of the deleted row in the existing data
       const index = existingData.findIndex(item => item.levels === deletedRowData.levels && item.Tags === deletedRowData.Tags);
 
@@ -239,4 +244,4 @@
       }
     }
     
-      }
+      } 

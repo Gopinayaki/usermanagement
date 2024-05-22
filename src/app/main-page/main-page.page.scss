@@ -37,3 +37,35 @@
     align-items: center;
   }
   
+.tittle{
+
+  margin-left: 45%; 
+  margin-top: -3%; 
+   font-weight: bold; 
+
+}
+
+.white-text {
+  color: white; /* Set text color to white */
+}
+
+
+.custom-footer{
+  height:  25px;
+  background-color: #0f204b;
+}
+
+.marquee {
+  white-space: nowrap; /* Prevent text from wrapping */
+  overflow: hidden; /* Hide overflowing text */
+  animation: marquee 30s linear infinite; /* Set animation properties */
+}
+
+@keyframes marquee {
+  0% {
+    transform: translateX(100%); /* Start from outside the viewport */
+  }
+  100% {
+    transform: translateX(-100%); /* Move text to the left */
+  }
+}

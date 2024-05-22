@@ -107,7 +107,7 @@ export class GroupnameselectPage implements OnInit {
         const uname = this.data.username;
         let storedData = localStorage.getItem('dataofgroupnmae');
         let data: any[] = storedData ? JSON.parse(storedData) : [];
-      
+        
         console.log(data);
 
         // Concatenate existing dataSource with selectedRows
@@ -120,6 +120,8 @@ export class GroupnameselectPage implements OnInit {
         existingData = Array.from(uniqueEntries).map(item => JSON.parse(item));
         
         // Filter the data based on uname
+
+        
         const filteredData = existingData.filter((item: { username: any; }) => item.username === uname);
         localStorage.setItem('dataofgroupnmae', JSON.stringify(existingData));
 
@@ -191,7 +193,7 @@ export class GroupnameselectPage implements OnInit {
         console.log('Row not found in user data.');
       }
       }
-
+ 
       dismiss() {
         this.dailogRef.close();
       }
