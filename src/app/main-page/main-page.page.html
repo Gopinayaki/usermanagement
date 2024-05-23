@@ -1,11 +1,13 @@
 <ion-header>
   <ion-toolbar  class="toolbar-title-container">
     <button mat-icon-button class="example-icon" aria-label="Example icon-button with menu icon" (click)="drawer.toggle()">
-      <mat-icon style="">menu</mat-icon>
+      <mat-icon >menu</mat-icon>
     </button>
-    <span>{{ selectedPageName }}</span>
+    <ion-title  class="tittle">{{ storedProjectTitle }}</ion-title>
+
+
+    <!-- <span>{{ selectedPageName }}</span> -->
     <span *ngIf="loggedInUser" slot="end" style="padding: 10px;">{{ loggedInUser }}</span>
-      <ion-title  class="tittle">{{ storedProjectTitle }}</ion-title>
   </ion-toolbar>
 </ion-header>
 

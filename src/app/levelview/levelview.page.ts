@@ -84,7 +84,11 @@ export class LevelviewPage implements OnInit {
 
       }
 
-
+      onRowInserting(event:any){
+        console.log(event)
+        const gname = this.data.groupname;
+        console.log(gname)
+      }
 
     onRowDeleted(event:any){
     console.log(event)
@@ -96,3 +100,5 @@ export class LevelviewPage implements OnInit {
   }
   
 }
+
+

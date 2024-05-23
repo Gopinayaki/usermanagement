@@ -25,6 +25,8 @@
         [columnAutoWidth]="true"
         [rowAlternationEnabled]="true"
         [allowColumnResizing]="true"
+        (onRowInserted)="onRowInserting($event)"
+        (onRowRemoving)="onRowDeleted($event)"    >
       >   
       
       
@@ -57,7 +59,7 @@
       <dxo-editing
               mode="row"
               [useIcons]="true"
-              [allowUpdating]="true"
+              [allowDeleting]="true"
               [allowAdding]="true"
               class="my-modal-class"
             >

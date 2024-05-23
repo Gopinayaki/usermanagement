@@ -372,7 +372,7 @@ export class UsermanagementcompComponent  implements OnInit {
           this.useraccess = mergedUserAccess;
       
           console.log(mergedUserAccess, 'Merged useraccess data');
-      }
+      } 
 
     
             retrieveUsernamesFromUserAccess() {
@@ -481,11 +481,6 @@ export class UsermanagementcompComponent  implements OnInit {
           console.log('Row not found in user data.');
         }
 
-
-
-
-
-
           }
         });
 
@@ -538,7 +533,6 @@ export class UsermanagementcompComponent  implements OnInit {
 
             // Update local storage with the customized columns
           }
-
 
           customizegroupColumns(columns: any) {
               const groupselectname = {

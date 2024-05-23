@@ -27,6 +27,9 @@ export class LevelassigneduserPage implements OnInit {
       // accessallonly = ['All', 'Only', 'Exclude'];
       accessallonly = ['All', 'Only'];
       selAccLevel: string | undefined;
+      ShowHierarchyAccess: boolean = false;
+
+      
 
       // @Input() data:any
       constructor(@Inject(MAT_DIALOG_DATA) public data: any,
@@ -42,6 +45,40 @@ export class LevelassigneduserPage implements OnInit {
       
 
       ngOnInit() {
+
+
+
+  
+      // Get the hierarchy users array from localStorage
+      const users = localStorage.getItem('hierarchyUsersControl');
+      console.log(users)
+      
+      let user = localStorage.getItem("userName");
+      console.log(user)
+      
+
+
+      if (users && user) {
+        // Parse the hierarchy users array
+        const parsedUsers = JSON.parse(users);
+        console.log(parsedUsers)
+        // Check if the user exists in the parsed users array
+        const userExists = parsedUsers.some((u: any) => u === user);
+        
+        if (userExists) {
+          this.ShowHierarchyAccess = true;
+          console.log("User exists in hierarchy users array.");
+
+        } else {
+          this.ShowHierarchyAccess = false;
+          console.log("User does not exist in hierarchy users array.");
+        }
+    } else {
+        console.log("Hierarchy users data or user data is missing in localStorage.");
+    }
+
+
+
         const storedUsernames = localStorage.getItem('usernames');
         this.usernames = storedUsernames ? JSON.parse(storedUsernames) : [];
         console.log(this.usernames,this.data);
