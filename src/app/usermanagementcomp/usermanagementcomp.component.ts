@@ -201,7 +201,7 @@ export class UsermanagementcompComponent  implements OnInit {
           window.location.reload();
       }
   }
-  
+
 
     onEditorPreparing(e:any) {
         if (e.parentType === 'dataRow' && e.dataField === 'password') {
@@ -295,8 +295,6 @@ export class UsermanagementcompComponent  implements OnInit {
         }
         
 
-
-        
         updateUserAccess() {
           console.log('time',this.usertable2)
 
@@ -428,12 +426,11 @@ export class UsermanagementcompComponent  implements OnInit {
             // Log the event object to the console for debugging
             console.log(event, this.grouptable);
             
-
             const sname = event.data.groupname;
             console.log(sname);
             
 
-                  // Retrieve the dataSource from local storages
+           // Retrieve the dataSource from local storages
             const storedData = localStorage.getItem('dataSource');
             let dataSource: any[] = storedData ? JSON.parse(storedData) : [];
             console.log("Retrieved dataSource:", dataSource);
@@ -559,7 +556,6 @@ export class UsermanagementcompComponent  implements OnInit {
           console.log('Cell Clicked:', e.data);
         }
 
-
         openDialogroup(data:any) {
           const name=data.row.data.username;
           console.log('Editing row:', data, name);
@@ -617,14 +613,13 @@ export class UsermanagementcompComponent  implements OnInit {
               // You can add other options like data, panelClass, etc.
               data: {
                 groupname: name,
-
               },
           });
 
         }
         
         openDialoguserlevel(data:any){
-
+          
           const name=data.row.data.username;
           console.log('Editing row:', data, name);
           // Open your dialog here
@@ -810,11 +805,7 @@ export class UsermanagementcompComponent  implements OnInit {
             this.groupaccess = mergedGroupAccess;
         
             console.log(mergedGroupAccess, 'Merged groupaccess data');
-
-
-
       }
-
 
           handleRefresh() {
             window.location.reload();  

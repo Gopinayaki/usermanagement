@@ -51,6 +51,10 @@ const routes: Routes = [
   {
     path: 'assignedpages',
     loadChildren: () => import('./assignedpages/assignedpages.module').then( m => m.AssignedpagesPageModule)
+  },
+  {
+    path: 'customadd',
+    loadChildren: () => import('./customadd/customadd.module').then( m => m.CustomaddPageModule)
   }
 ];
 

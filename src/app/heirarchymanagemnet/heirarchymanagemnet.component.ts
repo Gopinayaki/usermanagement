@@ -5,6 +5,16 @@ import { LevelassignedgroupsPage } from '../levelassignedgroups/levelassignedgro
 import { AssignedreportsPage } from '../assignedreports/assignedreports.page';
 import { AssignedpagesPageModule } from '../assignedpages/assignedpages.module';
 import { AssignedpagesPage } from '../assignedpages/assignedpages.page';
+import { ListKeyManager } from '@angular/cdk/a11y';
+import { CustomaddPage } from '../customadd/customadd.page';
+interface MyData {
+  Tags: string;
+  levels: string;
+  Access: string;
+  groups: string;
+
+}
+
 
 @Component({
   selector: 'app-heirarchymanagemnet',
@@ -14,18 +24,46 @@ import { AssignedpagesPage } from '../assignedpages/assignedpages.page';
 
 export class HeirarchymanagemnetComponent  implements OnInit {
   selectedSegment: string = 'structure';
+  tasksData1 = [];
+  tasksData:any[]  = [];
+  lookupData: any[] = [];  
+  levelsss: any[] = []; 
 
-  tasksData = [];
   tasks = [];
   isLevelsEmpty: boolean = true;
   ShowHierarchyAccess: boolean = false;
   
-  constructor(  private dialog: MatDialog) { }
+  readonly allowedPageSizes = [5, 10, 'all'];
+  showPageSizeSelector = true;
+  showInfo = true;
+  showNavButtons = true;
+
+
+
+
+  constructor(  private dialog: MatDialog) { 
+
+  }
 
   ngOnInit() {
           
 
+  const tasksDataString = localStorage.getItem('tasksData');
 
+  if (tasksDataString) {
+    this.tasksData = JSON.parse(tasksDataString);
+    console.log(this.tasksData,'ggg')
+
+
+          const levels = this.tasksData.filter(task => task.Task_Parent_ID === 0);
+          console.log(levels,'jjj')
+
+      const levels2 = levels.map(obj=> obj.levels)
+
+          this.lookupData = levels2;
+          console.log(this.lookupData)
+
+  }
     // Retrieve data from local storage when the component initializes
     const savedTasksData = localStorage.getItem('tasksData');
     if (savedTasksData) {
@@ -75,11 +113,9 @@ export class HeirarchymanagemnetComponent  implements OnInit {
     }
   }
     
-    // lev.forEach(element => {
-    //   // this.tasksData.filter(qw=> qw === element);
-    //   const result = this.tasks.filter((task: { levels: any; })=> task.levels === element);
-    //   this.tasksData =result;
-    // });
+
+  const storedDetailstable = localStorage.getItem('Detailstable');
+  this.tasksData1 = storedDetailstable ? JSON.parse(storedDetailstable) : [];
     
     console.log(this.tasksData,"usrs",user,users);
     if (users && user) {
@@ -103,6 +139,16 @@ export class HeirarchymanagemnetComponent  implements OnInit {
 
     }
 
+
+
+      // Method to load tasks data from local storage
+      loadTasksFromLocalStorage() {
+        const tasks = localStorage.getItem('tasksData');
+        if (tasks) {
+          this.tasksData1 = JSON.parse(tasks);
+        }
+      }
+
       onRowInserted(event:any){
         console.log(event)
 
@@ -111,12 +157,38 @@ export class HeirarchymanagemnetComponent  implements OnInit {
 
       }
       
+      onRowInserted1(event:any){
+       
+      }
+
+      onrowdeleted1(event: any) {
+
+      }
 
       saveToLocalStorage(): void {
         // Convert data to JSON string and save it to local storage
 
 
         localStorage.setItem('tasksData', JSON.stringify(this.tasksData));
+
+
+
+        const tasksDataString = localStorage.getItem('tasksData');
+
+        if (tasksDataString) {
+          this.tasksData = JSON.parse(tasksDataString);
+          console.log(this.tasksData,'ggg')
+      
+      
+                const levels = this.tasksData.filter(task => task.Task_Parent_ID === 0);
+                console.log(levels,'jjj')
+      
+            const levels2 = levels.map(obj=> obj.levels)
+      
+                this.lookupData = levels2;
+                console.log(this.lookupData)
+      
+        }
       }
 
       customizeColumns(columns: any) {
@@ -130,7 +202,7 @@ export class HeirarchymanagemnetComponent  implements OnInit {
         const customColumnuser = {
           caption: 'Assigned Users', // Caption for the column header
           cellTemplate: 'customCellTemplateusers',
-          cssClass: 'custom-column-header' // Specifies a custom cell template for the column
+          cssClass: 'custom-column-header', // Specifies a custom cell template for the column
         };
 
 
@@ -149,6 +221,14 @@ export class HeirarchymanagemnetComponent  implements OnInit {
         };
 
 
+        const customColumnadd = {
+          caption: 'Add Child', 
+          cellTemplate: 'customColumnadd',
+          cssClass: 'custom-column-header' // Specifies a custom cell template for the column
+        };
+
+
+        columns.unshift(customColumnadd);
         columns.unshift(customColumnrepages);
         columns.unshift(customColumnreport);
         columns.unshift(customColumngroup);
@@ -198,7 +278,6 @@ export class HeirarchymanagemnetComponent  implements OnInit {
                  data: {
                 },
              });
-      
 
          }
 
@@ -213,6 +292,27 @@ export class HeirarchymanagemnetComponent  implements OnInit {
              },
           });
       }
+
+
+
+      
+      openDialogcustomcolumnadd(data:any){
+        // Open your dialog here
+
+        const name=data.row.data.levels;
+        console.log('Editing row:', data, name);
+
+
+        this.dialog.open( CustomaddPage, {
+            width: '30%', // Set the width of the dialog
+            height: '50%', // Set the height of the dialog
+            data: {
+
+              levels:name
+           },
+        });
+    }
+
 
          onrowdeleted(event: any) {
           // Get the index of the deleted row in tasksData
@@ -231,5 +331,19 @@ export class HeirarchymanagemnetComponent  implements OnInit {
           this.saveToLocalStorage();
       }
       
+     
+      onRowInsertedetailstable(event:any){
+        console.log(event)
+        let data = event.data;  
+        data.id = event.data.__KEY__;
+        console.log(data)
+        this.detailstable();
+
+      }
+
+
+      detailstable() {
+        localStorage.setItem('Detailstable', JSON.stringify(this.tasksData1));
+      }
 
 }

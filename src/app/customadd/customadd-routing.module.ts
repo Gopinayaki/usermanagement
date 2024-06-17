@@ -1,11 +1,12 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { DevexpressPage } from './devexpress.page';
+
+import { CustomaddPage } from './customadd.page';
 
 const routes: Routes = [
   {
     path: '',
-    component: DevexpressPage
+    component: CustomaddPage
   }
 ];
 
@@ -13,4 +14,4 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule],
 })
-export class DevexpressPageRoutingModule {}
+export class CustomaddPageRoutingModule {}

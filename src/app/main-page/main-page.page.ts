@@ -30,6 +30,7 @@ export class MainPagePage implements OnInit {
     this.selectedPageName = name;
   }
 
+
       constructor(private sharedService: SharedDataService) {
         const username = localStorage.getItem('userName');
         if (username) {
@@ -49,9 +50,13 @@ export class MainPagePage implements OnInit {
         const username = localStorage.getItem('userName');
     
         localStorage.setItem("hierarchyUsersView", JSON.stringify(['admin']));
+        localStorage.setItem("hierarchyUsersControl", JSON.stringify(['admin']));
 
         // Get the hierarchy users array from localStorage
         const users = localStorage.getItem('hierarchyUsersView');
+        const users2 = localStorage.getItem('hierarchyUsersControl');
+        console.log("users2",users2);
+
         console.log("users",users);
         let parsedUsers: any[];
         if(users === null){
@@ -64,6 +69,7 @@ export class MainPagePage implements OnInit {
           }
           console.log(this.ShowHierarchyAccess,this.list);
         }
+        
         else if (users != null && username) {
           // Parse the hierarchy users array
           parsedUsers = users ? JSON.parse(users) : [];
@@ -102,4 +108,5 @@ export class MainPagePage implements OnInit {
     // Retrieve project title from local storage
   }
 
+  
 }

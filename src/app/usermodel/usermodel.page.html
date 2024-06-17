@@ -9,42 +9,39 @@
       </ion-button>
     </ion-buttons>
   </ion-toolbar>
- 
 </ion-header>
 
-<ion-content [fullscreen]="true" >
+  <ion-content [fullscreen]="true">
+        <dx-data-grid
+        class="grid"
+        [dataSource]="dataSource"
+        [showBorders]="true"
+        [allowSorting]="true"
+        [rowAlternationEnabled]="true"
+        [allowColumnResizing]="true"
+        (onRowInserted)="onRowInserting($event)"
+        (onRowRemoving)="onRowDeleted($event)"
+      >
+      <dxi-column dataField="Tags" caption="Select User" editCellTemplate="tagBoxEditor">
+      </dxi-column>
 
-      <dx-data-grid
-      class="grid"
-      [dataSource]="dataSource"
-      [showBorders]="true"
-      [allowSorting]="true"
-      [rowAlternationEnabled]="true"
-      [allowColumnResizing]="true"
-      (onRowInserted)="onRowInserting($event)"
-      (onRowRemoving)="onRowDeleted($event)"
-    >
-    <dxi-column dataField="Tags" caption="Select User" editCellTemplate="tagBoxEditor">
-    </dxi-column>
-
-      <div *dxTemplate="let cellInfo of 'tagBoxEditor'">
-          <dx-tag-box [dataSource]="tagname" 
-                      [showSelectionControls]="true"
-                      [showMultiTagOnly]="false" 
-                      [searchEnabled]="true"
-                      [multiline]="true"
-                      displayExpr="text"
-                      valueExpr="text"
-                      (onValueChanged)="onValueChanged($event)"
-                      >
-          </dx-tag-box>
-      </div>
-      <dxo-editing
-          mode="row"
-          [allowAdding]="true"
-          [allowDeleting]="true"
-          [useIcons]="true">
-      </dxo-editing>
-    </dx-data-grid>
-
-</ion-content>  
+        <div *dxTemplate="let cellInfo of 'tagBoxEditor'">
+            <dx-tag-box [dataSource]="tagname" 
+                        [showSelectionControls]="true"
+                        [showMultiTagOnly]="false" 
+                        [searchEnabled]="true" 
+                        [multiline]="true" 
+                        displayExpr="text" 
+                        valueExpr="text" 
+                        (onValueChanged)="onValueChanged($event)" 
+                        >
+            </dx-tag-box>
+        </div>
+        <dxo-editing
+            mode="row"
+            [allowAdding]="true"
+            [allowDeleting]="true"
+            [useIcons]="true">
+        </dxo-editing>
+      </dx-data-grid>
+  </ion-content>  

@@ -78,7 +78,7 @@
                     const selectedOptions: Option[] = event.value;
                     console.log(selectedOptions) // Explicitly specify the type of selectedOptions
                     const mappedData = selectedOptions.map(option => ({ Tags: gname, levels: option, Access: selAccLevel }));
-
+                    console.log(mappedData)
                     let storedData = localStorage.getItem('leveluser');
                     let existingData: any[] = storedData ? JSON.parse(storedData) : [];
 
@@ -104,19 +104,19 @@
               localStorage.setItem("selAccLevel2",selectedValue)
               }
 
-        retrieveAndFilterData() {
-          const storedData = localStorage.getItem('leveluser');
-          console.log(storedData,'jjj',this.username)
+            retrieveAndFilterData() {
+              const storedData = localStorage.getItem('leveluser');
+              console.log(storedData,'jjj',this.username)
 
-          if (storedData) {
-            const allData: MyData[] = JSON.parse(storedData);
-            // Filter data based on username
-            this.storedData1 = allData.filter((item: MyData) => item.Tags === this.username);
-            
-          } else {
-            console.log("No data found in local storage");
-          }
-        }
+              if (storedData) {
+                const allData: MyData[] = JSON.parse(storedData);
+                // Filter data based on username
+                this.storedData1 = allData.filter((item: MyData) => item.Tags === this.username);
+                
+              } else {
+                console.log("No data found in local storage");
+              }
+            }
 
       dismiss() {
         this.dailogRef.close();

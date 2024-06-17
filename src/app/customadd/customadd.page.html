@@ -1,0 +1,27 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>{{ data.levels }}</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+      <ion-label >Level Name</ion-label>                                                                                  
+      <ion-input type="text" [(ngModel)]="levelchilds.levelName"></ion-input>
+      <ion-label >Level Structure</ion-label>
+      <ion-input type="text" [(ngModel)]="levelchilds.levelStructure"></ion-input>
+
+
+    <ion-row justify-content-center>
+      <ion-col size="auto">
+        <ion-button (click)="onSave()">Save</ion-button>
+      </ion-col>
+      <ion-col size="auto">
+        <ion-button (click)="onCancel()">Cancel</ion-button>
+      </ion-col>
+    </ion-row>
+  
+
+</ion-content>
+
+
+

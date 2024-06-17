@@ -1,6 +1,5 @@
 
     <ion-header>
-
       <ion-toolbar color="light">
         <ion-title style="color: #000;" >
       Level  Management
@@ -18,7 +17,6 @@
 
       </ion-segment>
     </ion-header>
-
 
     <ion-content [fullscreen]="true">
       <ng-container *ngIf="selectedSegment === 'structure'"> 
@@ -39,8 +37,6 @@
                       (onRowInserted)="onRowInserted($event)"
                       (onRowRemoving)="onrowdeleted($event)"
                     >
-                  
-            
               <dxi-column dataField="levels" [alignment]="'left'"> 
                 <dxi-validation-rule type="required" ></dxi-validation-rule>
               </dxi-column>  
@@ -59,65 +55,92 @@
 
     <ng-container *ngIf="selectedSegment === 'details'"> 
 
-      <div id="tree-list-demo"  style="padding: 20px;">
-        <dx-tree-list
-          id="tasks"
-          [dataSource]="tasksData"
-          keyExpr="Task_ID"
-          parentIdExpr="Task_Parent_ID"
-          [showRowLines]="true"
+      <dx-data-grid
+          [dataSource]="tasksData1"
           [showBorders]="true"
+          class="grid"
+          [showRowLines]="true"
           [allowSorting]="true"
           [columnAutoWidth]="true"
           [rowAlternationEnabled]="true"
           [allowColumnResizing]="true"
-          [showBorders]="true"
-          (onRowInserted)="onRowInserted($event)"
-          (onRowRemoving)="onrowdeleted($event)"
           [customizeColumns]="customizeColumns"
-        >
+           (onRowInserted)="onRowInsertedetailstable($event)"
+          >
+          <dxo-templates  style="text-align: center !important; ">
+            <div *dxTemplate="let data of 'customCellTemplategroups'"  style="text-align: center;">
+                <mat-icon (click)="openDialogroup(data)">list</mat-icon>
+            </div>
+        </dxo-templates> 
+  
         <dxo-templates  style="text-align: center !important; ">
-          <div *dxTemplate="let data of 'customCellTemplategroups'"  style="text-align: center;">
-              <mat-icon (click)="openDialogroup(data)">list</mat-icon>
+          <div *dxTemplate="let data of 'customCellTemplateusers'"  style="text-align: center;">
+              <mat-icon (click)="openDialousers(data)">list</mat-icon>
           </div>
       </dxo-templates>
-
+  
       <dxo-templates  style="text-align: center !important; ">
-        <div *dxTemplate="let data of 'customCellTemplateusers'"  style="text-align: center;">
-            <mat-icon (click)="openDialousers(data)">list</mat-icon>
+        <div *dxTemplate="let data of 'customCellTemplatereports'"  style="text-align: center;">
+            <mat-icon (click)="openDialoreports(data)">list</mat-icon>
         </div>
     </dxo-templates>
-
+  
     <dxo-templates  style="text-align: center !important; ">
-      <div *dxTemplate="let data of 'customCellTemplatereports'"  style="text-align: center;">
-          <mat-icon (click)="openDialoreports(data)">list</mat-icon>
+      <div *dxTemplate="let data of 'customCellTemplatepages'"  style="text-align: center;">
+          <mat-icon (click)="openDialopages(data)">list</mat-icon>
       </div>
   </dxo-templates>
 
 
-  <dxo-templates  style="text-align: center !important; ">
-    <div *dxTemplate="let data of 'customCellTemplatepages'"  style="text-align: center;">
-        <mat-icon (click)="openDialopages(data)">list</mat-icon>
-    </div>
-</dxo-templates>
+
+        <dxo-templates  style="text-align: center !important; ">
+          <div *dxTemplate="let data of 'customColumnadd'"  style="text-align: center;">
+              <mat-icon (click)="openDialogcustomcolumnadd(data)">add</mat-icon>
+          </div>
+      </dxo-templates>
 
 
-    <dxi-column dataField="id" [Width]="150" [visible]="false"></dxi-column>
+          <dxi-column dataField="levels" caption="Level Name" [alignment]="'center'">
+            <dxo-lookup [dataSource]="lookupData"> </dxo-lookup>
+            <dxi-validation-rule type="required" message="Level Name is required" ></dxi-validation-rule>
+          </dxi-column> 
+       
+          <dxi-column dataField="levelstructure" [Width]="150" >
+            <dxi-validation-rule type="required" message="level structure is required" ></dxi-validation-rule>
 
-    <dxi-column dataField="levels" [alignment]="'left'"> 
-    <dxi-validation-rule type="required" ></dxi-validation-rule>
-    </dxi-column>  
-    <dxo-editing
-    mode="cell"
-    [allowAdding]="ShowHierarchyAccess"
-    [allowUpdating]="ShowHierarchyAccess"
-    [allowDeleting]="ShowHierarchyAccess"
-    [useIcons]="true"
-    >
-    </dxo-editing>
-    </dx-tree-list>
-    </div>
+          </dxi-column>
+
+          <dxo-column-fixing [enabled]="true"></dxo-column-fixing>
+          <dxo-search-panel [visible]="true"></dxo-search-panel>
+          <dxo-paging [pageSize]="10"></dxo-paging>
+          <dxo-pager
+              [visible]="true"
+              [showPageSizeSelector]="showPageSizeSelector"
+              [showInfo]="showInfo"
+              [showNavigationButtons]="showNavButtons"
+              [pager]="{ visible: true, showPageSizeSelector: true, allowedPageSizes: [5,10,20], showInfo: true }"
+          ></dxo-pager>
+          <dxo-editing
+              mode="popup"
+              [allowUpdating]="true"
+              [allowAdding]="true"
+              [allowDeleting]="true"
+              [useIcons]="true"
+          >
+              <dxo-popup
+                  title="Level Info"
+                  [showTitle]="true"
+                  [width]="350"
+                  [height]="300"
+                  position="center"
+              ></dxo-popup>
+      
+              <dxo-form [colCount]="1">
+                  <dxi-item dataField="levels" caption="Level Name" [fixed]="true" [alignment]="'center'" ></dxi-item>
+                  <dxi-item dataField="levelstructure" caption="Level Structure" [width]="170" [alignment]="'center'"></dxi-item>
+              </dxo-form>   
+          </dxo-editing>
+          </dx-data-grid>
 
     </ng-container>
-
 </ion-content>
