@@ -66,6 +66,8 @@
           [allowColumnResizing]="true"
           [customizeColumns]="customizeColumns"
            (onRowInserted)="onRowInsertedetailstable($event)"
+           (onRowRemoving)="onrowdeleted1($event)"
+
           >
           <dxo-templates  style="text-align: center !important; ">
             <div *dxTemplate="let data of 'customCellTemplategroups'"  style="text-align: center;">

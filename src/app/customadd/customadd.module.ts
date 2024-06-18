@@ -7,7 +7,8 @@ import { IonicModule } from '@ionic/angular';
 import { CustomaddPageRoutingModule } from './customadd-routing.module';
 
 import { CustomaddPage } from './customadd.page';
-import { DxDataGridModule, DxFormModule } from 'devextreme-angular';
+import { DxDataGridModule, DxFormModule, DxSelectBoxModule, DxTagBoxModule, DxTextBoxModule } from 'devextreme-angular';
+import { DxoItemModule } from 'devextreme-angular/ui/nested';
 
 
 @NgModule({
@@ -18,7 +19,10 @@ import { DxDataGridModule, DxFormModule } from 'devextreme-angular';
     CustomaddPageRoutingModule,
     DxDataGridModule,
     DxFormModule,
-    
+    DxoItemModule,
+    DxTagBoxModule,
+    DxTextBoxModule,
+    DxSelectBoxModule
   ],
   declarations: [CustomaddPage],
   schemas: [ CUSTOM_ELEMENTS_SCHEMA ],

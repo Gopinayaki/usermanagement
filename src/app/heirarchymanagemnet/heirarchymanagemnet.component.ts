@@ -7,6 +7,7 @@ import { AssignedpagesPageModule } from '../assignedpages/assignedpages.module';
 import { AssignedpagesPage } from '../assignedpages/assignedpages.page';
 import { ListKeyManager } from '@angular/cdk/a11y';
 import { CustomaddPage } from '../customadd/customadd.page';
+import { ModalController } from '@ionic/angular';
 interface MyData {
   Tags: string;
   levels: string;
@@ -38,16 +39,10 @@ export class HeirarchymanagemnetComponent  implements OnInit {
   showInfo = true;
   showNavButtons = true;
 
-
-
-
-  constructor(  private dialog: MatDialog) { 
-
-  }
+  constructor(  private dialog: MatDialog, private modalController: ModalController  ) 
+  { }
 
   ngOnInit() {
-          
-
   const tasksDataString = localStorage.getItem('tasksData');
 
   if (tasksDataString) {
@@ -151,10 +146,7 @@ export class HeirarchymanagemnetComponent  implements OnInit {
 
       onRowInserted(event:any){
         console.log(event)
-
         this.saveToLocalStorage();
-
-
       }
       
       onRowInserted1(event:any){
@@ -162,31 +154,34 @@ export class HeirarchymanagemnetComponent  implements OnInit {
       }
 
       onrowdeleted1(event: any) {
-
+        const index = this.tasksData1.findIndex((item: any) => item.id === event.data.id);
+        console.log("deletion:", this.tasksData1);
+        // If the index is found, remove the row from tasksData
+        if (index !== -1) {
+          this.tasksData1.splice(index, 1); // Remove the row at the found index
+          console.log("Row deleted:", event.data);
+          this.detailstable();
+        }
+  
       }
 
       saveToLocalStorage(): void {
-        // Convert data to JSON string and save it to local storage
-
 
         localStorage.setItem('tasksData', JSON.stringify(this.tasksData));
-
-
 
         const tasksDataString = localStorage.getItem('tasksData');
 
         if (tasksDataString) {
           this.tasksData = JSON.parse(tasksDataString);
           console.log(this.tasksData,'ggg')
+
+          const levels = this.tasksData.filter(task => task.Task_Parent_ID === 0);
+          console.log(levels,'jjj')
       
+          const levels2 = levels.map(obj=> obj.levels)
       
-                const levels = this.tasksData.filter(task => task.Task_Parent_ID === 0);
-                console.log(levels,'jjj')
-      
-            const levels2 = levels.map(obj=> obj.levels)
-      
-                this.lookupData = levels2;
-                console.log(this.lookupData)
+          this.lookupData = levels2;
+          console.log(this.lookupData)
       
         }
       }
@@ -251,7 +246,7 @@ export class HeirarchymanagemnetComponent  implements OnInit {
                 levels: name,
               },
           });
-          }
+      }
 
 
       openDialogroup(data:any) {
@@ -293,45 +288,56 @@ export class HeirarchymanagemnetComponent  implements OnInit {
           });
       }
 
-
-
       
-      openDialogcustomcolumnadd(data:any){
-        // Open your dialog here
-
+      async openDialogcustomcolumnadd(data:any){
         const name=data.row.data.levels;
-        console.log('Editing row:', data, name);
+        // Find the object with levels "segrp"
+        const parentTask = this.tasksData.find(task => task.levels === name);
 
+        if (parentTask) {
+          // Get the Task_ID of the parent task
+          const parentTaskID = parentTask.Task_ID;
 
-        this.dialog.open( CustomaddPage, {
-            width: '30%', // Set the width of the dialog
-            height: '50%', // Set the height of the dialog
-            data: {
+          // Find the child task with Task_Parent_ID equal to parentTaskID
+          const childTask = this.tasksData.filter(task => task.Task_Parent_ID === parentTaskID);
+          if (childTask) {
+            const levelsName = childTask;
+            const storedDetailstable = localStorage.getItem('Detailstable');
+            const details = storedDetailstable ? JSON.parse(storedDetailstable) : [];
+        
+            // const levelsName = details.filter((item: any) => !childTask.includes(item.levels));
+        
+            const modal = await this.modalController.create({
+              component: CustomaddPage,
+              cssClass: 'my-modal-class',
+              componentProps: {
+                data: levelsName,
+              },
+            });
+            await modal.present();
+            console.log('Editing row:', childTask, levelsName);
 
-              levels:name
-           },
-        });
+            modal.onDidDismiss().then(() => {
+              const storedDetailstable = localStorage.getItem('Detailstable');
+              this.tasksData1 = storedDetailstable ? JSON.parse(storedDetailstable) : [];            
+            });
+          }
+        }
     }
 
-
-         onrowdeleted(event: any) {
-          // Get the index of the deleted row in tasksData
-          const index = this.tasksData.findIndex((item: any) => item.Task_ID === event.data.Task_ID);
-          console.log("After deletion:", this.tasksData);
-          console.log("Before deletion:", this.tasksData);
-
-      
-          // If the index is found, remove the row from tasksData
-          if (index !== -1) {
-              this.tasksData.splice(index, 1); // Remove the row at the found index
-              console.log("Row deleted:", event.data);
-          }
-      
-          // Save the updated tasksData to local storage
-          this.saveToLocalStorage();
+      onrowdeleted(event: any) {
+      const index = this.tasksData.findIndex((item: any) => item.Task_ID === event.data.Task_ID);
+      console.log("After deletion:", this.tasksData);
+      console.log("Before deletion:", this.tasksData);
+      // If the index is found, remove the row from tasksData
+      if (index !== -1) {
+        this.tasksData.splice(index, 1); // Remove the row at the found index
+        console.log("Row deleted:", event.data);
+      }
+      // Save the updated tasksData to local storage
+      this.saveToLocalStorage();
       }
       
-     
       onRowInsertedetailstable(event:any){
         console.log(event)
         let data = event.data;  
@@ -340,7 +346,6 @@ export class HeirarchymanagemnetComponent  implements OnInit {
         this.detailstable();
 
       }
-
 
       detailstable() {
         localStorage.setItem('Detailstable', JSON.stringify(this.tasksData1));

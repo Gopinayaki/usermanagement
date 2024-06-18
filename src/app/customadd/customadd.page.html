@@ -1,17 +1,46 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
-    <ion-title>{{ data.levels }}</ion-title>
+    <ion-title>Add Level structure</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="closeModal()">
+        <ion-icon name="close" class="icon"></ion-icon>
+      </ion-button>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
-      <ion-label >Level Name</ion-label>                                                                                  
+<ion-content [fullscreen]="true" class="dx-popup-content">
+      <!-- <ion-label >Level Name</ion-label>                                                                                  
       <ion-input type="text" [(ngModel)]="levelchilds.levelName"></ion-input>
       <ion-label >Level Structure</ion-label>
-      <ion-input type="text" [(ngModel)]="levelchilds.levelStructure"></ion-input>
+      <ion-input type="text" [(ngModel)]="levelchilds.levelStructure"></ion-input> -->
 
+    <!-- <dxo-form [colCount]="1">
+      <dxi-item dataField="levels" caption="Level Name" [fixed]="true" [alignment]="'center'" ></dxi-item>
+      <dxi-item dataField="levelstructure" caption="Level Structure" [width]="170" [alignment]="'center'"></dxi-item>
+    </dxo-form>   -->
+    <div class="dx-field">
+      <div class="dx-field-label">Level Name</div>
+      <div class="dx-field-value">
+        <dx-select-box [dataSource]="levelslookup" 
+        [hideSelectedItems]="true"
+        [(ngModel)]="levelname"
+        >
+        </dx-select-box>
+      </div>
 
-    <ion-row justify-content-center>
+    </div>
+    <div class="dx-field">
+      <div class="dx-field-label">Level Structure</div>
+      <div class="dx-field-value">
+        <dx-text-box
+          [inputAttr]="{ 'aria-label': 'Name' }"
+          [(ngModel)]="levelstructure"
+        ></dx-text-box>
+      </div>
+    </div>
+
+    <ion-row>
       <ion-col size="auto">
         <ion-button (click)="onSave()">Save</ion-button>
       </ion-col>
